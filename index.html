@@ -142,6 +142,39 @@ body{font-family:'Nunito',sans-serif;background:#fff;color:#0A0A0A;min-height:10
 .nline-box{min-width:44px;height:44px;border:3px solid #0A0A0A;background:#fff;display:flex;align-items:center;justify-content:center;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.2rem;color:#0A0A0A;}
 .nline-gap{background:#E8192C;color:#fff;border-color:#E8192C;font-size:1.5rem;min-width:48px;height:48px;}
 .nline-arrow{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1rem;color:#888;}
+
+/* ── SIMÃO RECHNER ── */
+.sc-form{border:3px solid #0A0A0A;box-shadow:5px 5px 0 #E8192C;padding:20px;margin-bottom:0;}
+.sc-row{margin-bottom:14px;}
+.sc-label{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;color:#E8192C;margin-bottom:5px;}
+.sc-input-wrap{display:flex;align-items:center;gap:8px;}
+.sc-inp{background:#fff;border:3px solid #0A0A0A;padding:9px 12px;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:1rem;color:#0A0A0A;outline:none;width:100%;}
+.sc-inp:focus{border-color:#E8192C;}
+.sc-unit{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.8rem;color:#888;white-space:nowrap;}
+.sc-btn{width:100%;margin-top:6px;background:#E8192C;color:#fff;border:4px solid #0A0A0A;padding:14px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.2rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;box-shadow:5px 5px 0 #0A0A0A;transition:transform .1s;}
+.sc-btn:hover{transform:translate(-2px,-2px);}
+.sc-btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #0A0A0A;}
+.sc-result-box{background:#E8192C;border:4px solid #0A0A0A;padding:24px;text-align:center;margin-top:16px;box-shadow:5px 5px 0 #0A0A0A;}
+.sc-res-label{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:4px;}
+.sc-res-big{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-style:italic;font-size:clamp(2.8rem,8vw,4.5rem);color:#fff;line-height:1;letter-spacing:-1px;}
+.sc-res-sub{font-size:.82rem;color:rgba(255,255,255,.7);margin-top:6px;}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:3px solid #0A0A0A;margin-top:10px;}
+.sc-stat-box{padding:16px 14px;border-right:3px solid #0A0A0A;border-bottom:3px solid #0A0A0A;background:#fff;}
+.sc-stat-box:nth-child(2n){border-right:none;}
+.sc-stat-box:nth-child(n+3){border-bottom:none;}
+.sc-stat-box.sc-dark{background:#0A0A0A;}
+.sc-stat-num{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.8rem;color:#E8192C;line-height:1;}
+.sc-stat-box.sc-dark .sc-stat-num{color:#FFD23F;}
+.sc-stat-label{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-top:3px;}
+.sc-stat-box.sc-dark .sc-stat-label{color:#666;}
+.sc-simao-verdict{background:#FFD23F;border:3px solid #0A0A0A;box-shadow:3px 3px 0 #0A0A0A;padding:14px 16px;margin-top:10px;font-size:.88rem;line-height:1.65;font-style:italic;}
+.sc-simao-verdict strong{display:block;font-style:normal;font-family:‘Barlow Condensed’,sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:#E8192C;margin-bottom:5px;}
+.sc-breakdown{border:3px solid #0A0A0A;margin-top:10px;}
+.sc-breakdown-title{background:#0A0A0A;color:#fff;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;}
+.sc-breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:2px solid #eee;font-size:.85rem;}
+.sc-breakdown-row:last-child{border-bottom:none;}
+.sc-breakdown-row span:last-child{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1rem;color:#E8192C;}
+.sc-disclaimer{font-size:.7rem;color:#aaa;margin-top:10px;line-height:1.6;font-style:italic;text-align:center;padding:0 4px;}
 /* ── FX ── */
 .react{position:fixed;bottom:14px;right:14px;font-size:2.6rem;pointer-events:none;z-index:999;animation:pop 2s ease forwards;opacity:0;}
 .bubble{position:fixed;bottom:62px;right:14px;background:#fff;border:3px solid #E8192C;padding:7px 11px;font-size:.78rem;font-weight:700;max-width:150px;pointer-events:none;z-index:999;animation:pop 2.4s ease forwards;opacity:0;}
@@ -199,6 +232,7 @@ body{font-family:'Nunito',sans-serif;background:#fff;color:#0A0A0A;min-height:10
   <div class="nav-tab on"  onclick="switchTab('topics')">📚 Aufgaben</div>
   <div class="nav-tab"     onclick="switchTab('times')">✖️ 1×1 Lernen</div>
   <div class="nav-tab"     onclick="switchTab('game')">🎮 Spiel</div>
+  <div class="nav-tab"     onclick="switchTab('schaden')">💸 Simão-Rechner</div>
 </div>
 
 <!-- TOPICS -->
@@ -293,6 +327,104 @@ body{font-family:'Nunito',sans-serif;background:#fff;color:#0A0A0A;min-height:10
   <div class="touch-hint">Maus bewegen oder Zahlen antippen</div>
 </div>
 
+<!-- SIMÃO SCHADEN-RECHNER -->
+
+<div id="s-schaden" class="screen">
+  <div style="margin-top:16px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:1.5rem;text-transform:uppercase;margin-bottom:4px;">
+      💸 Der <span style="color:#E8192C;">Simão-Rechner</span>
+    </div>
+    <div style="font-size:.83rem;color:#555;margin-bottom:18px;line-height:1.5;">
+      Berechne, was Simãos Unterricht dich wirklich gekostet hat. Wissenschaftlich. Unparteiisch. Erschreckend.
+    </div>
+
+```
+<div class="sc-form">
+
+  <div class="sc-row">
+    <div class="sc-label">💰 Stundenlohn Nachhilfelehrer</div>
+    <div class="sc-input-wrap">
+      <input class="sc-inp" id="sc-rate" type="number" placeholder="z.B. 60" min="1" max="500">
+      <span class="sc-unit">CHF/Std</span>
+    </div>
+  </div>
+
+  <div class="sc-row">
+    <div class="sc-label">📅 Nachhilfe läuft seit</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <select class="sc-inp" id="sc-month" style="flex:1;min-width:110px;">
+        <option value="">Monat…</option>
+        <option value="1">Januar</option><option value="2">Februar</option>
+        <option value="3">März</option><option value="4">April</option>
+        <option value="5">Mai</option><option value="6">Juni</option>
+        <option value="7">Juli</option><option value="8">August</option>
+        <option value="9">September</option><option value="10">Oktober</option>
+        <option value="11">November</option><option value="12">Dezember</option>
+      </select>
+      <select class="sc-inp" id="sc-year" style="flex:1;min-width:80px;">
+        <option value="">Jahr…</option>
+        <option value="2022">2022</option><option value="2023">2023</option>
+        <option value="2024">2024</option><option value="2025">2025</option>
+        <option value="2026">2026</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sc-row">
+    <div class="sc-label">🔁 Stunden pro Woche</div>
+    <div class="sc-input-wrap">
+      <input class="sc-inp" id="sc-hours" type="number" placeholder="z.B. 1" min="0.5" max="20" step="0.5">
+      <span class="sc-unit">Std/Woche</span>
+    </div>
+  </div>
+
+  <button class="sc-btn" onclick="calcSchaden()">💥 Schaden berechnen</button>
+</div>
+
+<div id="sc-result" style="display:none;">
+  <div class="sc-result-box" id="sc-total-box">
+    <div class="sc-res-label">GESAMTSCHADEN</div>
+    <div class="sc-res-big" id="sc-total">–</div>
+    <div class="sc-res-sub" id="sc-weeks-text">–</div>
+  </div>
+
+  <div class="sc-grid">
+    <div class="sc-stat-box">
+      <div class="sc-stat-num" id="sc-months">–</div>
+      <div class="sc-stat-label">Monate Nachhilfe</div>
+    </div>
+    <div class="sc-stat-box">
+      <div class="sc-stat-num" id="sc-sessions">–</div>
+      <div class="sc-stat-label">Stunden total</div>
+    </div>
+    <div class="sc-stat-box sc-dark">
+      <div class="sc-stat-num" id="sc-weekly">–</div>
+      <div class="sc-stat-label">Pro Monat</div>
+    </div>
+    <div class="sc-stat-box sc-dark">
+      <div class="sc-stat-num" id="sc-annual">–</div>
+      <div class="sc-stat-label">Pro Jahr (Prognose)</div>
+    </div>
+  </div>
+
+  <div class="sc-simao-verdict" id="sc-verdict"></div>
+
+  <div class="sc-breakdown">
+    <div class="sc-breakdown-title">📋 Offizielle Schuld-Aufstellung</div>
+    <div id="sc-breakdown-list"></div>
+  </div>
+
+  <div class="sc-disclaimer">
+    * Basler Schulferien 2022–2026 gemäss ed.bs.ch eingerechnet und abgezogen.
+    Simão haftet weder für Schulferien noch für emotionale Schäden.
+    Red Hippo empfiehlt, die Rechnung auszudrucken und ans Lehrerzimmer zu hängen. 🦛
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
 <div class="footer">Developed with ❤️ by <strong>Red Hippo</strong> · Basel-Stadt · Lehrplan 21 · Danke für nichts, Simão 😘</div>
 
 <script>
@@ -346,6 +478,135 @@ const SIMAO_JOKES=[
 /* ================================================================
    QUESTION GENERATOR
 ================================================================ */
+
+/* ================================================================
+   SIMÃO SCHADEN-RECHNER
+================================================================ */
+/* ================================================================
+   BASLER SCHULFERIEN 2022–2026 (offiziell, Quelle: ed.bs.ch)
+   Format: [start, end] als Date-Objekte
+================================================================ */
+const BS_FERIEN = [
+  // 2022
+  ['2021-12-25','2022-01-08'], // Weihnachtsferien
+  ['2022-02-26','2022-03-12'], // Fasnachtsferien
+  ['2022-04-09','2022-04-23'], // Frühlingsferien
+  ['2022-07-02','2022-08-13'], // Sommerferien
+  ['2022-10-01','2022-10-15'], // Herbstferien
+  ['2022-12-24','2023-01-07'], // Weihnachtsferien
+  // 2023
+  ['2023-02-18','2023-03-04'], // Fasnachtsferien
+  ['2023-04-01','2023-04-15'], // Frühlingsferien
+  ['2023-07-01','2023-08-12'], // Sommerferien
+  ['2023-09-30','2023-10-14'], // Herbstferien
+  ['2023-12-23','2024-01-06'], // Weihnachtsferien
+  // 2024
+  ['2024-02-10','2024-02-24'], // Fasnachtsferien
+  ['2024-03-30','2024-04-13'], // Frühlingsferien
+  ['2024-06-29','2024-08-10'], // Sommerferien
+  ['2024-09-28','2024-10-12'], // Herbstferien
+  ['2024-12-21','2025-01-04'], // Weihnachtsferien
+  // 2025
+  ['2025-01-04','2025-01-04'], // Ende Weihnachtsferien
+  ['2025-03-01','2025-03-15'], // Fasnachtsferien
+  ['2025-04-12','2025-04-26'], // Frühlingsferien
+  ['2025-06-28','2025-08-09'], // Sommerferien
+  ['2025-09-27','2025-10-11'], // Herbstferien
+  ['2025-12-20','2026-01-03'], // Weihnachtsferien
+  // 2026
+  ['2026-02-14','2026-02-28'], // Fasnachtsferien
+  ['2026-03-28','2026-04-11'], // Frühlingsferien
+  ['2026-06-27','2026-08-08'], // Sommerferien
+  ['2026-09-26','2026-10-10'], // Herbstferien
+].map(([s,e])=>[new Date(s),new Date(e)]);
+
+function isInFerien(date){
+  return BS_FERIEN.some(([s,e])=>date>=s&&date<=e);
+}
+
+function countSchulwochen(startDate, endDate){
+  // Count weeks between two dates, excluding Basler Schulferien
+  // We check each Monday and count as a school week if that week has no vacation overlap
+  let schulweeks = 0;
+  let d = new Date(startDate);
+  // Move to next Monday
+  while(d.getDay()!==1) d.setDate(d.getDate()+1);
+  
+  while(d < endDate){
+    // Check if this week (Mon–Fri) overlaps with any Ferienwoche
+    const fri = new Date(d); fri.setDate(fri.getDate()+4);
+    const weekHasFeri = BS_FERIEN.some(([s,e])=>{
+      return d<=e && fri>=s; // overlap
+    });
+    if(!weekHasFeri) schulweeks++;
+    d.setDate(d.getDate()+7);
+  }
+  return schulweeks;
+}
+
+function calcSchaden(){
+  const rate = parseFloat(document.getElementById('sc-rate').value);
+  const month = parseInt(document.getElementById('sc-month').value);
+  const year = parseInt(document.getElementById('sc-year').value);
+  const hpw = parseFloat(document.getElementById('sc-hours').value);
+
+  if(!rate||!month||!year||!hpw){
+    alert('🦛 Bitte alle Felder ausfüllen — Simão schuldet dir das!');
+    return;
+  }
+
+  const now = new Date();
+  const start = new Date(year, month-1, 1);
+  const diffMonths = Math.max(0, (now.getFullYear()-year)*12 + (now.getMonth()-(month-1)));
+  const totalWeeks = Math.max(0, (now-start)/(1000*60*60*24*7));
+  
+  // Schulwochen ohne Basler Ferien
+  const schulwochen = countSchulwochen(start, now);
+  const ferienwochen = Math.round(totalWeeks) - schulwochen;
+  
+  const totalHours = schulwochen * hpw;
+  const totalCost = Math.round(totalHours * rate);
+  const perMonth = Math.round(hpw * 4.3 * rate); // ~4.3 Schulwochen/Monat
+  const perYear = Math.round(hpw * 38 * rate);   // ~38 Schulwochen/Jahr
+
+  document.getElementById('sc-total').textContent = `CHF ${totalCost.toLocaleString('de-CH')}`;
+  document.getElementById('sc-weeks-text').textContent =
+    `${schulwochen} Schulwochen × ${hpw} Std/Woche × CHF ${rate}/Std (${ferienwochen} Ferienwochen abgezogen ✓)`;
+  document.getElementById('sc-months').textContent = diffMonths;
+  document.getElementById('sc-sessions').textContent = Math.round(totalHours);
+  document.getElementById('sc-weekly').textContent = `CHF ${perMonth.toLocaleString('de-CH')}`;
+  document.getElementById('sc-annual').textContent = `CHF ${perYear.toLocaleString('de-CH')}`;
+
+  // Simão verdict
+  const verdicts = [
+    `Simão hat in dieser Zeit ${Math.round(diffWeeks*5)} Lektionen unterrichtet und dabei geschätzte CHF ${totalCost.toLocaleString('de-CH')} an Nachhilfekosten verursacht. Das nennt man in der Bildungsforschung «strukturellen Schaden». Oder auch einfach: Simão.`,
+    `CHF ${totalCost.toLocaleString('de-CH')} — das ist mehr als Simãos Jahresbonus. Und du hast nichts davon. Mathematisch gesehen ist das das Gegenteil von Unterrichten.`,
+    `Hätte Simão den Stoff erklärt, hättest du CHF ${totalCost.toLocaleString('de-CH')} gespart. Stattdessen hast du jetzt einen Nachhilfelehrer, ein Trauma und diese App. Immerhin.`,
+    `CHF ${totalCost.toLocaleString('de-CH')} investiert, damit jemand erklärt, was Simão vergessen hat zu erklären. Das Ironie-Niveau ist statistisch signifikant.`,
+  ];
+  const v = verdicts[Math.floor(Math.random()*verdicts.length)];
+  document.getElementById('sc-verdict').innerHTML = `<strong>🦛 Hippo-Urteil</strong>${v}`;
+
+  // Breakdown
+  const items = [
+    [`Kalenderwochen total`, `${Math.round(totalWeeks)} Wochen`],
+    [`Davon Basler Schulferien`, `${ferienwochen} Wochen (abgezogen ✓)`],
+    [`Effektive Schulwochen`, `${schulwochen} Wochen`],
+    [`Nachhilfestunden total`, `${Math.round(totalHours)} Stunden`],
+    [`Kosten pro Stunde`, `CHF ${rate}`],
+    [`Monatliche Belastung`, `CHF ${perMonth.toLocaleString('de-CH')}`],
+    [`Jährliche Prognose`, `CHF ${perYear.toLocaleString('de-CH')}`],
+    [`Schuld von Simão (moralisch)`, `CHF ${totalCost.toLocaleString('de-CH')}`],
+    [`Schuld von Simão (rechtlich)`, `CHF 0 (leider)`],
+    [`Emotionaler Schaden`, `Unbezahlbar 😔`],
+  ];
+  document.getElementById('sc-breakdown-list').innerHTML =
+    items.map(([l,v])=>`<div class="sc-breakdown-row"><span>${l}</span><span>${v}</span></div>`).join('');
+
+  document.getElementById('sc-result').style.display = 'block';
+  document.getElementById('sc-result').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 function s4(c,o){let a=[...new Set([String(c),...o.map(String)])].slice(0,4);while(a.length<4)a.push(String(Number(a[0])+(a.length*3)));return a.sort(()=>Math.random()-.5);}
 function dots(n,g=0){return Array(n).fill(0).map((_,i)=>`<div class="vdot${i>=n-g?' g2':''}"></div>`).join('');}
@@ -406,6 +667,7 @@ function switchTab(tab){
   if(tab==='topics')backToTopics();
   else if(tab==='times'){show('s-times');initTimes();}
   else if(tab==='game')show('s-game');
+  else if(tab==='schaden')show('s-schaden');
 }
 
 function startApp(){
@@ -709,6 +971,135 @@ function confetti(n){
     document.body.appendChild(el);setTimeout(()=>el.remove(),2400);
   }
 }
+
+/* ================================================================
+   SIMÃO SCHADEN-RECHNER
+================================================================ */
+/* ================================================================
+   BASLER SCHULFERIEN 2022–2026 (offiziell, Quelle: ed.bs.ch)
+   Format: [start, end] als Date-Objekte
+================================================================ */
+const BS_FERIEN = [
+  // 2022
+  ['2021-12-25','2022-01-08'], // Weihnachtsferien
+  ['2022-02-26','2022-03-12'], // Fasnachtsferien
+  ['2022-04-09','2022-04-23'], // Frühlingsferien
+  ['2022-07-02','2022-08-13'], // Sommerferien
+  ['2022-10-01','2022-10-15'], // Herbstferien
+  ['2022-12-24','2023-01-07'], // Weihnachtsferien
+  // 2023
+  ['2023-02-18','2023-03-04'], // Fasnachtsferien
+  ['2023-04-01','2023-04-15'], // Frühlingsferien
+  ['2023-07-01','2023-08-12'], // Sommerferien
+  ['2023-09-30','2023-10-14'], // Herbstferien
+  ['2023-12-23','2024-01-06'], // Weihnachtsferien
+  // 2024
+  ['2024-02-10','2024-02-24'], // Fasnachtsferien
+  ['2024-03-30','2024-04-13'], // Frühlingsferien
+  ['2024-06-29','2024-08-10'], // Sommerferien
+  ['2024-09-28','2024-10-12'], // Herbstferien
+  ['2024-12-21','2025-01-04'], // Weihnachtsferien
+  // 2025
+  ['2025-01-04','2025-01-04'], // Ende Weihnachtsferien
+  ['2025-03-01','2025-03-15'], // Fasnachtsferien
+  ['2025-04-12','2025-04-26'], // Frühlingsferien
+  ['2025-06-28','2025-08-09'], // Sommerferien
+  ['2025-09-27','2025-10-11'], // Herbstferien
+  ['2025-12-20','2026-01-03'], // Weihnachtsferien
+  // 2026
+  ['2026-02-14','2026-02-28'], // Fasnachtsferien
+  ['2026-03-28','2026-04-11'], // Frühlingsferien
+  ['2026-06-27','2026-08-08'], // Sommerferien
+  ['2026-09-26','2026-10-10'], // Herbstferien
+].map(([s,e])=>[new Date(s),new Date(e)]);
+
+function isInFerien(date){
+  return BS_FERIEN.some(([s,e])=>date>=s&&date<=e);
+}
+
+function countSchulwochen(startDate, endDate){
+  // Count weeks between two dates, excluding Basler Schulferien
+  // We check each Monday and count as a school week if that week has no vacation overlap
+  let schulweeks = 0;
+  let d = new Date(startDate);
+  // Move to next Monday
+  while(d.getDay()!==1) d.setDate(d.getDate()+1);
+  
+  while(d < endDate){
+    // Check if this week (Mon–Fri) overlaps with any Ferienwoche
+    const fri = new Date(d); fri.setDate(fri.getDate()+4);
+    const weekHasFeri = BS_FERIEN.some(([s,e])=>{
+      return d<=e && fri>=s; // overlap
+    });
+    if(!weekHasFeri) schulweeks++;
+    d.setDate(d.getDate()+7);
+  }
+  return schulweeks;
+}
+
+function calcSchaden(){
+  const rate = parseFloat(document.getElementById('sc-rate').value);
+  const month = parseInt(document.getElementById('sc-month').value);
+  const year = parseInt(document.getElementById('sc-year').value);
+  const hpw = parseFloat(document.getElementById('sc-hours').value);
+
+  if(!rate||!month||!year||!hpw){
+    alert('🦛 Bitte alle Felder ausfüllen — Simão schuldet dir das!');
+    return;
+  }
+
+  const now = new Date();
+  const start = new Date(year, month-1, 1);
+  const diffMonths = Math.max(0, (now.getFullYear()-year)*12 + (now.getMonth()-(month-1)));
+  const totalWeeks = Math.max(0, (now-start)/(1000*60*60*24*7));
+  
+  // Schulwochen ohne Basler Ferien
+  const schulwochen = countSchulwochen(start, now);
+  const ferienwochen = Math.round(totalWeeks) - schulwochen;
+  
+  const totalHours = schulwochen * hpw;
+  const totalCost = Math.round(totalHours * rate);
+  const perMonth = Math.round(hpw * 4.3 * rate); // ~4.3 Schulwochen/Monat
+  const perYear = Math.round(hpw * 38 * rate);   // ~38 Schulwochen/Jahr
+
+  document.getElementById('sc-total').textContent = `CHF ${totalCost.toLocaleString('de-CH')}`;
+  document.getElementById('sc-weeks-text').textContent =
+    `${schulwochen} Schulwochen × ${hpw} Std/Woche × CHF ${rate}/Std (${ferienwochen} Ferienwochen abgezogen ✓)`;
+  document.getElementById('sc-months').textContent = diffMonths;
+  document.getElementById('sc-sessions').textContent = Math.round(totalHours);
+  document.getElementById('sc-weekly').textContent = `CHF ${perMonth.toLocaleString('de-CH')}`;
+  document.getElementById('sc-annual').textContent = `CHF ${perYear.toLocaleString('de-CH')}`;
+
+  // Simão verdict
+  const verdicts = [
+    `Simão hat in dieser Zeit ${Math.round(diffWeeks*5)} Lektionen unterrichtet und dabei geschätzte CHF ${totalCost.toLocaleString('de-CH')} an Nachhilfekosten verursacht. Das nennt man in der Bildungsforschung «strukturellen Schaden». Oder auch einfach: Simão.`,
+    `CHF ${totalCost.toLocaleString('de-CH')} — das ist mehr als Simãos Jahresbonus. Und du hast nichts davon. Mathematisch gesehen ist das das Gegenteil von Unterrichten.`,
+    `Hätte Simão den Stoff erklärt, hättest du CHF ${totalCost.toLocaleString('de-CH')} gespart. Stattdessen hast du jetzt einen Nachhilfelehrer, ein Trauma und diese App. Immerhin.`,
+    `CHF ${totalCost.toLocaleString('de-CH')} investiert, damit jemand erklärt, was Simão vergessen hat zu erklären. Das Ironie-Niveau ist statistisch signifikant.`,
+  ];
+  const v = verdicts[Math.floor(Math.random()*verdicts.length)];
+  document.getElementById('sc-verdict').innerHTML = `<strong>🦛 Hippo-Urteil</strong>${v}`;
+
+  // Breakdown
+  const items = [
+    [`Kalenderwochen total`, `${Math.round(totalWeeks)} Wochen`],
+    [`Davon Basler Schulferien`, `${ferienwochen} Wochen (abgezogen ✓)`],
+    [`Effektive Schulwochen`, `${schulwochen} Wochen`],
+    [`Nachhilfestunden total`, `${Math.round(totalHours)} Stunden`],
+    [`Kosten pro Stunde`, `CHF ${rate}`],
+    [`Monatliche Belastung`, `CHF ${perMonth.toLocaleString('de-CH')}`],
+    [`Jährliche Prognose`, `CHF ${perYear.toLocaleString('de-CH')}`],
+    [`Schuld von Simão (moralisch)`, `CHF ${totalCost.toLocaleString('de-CH')}`],
+    [`Schuld von Simão (rechtlich)`, `CHF 0 (leider)`],
+    [`Emotionaler Schaden`, `Unbezahlbar 😔`],
+  ];
+  document.getElementById('sc-breakdown-list').innerHTML =
+    items.map(([l,v])=>`<div class="sc-breakdown-row"><span>${l}</span><span>${v}</span></div>`).join('');
+
+  document.getElementById('sc-result').style.display = 'block';
+  document.getElementById('sc-result').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 </script>
 
