@@ -5,1166 +5,712 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Red Hippo Kids — Mathe</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,900&family=Barlow:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,900&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
 <style>
-/* ================================================================
-   BASE
-================================================================ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#fff;color:#0A0A0A;min-height:100vh;}
 
-:root {
-–red:   #E8192C;
-–red2:  #C0101F;
-–black: #0A0A0A;
-–white: #FFFFFF;
-–grey:  #F2F2F2;
-–muted: #888;
-}
+/* ── HEADER ── */
+.header{background:#E8192C;border-bottom:4px solid #0A0A0A;padding:0 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-height:58px;}
+.h-brand{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-style:italic;font-size:1.4rem;color:#fff;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.h-selects{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;}
+.h-sel{background:#fff;border:3px solid #0A0A0A;padding:5px 9px;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.88rem;color:#0A0A0A;appearance:none;cursor:pointer;outline:none;min-width:120px;}
+.h-sel:focus{outline:2px solid #FFD23F;}
+.h-btn{background:#0A0A0A;color:#fff;border:3px solid #0A0A0A;padding:6px 16px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:.9rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .15s;}
+.h-btn:hover{background:#fff;color:#E8192C;}
 
-html { scroll-behavior: smooth; }
+/* ── NAV TABS ── */
+.nav-tabs{background:#0A0A0A;display:flex;border-bottom:4px solid #0A0A0A;}
+.nav-tab{padding:10px 20px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;color:#666;cursor:pointer;border-right:3px solid #222;transition:all .15s;}
+.nav-tab:hover{color:#fff;}
+.nav-tab.on{background:#E8192C;color:#fff;}
 
-body {
-font-family: ‘Barlow’, sans-serif;
-background: var(–white);
-color: var(–black);
-overflow-x: hidden;
-cursor: default;
-}
+/* ── SCREENS ── */
+.screen{display:none;max-width:680px;margin:0 auto;padding:20px 18px 60px;}
+.screen.active{display:block;}
 
-/* ================================================================
-TOPBAR
-================================================================ */
-.topbar {
-position: fixed;
-top: 0; left: 0; right: 0;
-height: 56px;
-background: var(–white);
-border-bottom: 4px solid var(–black);
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 0 40px;
-z-index: 100;
-}
+/* ── TOPIC GRID ── */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:0;border:3px solid #0A0A0A;margin-top:8px;}
+.topic-card{padding:16px 14px;cursor:pointer;border-right:3px solid #0A0A0A;border-bottom:3px solid #0A0A0A;background:#fff;transition:background .12s;}
+.topic-card:hover{background:#E8192C;}
+.topic-card:hover .tc-name,.topic-card:hover .tc-sub{color:#fff;}
+.tc-icon{font-size:1.7rem;display:block;margin-bottom:5px;}
+.tc-name{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px;color:#0A0A0A;transition:color .12s;}
+.tc-sub{font-size:.7rem;color:#888;margin-top:2px;transition:color .12s;}
+.tc-badge{display:inline-block;margin-top:5px;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.57rem;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;background:#FFD23F;color:#0A0A0A;}
+.tc-badge.new{background:#0A0A0A;color:#fff;}
 
-.topbar-logo {
-display: flex;
-align-items: center;
-gap: 12px;
-text-decoration: none;
-}
-.logo-cross {
-width: 32px; height: 32px;
-background: var(–red);
-display: flex; align-items: center; justify-content: center;
-border-radius: 4px;
-font-size: 1.1rem;
-color: white;
-font-weight: 900;
-flex-shrink: 0;
-}
-.logo-name {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1.1rem;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: var(–black);
-}
+/* ── HUD ── */
+.hud{display:flex;align-items:center;gap:10px;background:#0A0A0A;color:#fff;padding:9px 14px;margin-bottom:12px;}
+.hud-name{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:.9rem;flex:1;}
+.hud-xp{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:.85rem;background:#FFD23F;color:#0A0A0A;padding:2px 8px;}
+.hud-streak{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.78rem;color:#E8192C;}
 
-.topbar-nav {
-display: flex;
-align-items: center;
-gap: 0;
-}
-.topbar-nav a {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .78rem;
-letter-spacing: 2.5px;
-text-transform: uppercase;
-color: var(–black);
-text-decoration: none;
-padding: 0 20px;
-height: 56px;
-display: flex;
-align-items: center;
-border-left: 2px solid #eee;
-transition: background .15s, color .15s;
-}
-.topbar-nav a:hover { background: var(–black); color: var(–white); }
-.topbar-nav a.cta-nav {
-background: var(–red);
-color: var(–white);
-border-left: 2px solid var(–black);
-}
-.topbar-nav a.cta-nav:hover { background: var(–red2); }
+/* ── EXERCISE ── */
+.ex-header{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.btn-back{background:#fff;border:3px solid #0A0A0A;padding:6px 12px;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 #0A0A0A;}
+.btn-back:hover{background:#0A0A0A;color:#fff;}
+.pips{display:flex;gap:4px;flex:1;}
+.pip{flex:1;height:5px;background:#eee;}
+.pip.done{background:#E8192C;}
+.pip.now{background:#0A0A0A;}
+.ex-count{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.78rem;color:#888;white-space:nowrap;}
+.tip{background:#FFF5F5;border-left:4px solid #E8192C;padding:10px 14px;margin-bottom:12px;font-size:.85rem;line-height:1.55;color:#333;}
+.tip strong{color:#E8192C;font-family:‘Barlow Condensed’,sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:3px;}
+.q-card{background:#fff;border:3px solid #0A0A0A;box-shadow:4px 4px 0 #0A0A0A;padding:20px;}
+.q-label{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:7px;}
+.q-text{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:clamp(1.7rem,5vw,2.5rem);color:#0A0A0A;line-height:1.1;margin-bottom:5px;}
+.q-hint{font-size:.82rem;color:#888;margin-bottom:16px;}
+.dots-visual{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.vdot{width:24px;height:24px;border-radius:50%;background:#4AB3F4;}
+.vdot.g2{background:#E8192C;}
+.ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ans-btn{background:#F8F6FF;border:3px solid #ddd;padding:15px 8px;font-family:‘Barlow Condensed’,sans-serif;font-size:1.5rem;font-weight:900;cursor:pointer;text-align:center;transition:all .12s;box-shadow:3px 3px 0 #ddd;}
+.ans-btn:hover:not(:disabled){border-color:#E8192C;background:#FFF0F2;box-shadow:3px 3px 0 #E8192C;}
+.ans-btn.correct{background:#DFFAED;border-color:#3ECFB2;box-shadow:3px 3px 0 #3ECFB2;color:#006644;}
+.ans-btn.wrong{background:#FFE8EC;border-color:#E8192C;box-shadow:3px 3px 0 #C0101F;}
+.ans-row{display:flex;gap:8px;}
+.ans-inp{flex:1;background:#fff;border:3px solid #ddd;padding:11px 12px;font-family:‘Barlow Condensed’,sans-serif;font-size:1.9rem;font-weight:900;text-align:center;outline:none;}
+.ans-inp:focus{border-color:#E8192C;}
+.btn-check{background:#E8192C;color:#fff;border:3px solid #0A0A0A;padding:11px 16px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1rem;letter-spacing:1px;cursor:pointer;box-shadow:3px 3px 0 #0A0A0A;}
+.fb{display:none;padding:12px 14px;border:3px solid #ddd;margin-top:10px;}
+.fb.show{display:block;animation:fbpop .2s ease;}
+@keyframes fbpop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.fb.ok{background:#DFFAED;border-color:#3ECFB2;}
+.fb.no{background:#FFE8EC;border-color:#E8192C;}
+.fb-emoji{font-size:1.5rem;}
+.fb-msg{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.05rem;margin-top:2px;}
+.fb-exp{font-size:.8rem;color:#555;margin-top:2px;}
+.btn-next{display:none;width:100%;margin-top:10px;background:#0A0A0A;color:#fff;border:none;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:2px;text-transform:uppercase;padding:13px;cursor:pointer;box-shadow:4px 4px 0 #E8192C;}
+.btn-next.show{display:block;}
+.btn-next:hover{transform:translate(-2px,-2px);}
 
-.topbar-right {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .7rem;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: var(–muted);
-}
-.topbar-right strong { color: var(–red); }
+/* ── RESULT ── */
+.result{text-align:center;padding:28px 0;}
+.res-emo{font-size:5rem;}
+.res-title{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-style:italic;font-size:2.2rem;text-transform:uppercase;margin-top:6px;}
+.res-score{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:3.8rem;color:#E8192C;line-height:1;}
+.res-stars{font-size:2rem;letter-spacing:4px;margin:6px 0;}
+.res-msg{background:#fff;border:3px solid #0A0A0A;box-shadow:4px 4px 0 #0A0A0A;padding:16px;margin:12px 0;font-size:.88rem;line-height:1.65;}
+.res-simao{background:#FFD23F;border:3px solid #0A0A0A;box-shadow:3px 3px 0 #0A0A0A;padding:12px 16px;margin:10px 0;font-size:.85rem;line-height:1.6;font-style:italic;}
+.res-simao strong{font-style:normal;font-family:‘Barlow Condensed’,sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:4px;color:#E8192C;}
+.res-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.btn-res{background:#fff;border:3px solid #0A0A0A;box-shadow:3px 3px 0 #0A0A0A;padding:9px 22px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .12s;}
+.btn-res:hover{background:#E8192C;color:#fff;}
 
-/* ================================================================
-HERO
-================================================================ */
-.hero {
-min-height: 100vh;
-background: var(–red);
-padding-top: 56px;
-display: grid;
-grid-template-columns: 1fr 1fr;
-position: relative;
-overflow: hidden;
-}
+/* ── 1×1 TRAINER ── */
+.times-header{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-style:italic;font-size:1.5rem;text-transform:uppercase;margin:16px 0 4px;}
+.times-header span{color:#E8192C;}
+.times-desc{font-size:.83rem;color:#555;margin-bottom:14px;line-height:1.5;}
+.tt-picker{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;}
+.tt-btn{width:46px;height:46px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.1rem;border:3px solid #0A0A0A;background:#fff;cursor:pointer;box-shadow:3px 3px 0 #0A0A0A;transition:all .12s;}
+.tt-btn:hover{background:#E8192C;color:#fff;}
+.tt-btn.on{background:#E8192C;color:#fff;box-shadow:1px 1px 0 #0A0A0A;transform:translate(2px,2px);}
+.times-card{background:#fff;border:3px solid #0A0A0A;box-shadow:5px 5px 0 #E8192C;padding:24px;text-align:center;margin-bottom:14px;}
+.times-q{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:3rem;color:#0A0A0A;margin-bottom:10px;}
+.times-inp{width:120px;background:#fff;border:4px solid #0A0A0A;padding:12px;font-family:‘Barlow Condensed’,sans-serif;font-size:2.4rem;font-weight:900;text-align:center;outline:none;display:block;margin:0 auto 12px;}
+.times-inp:focus{border-color:#E8192C;}
+.btn-times-check{background:#E8192C;color:#fff;border:4px solid #0A0A0A;padding:11px 30px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;box-shadow:4px 4px 0 #0A0A0A;}
+.btn-times-check:hover{transform:translate(-2px,-2px);}
+.times-fb{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.3rem;margin-top:10px;min-height:26px;}
+.times-fb.ok{color:#3ECFB2;}
+.times-fb.no{color:#E8192C;}
+.tt-score{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#888;text-align:center;margin-top:8px;}
 
-/* scanlines texture */
-.hero::before {
-content: ‘’;
-position: absolute;
-inset: 0;
-background-image: repeating-linear-gradient(
-0deg,
-transparent, transparent 3px,
-rgba(0,0,0,0.025) 3px, rgba(0,0,0,0.025) 4px
-);
-pointer-events: none;
-z-index: 1;
-}
+/* ── GAME ── */
+.game-header{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-style:italic;font-size:1.5rem;text-transform:uppercase;margin:16px 0 4px;}
+.game-header span{color:#E8192C;}
+.game-desc{font-size:.83rem;color:#555;margin-bottom:12px;line-height:1.5;}
+.game-hud{display:flex;gap:16px;align-items:center;background:#0A0A0A;color:#fff;padding:8px 14px;margin-bottom:10px;}
+.g-label{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:#666;}
+.g-val{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.5rem;color:#fff;}
+.g-lives{font-size:1.1rem;margin-left:auto;}
+.game-arena{background:#111;border:4px solid #0A0A0A;position:relative;height:300px;overflow:hidden;user-select:none;}
+.g-question{position:absolute;top:0;left:0;right:0;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:2rem;color:#fff;text-align:center;padding:8px 0;background:rgba(0,0,0,.7);z-index:5;letter-spacing:1px;}
+.faller{position:absolute;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.6rem;color:#fff;cursor:pointer;z-index:4;background:#E8192C;border:3px solid rgba(255,255,255,.4);padding:4px 14px;animation:fall linear forwards;}
+@keyframes fall{from{top:-50px}to{top:320px}}
+.g-hippo{position:absolute;bottom:6px;font-size:2.4rem;z-index:10;transition:left .08s linear;pointer-events:none;transform:translateX(-50%);}
+.g-over{position:absolute;inset:0;background:rgba(0,0,0,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;text-align:center;padding:20px;}
+.g-over h2{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-style:italic;font-size:2.5rem;text-transform:uppercase;color:#E8192C;}
+.g-over p{font-size:.9rem;color:#ccc;margin:8px 0 20px;line-height:1.5;max-width:280px;}
+.btn-start{background:#E8192C;color:#fff;border:4px solid #fff;padding:11px 28px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.05rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;box-shadow:4px 4px 0 rgba(255,255,255,.25);}
+.btn-start:hover{background:#fff;color:#E8192C;}
+.touch-hint{font-size:.7rem;color:#aaa;text-align:center;margin-top:6px;font-family:‘Barlow Condensed’,sans-serif;letter-spacing:1px;text-transform:uppercase;}
 
-.hero-left {
-padding: 80px 48px 80px 48px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-position: relative;
-z-index: 2;
-}
-
-.hero-eyebrow {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .72rem;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: rgba(255,255,255,.55);
-margin-bottom: 20px;
-display: flex;
-align-items: center;
-gap: 12px;
-}
-.hero-eyebrow::before {
-content: ‘’;
-width: 32px; height: 2px;
-background: rgba(255,255,255,.4);
-display: block;
-}
-
-.hero-h1 {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-style: italic;
-font-size: clamp(5rem, 10vw, 9rem);
-line-height: .88;
-color: var(–white);
-text-transform: uppercase;
-letter-spacing: -2px;
-text-shadow: 6px 6px 0 rgba(0,0,0,.15);
-}
-.hero-h1 .outline {
--webkit-text-stroke: 3px rgba(255,255,255,.45);
-color: transparent;
-}
-
-.hero-sub {
-margin-top: 28px;
-font-family: ‘Barlow’, sans-serif;
-font-weight: 400;
-font-size: 1rem;
-line-height: 1.65;
-color: rgba(255,255,255,.7);
-max-width: 380px;
-}
-.hero-sub strong { color: var(–white); font-weight: 700; }
-
-.hero-cta-row {
-margin-top: 40px;
-display: flex;
-gap: 14px;
-flex-wrap: wrap;
-}
-.btn-primary {
-background: var(–white);
-color: var(–red);
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1rem;
-letter-spacing: 2px;
-text-transform: uppercase;
-padding: 16px 32px;
-border: 4px solid var(–black);
-box-shadow: 5px 5px 0 var(–black);
-cursor: pointer;
-text-decoration: none;
-display: inline-flex;
-align-items: center;
-gap: 10px;
-transition: transform .1s, box-shadow .1s;
-}
-.btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(–black); }
-.btn-primary:active { transform: translate(3px,3px); box-shadow: 2px 2px 0 var(–black); }
-
-.btn-secondary {
-background: transparent;
-color: var(–white);
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1rem;
-letter-spacing: 2px;
-text-transform: uppercase;
-padding: 16px 32px;
-border: 3px solid rgba(255,255,255,.4);
-cursor: pointer;
-text-decoration: none;
-display: inline-flex;
-align-items: center;
-gap: 10px;
-transition: border-color .15s, background .15s;
-}
-.btn-secondary:hover { border-color: white; background: rgba(255,255,255,.1); }
-
-/* hero right — stat boxes */
-.hero-right {
-display: flex;
-align-items: center;
-justify-content: flex-end;
-padding: 80px 48px 80px 24px;
-position: relative;
-z-index: 2;
-}
-
-.stat-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 10px;
-width: 420px;
-}
-
-.stat-box {
-padding: 28px 24px;
-background: rgba(0,0,0,.16);
-border: 2px solid rgba(255,255,255,.14);
-position: relative;
-}
-.stat-box.white { background: var(–white); border-color: var(–white); }
-.stat-box.black { background: var(–black); border-color: var(–black); }
-
-.stat-num {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 3rem;
-line-height: 1;
-color: var(–white);
-letter-spacing: -1px;
-}
-.stat-box.white .stat-num { color: var(–red); }
-
-.stat-label {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .68rem;
-letter-spacing: 1.5px;
-text-transform: uppercase;
-color: rgba(255,255,255,.5);
-margin-top: 7px;
-line-height: 1.5;
-}
-.stat-box.white .stat-label { color: rgba(0,0,0,.4); }
-
-.stat-emoji {
-position: absolute;
-top: 14px; right: 14px;
-font-size: 1.4rem;
-opacity: .25;
-}
-
-/* mascot */
-.hero-mascot {
-position: absolute;
-bottom: 0;
-right: 48px;
-font-size: clamp(6rem, 12vw, 11rem);
-line-height: 1;
-z-index: 3;
-filter: drop-shadow(-6px 4px 0 rgba(0,0,0,.2));
-transform: scaleX(-1);
-pointer-events: none;
-}
-
-/* diagonal */
-.hero-diagonal {
-position: absolute;
-top: 0; bottom: 0;
-left: 50%;
-width: 4px;
-background: rgba(0,0,0,.1);
-transform: rotate(8deg) translateX(-50%);
-z-index: 1;
-}
-
-/* ================================================================
-TICKER
-================================================================ */
-.ticker {
-background: var(–black);
-height: 46px;
-display: flex;
-align-items: center;
-overflow: hidden;
-position: relative;
-border-top: 4px solid var(–black);
-border-bottom: 4px solid var(–black);
-}
-
-.ticker-track {
-display: flex;
-gap: 0;
-animation: tickerMove 28s linear infinite;
-white-space: nowrap;
-}
-
-@keyframes tickerMove {
-from { transform: translateX(0); }
-to { transform: translateX(-50%); }
-}
-
-.ticker-item {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: .82rem;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: var(–white);
-padding: 0 0;
-}
-.ticker-sep {
-color: var(–red);
-margin: 0 20px;
-font-size: 1rem;
-font-weight: 900;
-}
-
-/* ================================================================
-SECTION — WIE ES FUNKTIONIERT
-================================================================ */
-.section {
-padding: 100px 48px;
-max-width: 1280px;
-margin: 0 auto;
-}
-
-.section-tag {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .72rem;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: var(–red);
-margin-bottom: 16px;
-display: flex;
-align-items: center;
-gap: 12px;
-}
-.section-tag::before {
-content: ‘’;
-width: 28px; height: 3px;
-background: var(–red);
-display: block;
-}
-
-.section-h2 {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-style: italic;
-font-size: clamp(3rem, 6vw, 5.5rem);
-line-height: .9;
-text-transform: uppercase;
-color: var(–black);
-letter-spacing: -1px;
-max-width: 700px;
-}
-.section-h2 em { color: var(–red); font-style: italic; }
-
-.section-lead {
-margin-top: 24px;
-font-size: 1.05rem;
-line-height: 1.7;
-color: #444;
-max-width: 520px;
-}
-
-/* HOW IT WORKS — 3 steps */
-.steps {
-margin-top: 64px;
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 0;
-border: 4px solid var(–black);
-}
-
-.step {
-padding: 40px 36px;
-border-right: 4px solid var(–black);
-position: relative;
-}
-.step:last-child { border-right: none; }
-
-.step-num {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 5rem;
-line-height: 1;
-color: var(–red);
-opacity: .15;
-position: absolute;
-top: 20px; right: 20px;
-letter-spacing: -3px;
-}
-.step-icon { font-size: 2.4rem; margin-bottom: 18px; }
-.step-title {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1.5rem;
-text-transform: uppercase;
-letter-spacing: 1px;
-margin-bottom: 10px;
-}
-.step-text { font-size: .92rem; line-height: 1.65; color: #555; }
-.step-tag {
-margin-top: 20px;
-display: inline-block;
-background: var(–black);
-color: var(–white);
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .68rem;
-letter-spacing: 2px;
-text-transform: uppercase;
-padding: 5px 12px;
-}
-
-/* ================================================================
-RED SECTION — 70/30
-================================================================ */
-.red-section {
-background: var(–red);
-padding: 100px 48px;
-position: relative;
-overflow: hidden;
-}
-.red-section::before {
-content: ‘’;
-position: absolute;
-inset: 0;
-background-image: repeating-linear-gradient(
-0deg, transparent, transparent 3px,
-rgba(0,0,0,.025) 3px, rgba(0,0,0,.025) 4px
-);
-pointer-events: none;
-}
-
-.red-inner {
-max-width: 1280px;
-margin: 0 auto;
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 80px;
-align-items: center;
-position: relative;
-z-index: 1;
-}
-
-.red-left .section-tag { color: rgba(255,255,255,.6); }
-.red-left .section-tag::before { background: rgba(255,255,255,.6); }
-.red-left .section-h2 { color: var(–white); }
-.red-left .section-h2 em { color: var(–black); }
-.red-left .section-lead { color: rgba(255,255,255,.75); }
-
-.ratio-visual {
-display: flex;
-flex-direction: column;
-gap: 12px;
-}
-.ratio-bar-wrap {
-display: flex;
-align-items: center;
-gap: 16px;
-}
-.ratio-label {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1rem;
-letter-spacing: 1px;
-text-transform: uppercase;
-color: var(–white);
-width: 55px;
-flex-shrink: 0;
-}
-.ratio-bar-outer {
-flex: 1;
-height: 48px;
-background: rgba(0,0,0,.2);
-border: 3px solid rgba(255,255,255,.2);
-position: relative;
-}
-.ratio-bar-inner {
-height: 100%;
-display: flex;
-align-items: center;
-padding-left: 14px;
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1.1rem;
-letter-spacing: 1px;
-text-transform: uppercase;
-color: var(–black);
-}
-.ratio-bar-inner.r70 {
-width: 70%;
-background: var(–white);
-}
-.ratio-bar-inner.r30 {
-width: 30%;
-background: var(–black);
-color: var(–white);
-}
-
-.ratio-note {
-margin-top: 28px;
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .78rem;
-letter-spacing: 1.5px;
-text-transform: uppercase;
-color: rgba(255,255,255,.5);
-line-height: 1.7;
-border-left: 3px solid rgba(255,255,255,.25);
-padding-left: 16px;
-}
-
-/* ================================================================
-SCHULEN SECTION
-================================================================ */
-.schulen-section {
-background: var(–black);
-padding: 100px 48px;
-}
-.schulen-inner {
-max-width: 1280px;
-margin: 0 auto;
-}
-.schulen-inner .section-tag { color: var(–red); }
-.schulen-inner .section-tag::before { background: var(–red); }
-.schulen-inner .section-h2 { color: var(–white); }
-.schulen-inner .section-h2 em { color: var(–red); }
-
-.schulen-grid {
-margin-top: 56px;
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 0;
-border: 3px solid #222;
-}
-
-.schule-card {
-padding: 32px 28px;
-border-right: 3px solid #222;
-border-bottom: 3px solid #222;
-transition: background .15s;
-cursor: default;
-}
-.schule-card:hover { background: #111; }
-.schule-card:nth-child(3n) { border-right: none; }
-.schule-card:nth-child(n+7) { border-bottom: none; }
-
-.schule-emoji { font-size: 2rem; margin-bottom: 12px; }
-.schule-name {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1.1rem;
-text-transform: uppercase;
-letter-spacing: .5px;
-color: var(–white);
-margin-bottom: 4px;
-}
-.schule-addr {
-font-size: .8rem;
-color: #555;
-margin-bottom: 10px;
-line-height: 1.4;
-}
-.schule-fact {
-font-size: .78rem;
-color: #666;
-line-height: 1.5;
-font-style: italic;
-}
-.schule-tag {
-margin-top: 12px;
-display: inline-block;
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .62rem;
-letter-spacing: 1.5px;
-text-transform: uppercase;
-padding: 3px 9px;
-background: var(–red);
-color: var(–white);
-}
-.schule-tag.sek { background: #333; }
-
-/* ================================================================
-THEMEN SECTION
-================================================================ */
-.themen-section {
-padding: 100px 48px;
-background: var(–grey);
-}
-.themen-inner {
-max-width: 1280px;
-margin: 0 auto;
-}
-
-.themen-grid {
-margin-top: 56px;
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 0;
-border: 4px solid var(–black);
-}
-
-.thema-tile {
-padding: 36px 28px;
-border-right: 4px solid var(–black);
-border-bottom: 4px solid var(–black);
-background: var(–white);
-transition: background .15s, color .15s;
-cursor: default;
-position: relative;
-overflow: hidden;
-}
-.thema-tile:nth-child(4n) { border-right: none; }
-.thema-tile:nth-last-child(-n+4) { border-bottom: none; }
-.thema-tile:hover { background: var(–red); }
-.thema-tile:hover .thema-name,
-.thema-tile:hover .thema-stufe { color: var(–white); }
-.thema-tile:hover .thema-icon-bg { opacity: .08; }
-
-.thema-icon-bg {
-position: absolute;
-bottom: -10px; right: -10px;
-font-size: 5rem;
-opacity: .04;
-pointer-events: none;
-transition: opacity .15s;
-}
-.thema-icon { font-size: 1.8rem; margin-bottom: 14px; }
-.thema-name {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1.2rem;
-text-transform: uppercase;
-letter-spacing: .5px;
-color: var(–black);
-margin-bottom: 4px;
-transition: color .15s;
-}
-.thema-stufe {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .7rem;
-letter-spacing: 1.5px;
-text-transform: uppercase;
-color: var(–muted);
-transition: color .15s;
-}
-
-/* ================================================================
-CTA FULL-WIDTH SECTION
-================================================================ */
-.cta-section {
-background: var(–white);
-border-top: 4px solid var(–black);
-border-bottom: 4px solid var(–black);
-padding: 100px 48px;
-text-align: center;
-}
-.cta-section .section-tag { justify-content: center; }
-.cta-section .section-tag::before { display: none; }
-.cta-h2 {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-style: italic;
-font-size: clamp(3.5rem, 7vw, 7rem);
-line-height: .88;
-text-transform: uppercase;
-color: var(–black);
-letter-spacing: -2px;
-margin: 20px 0 40px;
-}
-.cta-h2 em { color: var(–red); }
-.cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-
-/* ================================================================
-FOOTER
-================================================================ */
-footer {
-background: var(–black);
-padding: 48px;
-border-top: 4px solid #222;
-}
-.footer-inner {
-max-width: 1280px;
-margin: 0 auto;
-display: flex;
-align-items: center;
-justify-content: space-between;
-flex-wrap: wrap;
-gap: 20px;
-}
-.footer-logo {
-display: flex;
-align-items: center;
-gap: 12px;
-}
-.footer-name {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1rem;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: var(–white);
-}
-.footer-meta {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .7rem;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: #444;
-line-height: 1.8;
-}
-.footer-meta span { color: var(–red); }
-
-/* ================================================================
-RESPONSIVE
-================================================================ */
-@media (max-width: 900px) {
-.hero { grid-template-columns: 1fr; }
-.hero-right { display: none; }
-.steps { grid-template-columns: 1fr; }
-.step { border-right: none; border-bottom: 4px solid var(–black); }
-.step:last-child { border-bottom: none; }
-.red-inner { grid-template-columns: 1fr; gap: 48px; }
-.schulen-grid { grid-template-columns: 1fr 1fr; }
-.schule-card:nth-child(2n) { border-right: none; }
-.themen-grid { grid-template-columns: 1fr 1fr; }
-.thema-tile:nth-child(2n) { border-right: none; }
-.topbar-nav { display: none; }
-.section { padding: 64px 24px; }
-}
+/* ── ZAHLENSTRANG VISUAL ── */
+.nline-visual{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:16px;padding:10px 0;}
+.nline-box{min-width:44px;height:44px;border:3px solid #0A0A0A;background:#fff;display:flex;align-items:center;justify-content:center;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1.2rem;color:#0A0A0A;}
+.nline-gap{background:#E8192C;color:#fff;border-color:#E8192C;font-size:1.5rem;min-width:48px;height:48px;}
+.nline-arrow{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:1rem;color:#888;}
+/* ── FX ── */
+.react{position:fixed;bottom:14px;right:14px;font-size:2.6rem;pointer-events:none;z-index:999;animation:pop 2s ease forwards;opacity:0;}
+.bubble{position:fixed;bottom:62px;right:14px;background:#fff;border:3px solid #E8192C;padding:7px 11px;font-size:.78rem;font-weight:700;max-width:150px;pointer-events:none;z-index:999;animation:pop 2.4s ease forwards;opacity:0;}
+@keyframes pop{0%{opacity:0;transform:scale(.4) translateY(10px)}15%{opacity:1;transform:scale(1.1)}80%{opacity:1;transform:scale(1)}100%{opacity:0}}
+.conf{position:fixed;pointer-events:none;z-index:9999;animation:cf var(–d,1.4s) ease-in var(–del,0s) forwards;}
+@keyframes cf{0%{opacity:1;transform:translateY(-8px) rotate(0)}100%{opacity:0;transform:translateY(110vh) rotate(540deg)}}
+.footer{text-align:center;padding:8px;font-family:‘Barlow Condensed’,sans-serif;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:#bbb;border-top:2px solid #eee;}
+.footer strong{color:#E8192C;}
 </style>
 
 </head>
 <body>
 
-<!-- ============================================================
-     TOPBAR
-============================================================ -->
+<!-- HEADER -->
 
-<nav class="topbar">
-  <a class="topbar-logo" href="#">
-    <div class="logo-cross">+</div>
-    <div class="logo-name">Red Hippo Kids</div>
-  </a>
-  <nav class="topbar-nav">
-    <a href="#wie">Wie es funktioniert</a>
-    <a href="#schulen">Schulen</a>
-    <a href="#themen">Themen</a>
-    <a href="redhippo-mathe-v3.html" class="cta-nav">→ Jetzt lernen</a>
-  </nav>
-  <div class="topbar-right">Ein Projekt von <strong>🦛 Red Hippo</strong> · Basel-Stadt</div>
-</nav>
-
-<!-- ============================================================
-     HERO
-============================================================ -->
-
-<section class="hero">
-  <div class="hero-diagonal"></div>
-
-  <div class="hero-left">
-    <div class="hero-eyebrow">Basel-Stadt · Lehrplan 21 · Klasse 1–9</div>
-    <h1 class="hero-h1">
-      MATHE<br>
-      <span class="outline">MACHT</span><br>
-      SPASS.
-    </h1>
-    <p class="hero-sub">
-      Wohin. Wieviel. Was du rechnen sollst.<br>
-      <strong>Zahlen. Keine Ausreden.</strong><br><br>
-      Personalisiert auf deine Schule, deine Klasse —<br>
-      und gebaut damit du wirklich weiterkommst.
-    </p>
-    <div class="hero-cta-row">
-      <a href="redhippo-mathe-v3.html" class="btn-primary">→ Schaden berechnen</a>
-      <a href="#wie" class="btn-secondary">↓ Wie es funktioniert</a>
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="stat-grid">
-      <div class="stat-box white">
-        <div class="stat-emoji">📚</div>
-        <div class="stat-num">9</div>
-        <div class="stat-label">Schuljahre<br>abgedeckt</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-emoji">🏫</div>
-        <div class="stat-num">6+</div>
-        <div class="stat-label">Schulen Riehen<br>&amp; Basel</div>
-      </div>
-      <div class="stat-box black">
-        <div class="stat-emoji">🔥</div>
-        <div class="stat-num">70/30</div>
-        <div class="stat-label">Erfolgs-Formel<br>Lehrplan 21</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-emoji">🦛</div>
-        <div class="stat-num">∞</div>
-        <div class="stat-label">Aufgaben<br>generiert</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-mascot">🦛</div>
-</section>
-
-<!-- ============================================================
-     TICKER
-============================================================ -->
-
-<div class="ticker">
-  <div class="ticker-track">
-    <span class="ticker-item">Zahlen &amp; Operationen</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Zahlenstrang</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Kleines 1×1</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Brüche</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Prozent</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Gleichungen</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Negative Zahlen</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Dezimalzahlen</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Lehrplan 21</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Red Hippo Kids</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Basel-Stadt</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Kostenlos</span><span class="ticker-sep">✦</span>
-    <!-- duplicate for seamless loop -->
-    <span class="ticker-item">Zahlen &amp; Operationen</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Zahlenstrang</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Kleines 1×1</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Brüche</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Prozent</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Gleichungen</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Negative Zahlen</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Dezimalzahlen</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Lehrplan 21</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Red Hippo Kids</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Basel-Stadt</span><span class="ticker-sep">✦</span>
-    <span class="ticker-item">Kostenlos</span><span class="ticker-sep">✦</span>
+<div class="header">
+  <div class="h-brand"><span>🦛</span> Red Hippo Kids</div>
+  <div class="h-selects">
+    <select class="h-sel" id="sel-school">
+      <option value="">Schule…</option>
+      <optgroup label="Riehen – Primarschulen">
+        <option value="burg">Burgstrasse</option>
+        <option value="erlen">Erlensträsschen</option>
+        <option value="higa">Hinter Gärten</option>
+        <option value="nieder">Niederholz</option>
+        <option value="wasser">Wasserstelzen</option>
+        <option value="betti">Bettingen</option>
+        <option value="prisma">PRISMA Schulen</option>
+      </optgroup>
+      <optgroup label="Riehen – Sek">
+        <option value="hebel">Hebel (Sek)</option>
+      </optgroup>
+      <optgroup label="Basel-Stadt">
+        <option value="acker">Ackermätteli</option>
+        <option value="klhu">Kleinhüningen</option>
+        <option value="theodor">Theodors</option>
+        <option value="dr3">Dreirosen (Sek)</option>
+      </optgroup>
+    </select>
+    <select class="h-sel" id="sel-grade">
+      <option value="">Klasse…</option>
+      <option value="1">1. Klasse</option><option value="2">2. Klasse</option>
+      <option value="3">3. Klasse</option><option value="4">4. Klasse</option>
+      <option value="5">5. Klasse</option><option value="6">6. Klasse</option>
+      <option value="7">7. Klasse</option><option value="8">8. Klasse</option>
+      <option value="9">9. Klasse</option>
+    </select>
+    <button class="h-btn" onclick="startApp()">→ Los</button>
   </div>
 </div>
 
-<!-- ============================================================
-     WIE ES FUNKTIONIERT
-============================================================ -->
+<!-- NAV TABS -->
 
-<section id="wie">
-  <div class="section">
-    <div class="section-tag">Wie es funktioniert</div>
-    <h2 class="section-h2">DREI<br><em>SCHRITTE.</em><br>FERTIG.</h2>
-    <p class="section-lead">Kein Login. Keine App. Kein Abo. Einfach Schule wählen, loslegen — und besser werden.</p>
+<div class="nav-tabs" id="nav-tabs" style="display:none">
+  <div class="nav-tab on"  onclick="switchTab('topics')">📚 Aufgaben</div>
+  <div class="nav-tab"     onclick="switchTab('times')">✖️ 1×1 Lernen</div>
+  <div class="nav-tab"     onclick="switchTab('game')">🎮 Spiel</div>
+</div>
 
-```
-<div class="steps">
-  <div class="step">
-    <div class="step-num">01</div>
-    <div class="step-icon">🏫</div>
-    <div class="step-title">Schule wählen</div>
-    <p class="step-text">Wähle deine Schule in Riehen oder Basel-Stadt. Das Programm kennt alle 6 Primarstufenstandorte und passt sich an.</p>
-    <div class="step-tag">Personalisiert</div>
-  </div>
-  <div class="step">
-    <div class="step-num">02</div>
-    <div class="step-icon">📐</div>
-    <div class="step-title">Klasse angeben</div>
-    <p class="step-text">Klasse 1 bis 9. Primarschule oder Sek. Das System wählt automatisch 70% Wiederholungsstoff und 30% Neues — nach Lehrplan 21.</p>
-    <div class="step-tag">Lehrplan 21</div>
-  </div>
-  <div class="step">
-    <div class="step-num">03</div>
-    <div class="step-icon">🚀</div>
-    <div class="step-title">Rechnen &amp; gewinnen</div>
-    <p class="step-text">XP sammeln, Streaks aufbauen, Abzeichen holen. Red Hippo erklärt jeden Fehler sofort — kein Frust, nur Fortschritt.</p>
-    <div class="step-tag">Gamified</div>
+<!-- TOPICS -->
+
+<div id="s-topics" class="screen active">
+  <div style="padding:40px 0;text-align:center;color:#bbb;font-family:'Barlow Condensed',sans-serif;font-size:.95rem;letter-spacing:2px;text-transform:uppercase;">
+    🦛 &nbsp;Schule &amp; Klasse wählen — dann loslegen!
   </div>
 </div>
-```
 
+<!-- EXERCISE -->
+
+<div id="s-ex" class="screen">
+  <div class="hud">
+    <div class="hud-name" id="hud-name">–</div>
+    <div class="hud-xp">⭐ <span id="hud-xp">0</span> XP</div>
+    <div class="hud-streak" id="hud-streak"></div>
   </div>
-</section>
-
-<!-- ============================================================
-     70/30 RED SECTION
-============================================================ -->
-
-<div class="red-section">
-  <div class="red-inner">
-    <div class="red-left">
-      <div class="section-tag">Die Formel</div>
-      <h2 class="section-h2">ERFOLG<br><em>FIRST.</em></h2>
-      <p class="section-lead">Internationale Lernforschung zeigt: Wer immer am Limit kämpft, gibt auf. Wer immer nur Altbekanntes macht, stagniert. 70/30 ist der Sweet Spot.</p>
-      <div class="ratio-note">
-        Nach Lehrplan 21 · Kanton Basel-Stadt<br>
-        Primarstufe Bettingen und Riehen · Gemeindeschulen
-      </div>
+  <div class="ex-header">
+    <button class="btn-back" onclick="backToTopics()">← Zurück</button>
+    <div class="pips" id="pips"></div>
+    <div class="ex-count" id="ex-count">1/5</div>
+  </div>
+  <div class="tip" id="tip"><strong>🦛 Tipp</strong><span id="tip-text"></span></div>
+  <div class="q-card">
+    <div class="q-label" id="q-label"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-hint" id="q-hint"></div>
+    <div id="q-visual"></div>
+    <div id="q-ans"></div>
+    <div class="fb" id="fb">
+      <div class="fb-emoji" id="fb-emoji"></div>
+      <div class="fb-msg" id="fb-msg"></div>
+      <div class="fb-exp" id="fb-exp"></div>
     </div>
-    <div class="red-right">
-      <div class="ratio-visual">
-        <div class="ratio-bar-wrap">
-          <div class="ratio-label">70%</div>
-          <div class="ratio-bar-outer">
-            <div class="ratio-bar-inner r70">Wiederholung · Klasse darunter</div>
-          </div>
-        </div>
-        <div class="ratio-bar-wrap">
-          <div class="ratio-label">30%</div>
-          <div class="ratio-bar-outer">
-            <div class="ratio-bar-inner r30">Neusstoff · Aktuelle Klasse</div>
-          </div>
-        </div>
-      </div>
+    <button class="btn-next" id="btn-next" onclick="nextQ()">Weiter →</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+
+<div id="s-res" class="screen">
+  <div class="result">
+    <div class="res-emo" id="res-emo">🦛</div>
+    <div class="res-title" id="res-title">Super!</div>
+    <div class="res-score" id="res-score">–/–</div>
+    <div class="res-stars" id="res-stars">⭐⭐⭐</div>
+    <div class="res-msg" id="res-msg"></div>
+    <div class="res-simao" id="res-simao"></div>
+    <div class="res-btns">
+      <button class="btn-res" onclick="retry()">🔄 Nochmal</button>
+      <button class="btn-res" onclick="backToTopics()">📚 Andere Aufgabe</button>
     </div>
   </div>
 </div>
 
-<!-- ============================================================
-     SCHULEN
-============================================================ -->
+<!-- 1×1 TRAINER -->
 
-<div class="schulen-section" id="schulen">
-  <div class="schulen-inner">
-    <div class="section-tag">Basel-Stadt · Riehen · Bettingen</div>
-    <h2 class="section-h2">DEINE<br><em>SCHULE.</em></h2>
-
-```
-<div class="schulen-grid">
-  <div class="schule-card">
-    <div class="schule-emoji">🏫</div>
-    <div class="schule-name">Primarstufe Burgstrasse</div>
-    <div class="schule-addr">Burgstrasse 51 · 4125 Riehen</div>
-    <div class="schule-fact">Gebaut 1911 — hatte früher eine Badeanstalt im Keller. Wirklich. 🛁</div>
-    <div class="schule-tag">Primar</div>
-  </div>
-  <div class="schule-card">
-    <div class="schule-emoji">📜</div>
-    <div class="schule-name">Primarstufe Erlensträsschen</div>
-    <div class="schule-addr">Erlensträsschen 8 · 4125 Riehen</div>
-    <div class="schule-fact">Älteste Riehener Schule — an dieser Stelle seit 1623. Über 400 Jahre Mathe.</div>
-    <div class="schule-tag">Primar</div>
-  </div>
-  <div class="schule-card">
-    <div class="schule-emoji">🌿</div>
-    <div class="schule-name">Primarstufe Hinter Gärten</div>
-    <div class="schule-addr">Steingrubenweg 30 · 4125 Riehen</div>
-    <div class="schule-fact">Jüngste Schule Riehens — erst 2005 eröffnet. Neuestes Schulhaus, frischste Energie. ✨</div>
-    <div class="schule-tag">Primar</div>
-  </div>
-  <div class="schule-card">
-    <div class="schule-emoji">🌳</div>
-    <div class="schule-name">Primarstufe Niederholz</div>
-    <div class="schule-addr">Langenlängeweg 14 · 4125 Riehen</div>
-    <div class="schule-fact">Seit 1948 im Einsatz — über 75 Jahre jung und immer noch voll da. 🎂</div>
-    <div class="schule-tag">Primar</div>
-  </div>
-  <div class="schule-card">
-    <div class="schule-emoji">💧</div>
-    <div class="schule-name">Primarstufe Wasserstelzen</div>
-    <div class="schule-addr">Wasserstelzenweg 15 · 4125 Riehen</div>
-    <div class="schule-fact">Alle nennen es liebevoll das «Wassi». Turnhalle am Sonntag für alle offen! ❤️</div>
-    <div class="schule-tag">Primar</div>
-  </div>
-  <div class="schule-card">
-    <div class="schule-emoji">🌺</div>
-    <div class="schule-name">Primarstufe Bettingen</div>
-    <div class="schule-addr">Hauptstrasse 107 · 4126 Bettingen</div>
-    <div class="schule-fact">Bettingen ist Basels kleinste und grünste Gemeinde — nur 1 km² gross. 🏘️</div>
-    <div class="schule-tag">Primar</div>
-  </div>
-  <div class="schule-card">
-    <div class="schule-emoji">📖</div>
-    <div class="schule-name">Sekundarschule Hebel Riehen</div>
-    <div class="schule-addr">Hebelstrasse 41 · 4125 Riehen</div>
-    <div class="schule-fact">Trägt den Namen des Dichters Johann Peter Hebel. A-, E- und P-Zug. Seit 1953. ✍️</div>
-    <div class="schule-tag sek">Sekundar</div>
-  </div>
-  <div class="schule-card">
-    <div class="schule-emoji">🔷</div>
-    <div class="schule-name">PRISMA Schulen Riehen</div>
-    <div class="schule-addr">Rauracherstrasse 3 · 4125 Riehen</div>
-    <div class="schule-fact">Staatlich anerkannte Privatschule seit 2009. Lehrplan 21. Offen für alle. ~100 Kinder.</div>
-    <div class="schule-tag">Primar</div>
-  </div>
-  <div class="schule-card" style="border-right:none">
-    <div class="schule-emoji">➕</div>
-    <div class="schule-name">+ Weitere Basel-Stadt</div>
-    <div class="schule-addr">25 Primarschulen in der Stadt Basel</div>
-    <div class="schule-fact">Ackermätteli, Kleinhüningen, Theodors und viele mehr — alle im Programm dabei.</div>
-    <div class="schule-tag">Primar + Sek</div>
-  </div>
-</div>
-```
-
+<div id="s-times" class="screen">
+  <div class="times-header">✖️ Das <span>1×1</span> lernen</div>
+  <div class="times-desc">Wähle eine Reihe. Tippe die Antwort. Hippo schaut zu — und urteilt. 🦛</div>
+  <div class="tt-picker" id="tt-picker"></div>
+  <div class="times-card" id="tt-card" style="display:none">
+    <div class="times-q" id="tt-q">– × – = ?</div>
+    <input class="times-inp" id="tt-inp" type="number" placeholder="?" autocomplete="off"
+      onkeydown="if(event.key==='Enter')checkTimes()">
+    <button class="btn-times-check" onclick="checkTimes()">✓ Check</button>
+    <div class="times-fb" id="tt-fb"></div>
+    <div class="tt-score" id="tt-score"></div>
   </div>
 </div>
 
-<!-- ============================================================
-     THEMEN
-============================================================ -->
+<!-- GAME -->
 
-<section class="themen-section" id="themen">
-  <div class="themen-inner">
-    <div class="section-tag">Zahlen &amp; Operationen · Lehrplan 21</div>
-    <h2 class="section-h2">ALLE<br><em>THEMEN.</em></h2>
-
-```
-<div class="themen-grid">
-  <div class="thema-tile">
-    <div class="thema-icon-bg">🔢</div>
-    <div class="thema-icon">🔢</div>
-    <div class="thema-name">Zählen &amp; Mengen</div>
-    <div class="thema-stufe">Klasse 1–2</div>
+<div id="s-game" class="screen">
+  <div class="game-header">🎮 Hippo <span>Fänger</span></div>
+  <div class="game-desc">1×1-Rechnung erscheint — klick die richtige Antwort bevor sie fällt! 3 Leben. Simão hat dir das nie erklärt, aber jetzt lernst du's hier. 😂</div>
+  <div class="game-hud">
+    <div><div class="g-label">Punkte</div><div class="g-val" id="g-score">0</div></div>
+    <div><div class="g-label">Rekord</div><div class="g-val" id="g-best">0</div></div>
+    <div class="g-lives" id="g-lives">❤️❤️❤️</div>
   </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">➕</div>
-    <div class="thema-icon">➕</div>
-    <div class="thema-name">Addieren</div>
-    <div class="thema-stufe">Klasse 1–4</div>
+  <div class="game-arena" id="game-arena">
+    <div class="g-question" id="g-question">▶ START drücken</div>
+    <div class="g-hippo" id="g-hippo" style="left:50%">🦛</div>
+    <div class="g-over" id="g-over">
+      <h2>Game Over!</h2>
+      <p id="g-over-msg">Auch Simão hätte das nicht besser gemacht.</p>
+      <button class="btn-start" onclick="startGame()">▶ START</button>
+    </div>
   </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">➖</div>
-    <div class="thema-icon">➖</div>
-    <div class="thema-name">Subtrahieren</div>
-    <div class="thema-stufe">Klasse 1–4</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">📏</div>
-    <div class="thema-icon">📏</div>
-    <div class="thema-name">Zahlenstrang</div>
-    <div class="thema-stufe">Klasse 2–6</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">✖️</div>
-    <div class="thema-icon">✖️</div>
-    <div class="thema-name">Kleines 1×1</div>
-    <div class="thema-stufe">Klasse 3–4</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">➗</div>
-    <div class="thema-icon">➗</div>
-    <div class="thema-name">Dividieren</div>
-    <div class="thema-stufe">Klasse 4–5</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">🍕</div>
-    <div class="thema-icon">🍕</div>
-    <div class="thema-name">Brüche</div>
-    <div class="thema-stufe">Klasse 5–6</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">💯</div>
-    <div class="thema-icon">💯</div>
-    <div class="thema-name">Dezimalzahlen</div>
-    <div class="thema-stufe">Klasse 6</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">🌡️</div>
-    <div class="thema-icon">🌡️</div>
-    <div class="thema-name">Negative Zahlen</div>
-    <div class="thema-stufe">Klasse 7–8</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">%</div>
-    <div class="thema-icon" style="font-size:1.8rem;font-weight:900;font-family:'Barlow Condensed',sans-serif">%</div>
-    <div class="thema-name">Prozent</div>
-    <div class="thema-stufe">Klasse 7–9</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">🔡</div>
-    <div class="thema-icon">🔡</div>
-    <div class="thema-name">Terme &amp; Gleichungen</div>
-    <div class="thema-stufe">Klasse 7–9</div>
-  </div>
-  <div class="thema-tile">
-    <div class="thema-icon-bg">²</div>
-    <div class="thema-icon" style="font-size:2rem;font-weight:900;font-family:'Barlow Condensed',sans-serif">x²</div>
-    <div class="thema-name">Potenzen &amp; Wurzeln</div>
-    <div class="thema-stufe">Klasse 9</div>
-  </div>
+  <div class="touch-hint">Maus bewegen oder Zahlen antippen</div>
 </div>
-```
 
-  </div>
-</section>
+<div class="footer">Developed with ❤️ by <strong>Red Hippo</strong> · Basel-Stadt · Lehrplan 21 · Danke für nichts, Simão 😘</div>
 
-<!-- ============================================================
-     CTA
-============================================================ -->
+<script>
+/* ================================================================
+   CURRICULUM (unchanged from v4)
+================================================================ */
+const TOPICS={
+  1:[{id:'count',icon:'🔢',name:'Zählen',desc:'bis 20'},{id:'add10',icon:'➕',name:'Addieren',desc:'bis 20'},{id:'sub10',icon:'➖',name:'Subtrahieren',desc:'bis 20'}],
+  2:[{id:'add100',icon:'➕',name:'Addieren',desc:'bis 100'},{id:'sub100',icon:'➖',name:'Subtrahieren',desc:'bis 100'},{id:'nline',icon:'📏',name:'Zahlenstrang',desc:'bis 100'}],
+  3:[{id:'add1000',icon:'➕',name:'Addieren',desc:'bis 1000'},{id:'times1',icon:'✖️',name:'Kleines 1×1',desc:'1–10'},{id:'nline',icon:'📏',name:'Zahlenstrang',desc:'bis 1000'}],
+  4:[{id:'times2',icon:'✖️',name:'Multiplizieren',desc:'bis 100'},{id:'div',icon:'➗',name:'Dividieren',desc:'Grundlagen'},{id:'nline',icon:'📏',name:'Zahlenstrang',desc:'bis 10k'}],
+  5:[{id:'frac',icon:'🍕',name:'Brüche',desc:'½ ¼ ¾'},{id:'times2',icon:'✖️',name:'Mult. schriftlich',desc:'2-stellig'},{id:'nline',icon:'📏',name:'Zahlenstrang',desc:'bis 100k'}],
+  6:[{id:'frac',icon:'🍕',name:'Brüche',desc:'+/–'},{id:'dec',icon:'💯',name:'Dezimalzahlen',desc:'Grundlagen'},{id:'nline',icon:'📏',name:'Zahlenstrang',desc:'bis 1 Mio.'}],
+  7:[{id:'neg',icon:'🌡️',name:'Negative Zahlen',desc:'Zahlenstrahl'},{id:'pct',icon:'%',name:'Prozent',desc:'Grundlagen'},{id:'alg1',icon:'🔡',name:'Terme',desc:'Einstieg'}],
+  8:[{id:'alg2',icon:'🔡',name:'Gleichungen',desc:'1. Grades'},{id:'pct',icon:'%',name:'Prozent',desc:'Anwendungen'},{id:'neg',icon:'🌡️',name:'Rationale Zahlen',desc:'Rechnen'}],
+  9:[{id:'alg2',icon:'🔡',name:'Funktionen',desc:'Graphen'},{id:'pow',icon:'²',name:'Potenzen',desc:'& Wurzeln'},{id:'pct',icon:'%',name:'Zins & Promille',desc:'Anwendungen'}],
+};
 
-<section class="cta-section">
-  <div class="section-tag">Bereit?</div>
-  <h2 class="cta-h2">DEIN<br>KOPF.<br><em>LOS.</em></h2>
-  <div class="cta-row">
-    <a href="redhippo-mathe-v3.html" class="btn-primary" style="font-size:1.2rem;padding:20px 44px;">→ Jetzt rechnen</a>
-  </div>
-</section>
+const TIPS={
+  count:'Zähle jeden Punkt einzeln. So lernt man das — nicht bei Simão, aber hier! 🦛',
+  add10:'Größere Zahl merken, kleinere draufzählen. Das hat Simão vergessen zu erklären.',
+  sub10:'Von der großen Zahl zurückzählen. Ja, wirklich so einfach.',
+  add100:'Erst Zehner, dann Einer. Simão hatte dafür keine Zeit.',
+  sub100:'Erst Zehner wegnehmen, dann Einer. Du schaffst das alleine!',
+  add1000:'Hunderter + Hunderter, Zehner + Zehner, Einer + Einer. Schicht für Schicht!',
+  times1:'3×4 = 3+3+3+3 = 12. Das wäre der Job von Simão gewesen. 😅',
+  times2:'Aufteilen: 14×6 = (10×6)+(4×6). Boom! Simão schuldet dir das.',
+  div:'Wie oft passt die Zahl rein? 12÷3 = 4. Keine Hexerei!',
+  nline:'Schau die Zahlen an — was ist der Abstand zwischen je zwei Zahlen? Den addierst du zur letzten Zahl dazu! 📏',
+  frac:'Nenner = Teile total. Zähler = deine Teile. Einfacher als Simão es gemacht hätte.',
+  dec:'Komma unter Komma. IMMER. Niemals vergessen.',
+  neg:'Links von Null = negativ. Wie Simãos Unterricht — irgendwo unter Null. 🥶',
+  pct:'10% = ÷10. So einfach. Hättest du früher wissen sollen.',
+  alg1:'x allein lassen: x+3=7 → x=4. Das ist alles.',
+  alg2:'Beide Seiten gleich behandeln. Gerechtigkeit in der Mathematik!',
+  pow:'3² = 3×3 = 9. Nicht 3+2. Das ist der Klassiker-Fehler.',
+};
 
-<!-- ============================================================
-     FOOTER
-============================================================ -->
+/* Simão jokes — ironic, not mean, just funny */
+const SIMAO_JOKES=[
+  ['💅','Danke, Simão!','Gut, dass du dir das selbst beibringen konntest. Simão war sicher beschäftigt — mit wichtigeren Dingen wie dem Kaffeepausenbuffet.'],
+  ['📋','Simão sagt:','"Das war eigentlich im Lehrplan." — Ja. Und trotzdem lernst du es jetzt von einem Nilpferd.'],
+  ['🎓','Offiziell bestätigt:','Du weisst jetzt mehr als Simão vermittelt hat. Das ist keine Kritik. Das ist Mathematik.'],
+  ['📖','Laut Simão:','"Das kommt nächste Stunde." Die nächste Stunde kam nie. Aber Red Hippo ist immer da. 🦛'],
+  ['☕','Hypothese:','Simão hat das auch nicht gewusst. Deshalb hat er es nicht erklärt. Rein hypothetisch natürlich.'],
+  ['🏆','Zertifikat:','Du hast heute mehr gelernt als in einer durchschnittlichen Simão-Stunde. Das Zertifikat kommt per Post.'],
+  ['😴','Fun Fact:','Simão hat genau diese Aufgabe einmal erklärt. Du warst kurz eingeschlafen. Passiert den Besten.'],
+  ['🦛','Hippo-Analyse:','Simão hat Mathe geliebt. Und Mathe hat Simão ignoriert. Was wir hier machen, ist die Versöhnung. ❤️'],
+];
 
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">
-      <div class="logo-cross">+</div>
-      <div class="footer-name">Red Hippo Kids</div>
+/* ================================================================
+   QUESTION GENERATOR
+================================================================ */
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function s4(c,o){let a=[...new Set([String(c),...o.map(String)])].slice(0,4);while(a.length<4)a.push(String(Number(a[0])+(a.length*3)));return a.sort(()=>Math.random()-.5);}
+function dots(n,g=0){return Array(n).fill(0).map((_,i)=>`<div class="vdot${i>=n-g?' g2':''}"></div>`).join('');}
+
+function makeQ(id,easy){
+  let a,b,c,ans,q,hint='',vis='',opts,exp,diff=easy?'easy':'medium';
+  const mc=easy||Math.random()<.55;
+  switch(id){
+    case'count':{c=easy?rnd(1,8):rnd(9,15);ans=c;q='Wie viele Punkte?';vis=`<div class="dots-visual">${dots(c)}</div>`;exp=`${c} Punkte.`;opts=s4(ans,[c+1,c-1,c+2].filter(x=>x>0));return{mc:true,q,hint,vis,ans,opts,exp,diff};}
+    case'add10':{a=easy?rnd(1,6):rnd(4,9);b=easy?rnd(1,6):rnd(3,9);if(a+b>18)b=2;ans=a+b;q=`${a} + ${b} = ?`;vis=easy?`<div class="dots-visual">${dots(a+b,b)}</div>`:'';exp=`${a}+${b}=${ans}`;opts=s4(ans,[ans+1,ans-1,ans+2].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'sub10':{a=easy?rnd(4,10):rnd(8,18);b=rnd(1,Math.min(a-1,6));ans=a-b;q=`${a} – ${b} = ?`;vis=easy?`<div class="dots-visual">${dots(a)}</div>`:'';exp=`${a}–${b}=${ans}`;opts=s4(ans,[ans+1,ans-1,ans+2].filter(x=>x>=0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'add100':{a=easy?rnd(10,40):rnd(20,60);b=easy?rnd(5,20):rnd(10,30);ans=a+b;q=`${a} + ${b} = ?`;exp=`${ans}`;opts=s4(ans,[ans+10,ans-10,ans+1].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'sub100':{a=easy?rnd(20,60):rnd(40,90);b=rnd(5,a-5);ans=a-b;q=`${a} – ${b} = ?`;exp=`${ans}`;opts=s4(ans,[ans+10,ans-10,ans+1].filter(x=>x>=0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'add1000':{a=easy?rnd(100,400):rnd(200,600);b=easy?rnd(50,150):rnd(100,300);ans=a+b;q=`${a} + ${b} = ?`;exp=`${ans}`;opts=s4(ans,[ans+100,ans-100,ans+10].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'times1':{a=easy?rnd(2,4):rnd(5,9);b=easy?rnd(2,4):rnd(5,9);ans=a*b;q=`${a} × ${b} = ?`;exp=`${a}×${b}=${ans}`;opts=s4(ans,[ans+a,ans-a,ans+b].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'times2':{a=easy?rnd(11,15):rnd(12,20);b=easy?rnd(2,4):rnd(3,7);ans=a*b;q=`${a} × ${b} = ?`;hint=`(${Math.floor(a/10)*10}×${b}) + (${a%10}×${b})`;exp=`=${ans}`;opts=s4(ans,[ans+b,ans-b,ans+10].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'div':{b=easy?rnd(2,4):rnd(2,6);c=easy?rnd(2,5):rnd(2,8);a=b*c;ans=c;q=`${a} ÷ ${b} = ?`;exp=`${ans}`;opts=s4(ans,[ans+1,ans-1,ans+2].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'nline':{
+      // SUPER SIMPLE: show a visual number line with one box missing, always multiple choice
+      const st=easy?2:5; // step size: 2 or 5
+      const start=rnd(0,4)*st;
+      // generate 6 numbers in a row, hide one
+      const total=6;
+      const hideIdx=easy?rnd(2,4):rnd(1,5); // hide somewhere in the middle
+      const nums=Array.from({length:total},(_,i)=>start+i*st);
+      ans=nums[hideIdx];
+      // build visual: show boxes with numbers, one is "?"
+      const boxes=nums.map((n,i)=>`<div class="nline-box${i===hideIdx?' nline-gap':''}">${i===hideIdx?'?':n}</div>`).join('<div class="nline-arrow">→</div>');
+      vis=`<div class="nline-visual">${boxes}</div>`;
+      q='Welche Zahl fehlt?';
+      hint=`Schrittweite: immer +${st}`;
+      exp=`${start} → +${st} → … → ${ans}`;
+      opts=s4(ans,[ans+st,ans-st,ans+st*2].filter(x=>x>=0));
+      return{mc:true,q,hint,vis,ans,opts,exp,diff:'easy'};
+    }
+    case'frac':{const pr=[[1,2],[1,4],[3,4]];const[n,d]=pr[rnd(0,pr.length-1)];const w=(easy?rnd(2,4):rnd(4,8))*d;ans=w*n/d;q=`${n}/${d} von ${w} = ?`;exp=`=${ans}`;opts=s4(ans,[ans+(w/d),ans-(w/d),ans+2*(w/d)].map(Math.round).filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'dec':{const ai=easy?rnd(1,4)*10+rnd(1,5):rnd(5,20)*10+rnd(1,9);const bi=easy?rnd(1,3)*10+rnd(1,5):rnd(3,15)*10+rnd(1,9);const aa=(ai/10).toFixed(1),bb=(bi/10).toFixed(1),ar=((ai+bi)/10).toFixed(1);q=`${aa} + ${bb} = ?`;exp=`=${ar}`;const av=Number(ar);opts=s4(ar,[(av+1).toFixed(1),(av-.1).toFixed(1),(av+.1).toFixed(1)]);return{mc:true,q,hint,vis,ans:ar,opts,exp,diff};}
+    case'neg':{a=easy?rnd(-4,-1):rnd(-8,-1);b=easy?rnd(1,6):rnd(1,10);ans=a+b;q=`${a} + ${b} = ?`;exp=`=${ans}`;opts=s4(ans,[ans+1,ans-1,ans+2]);return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'pct':{const bs=[100,200,50];const ps=easy?[10,50]:[25,10,50];const base=bs[rnd(0,bs.length-1)],pct=ps[rnd(0,ps.length-1)];ans=base*pct/100;q=`${pct}% von ${base} = ?`;exp=`=${ans}`;opts=s4(ans,[ans+base/10,ans-base/10,ans*2].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'alg1':{b=easy?rnd(1,4):rnd(2,7);a=easy?rnd(b+2,10):rnd(b+2,15);ans=a-b;q=`x + ${b} = ${a}  →  x = ?`;exp=`x=${ans}`;opts=s4(ans,[ans+1,ans-1,ans+2].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'alg2':{const m=easy?2:rnd(2,4);const c2=easy?rnd(1,3):rnd(1,6);ans=easy?rnd(2,5):rnd(2,7);const sum=m*ans+c2;q=`${m}x + ${c2} = ${sum}  →  x = ?`;exp=`x=${ans}`;opts=s4(ans,[ans+1,ans-1,ans+2].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    case'pow':{a=easy?rnd(2,4):rnd(2,5);b=2;ans=a*a;q=`${a}² = ?`;exp=`${a}×${a}=${ans}`;opts=s4(ans,[ans+a,ans-a,ans+2*a].filter(x=>x>0));return{mc,q,hint,vis,ans,opts,exp,diff};}
+    default:{a=rnd(1,6);b=rnd(1,6);ans=a+b;q=`${a}+${b}=?`;exp=`${ans}`;opts=s4(ans,[ans+1,ans-1,ans+2]);return{mc:true,q,hint,vis,ans,opts,exp,diff};}
+  }
+}
+
+/* ================================================================
+   STATE & NAV
+================================================================ */
+const S={school:'',grade:0,xp:0,streak:0,topicsDone:{},curTopic:null,qs:[],qi:0,correct:0};
+
+const SCHOOL_LABELS={burg:'Burgstrasse',erlen:'Erlensträsschen',higa:'Hinter Gärten',nieder:'Niederholz',wasser:'Wasserstelzen',betti:'Bettingen',prisma:'PRISMA',hebel:'Hebel Sek',acker:'Ackermätteli',klhu:'Kleinhüningen',theodor:'Theodors',dr3:'Dreirosen'};
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+function switchTab(tab){
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('on',['topics','times','game'][i]===tab));
+  if(tab==='topics')backToTopics();
+  else if(tab==='times'){show('s-times');initTimes();}
+  else if(tab==='game')show('s-game');
+}
+
+function startApp(){
+  const school=document.getElementById('sel-school').value;
+  const grade=parseInt(document.getElementById('sel-grade').value);
+  if(!school){document.getElementById('sel-school').style.outline='3px solid #FFD23F';return;}
+  if(!grade){document.getElementById('sel-grade').style.outline='3px solid #FFD23F';return;}
+  document.getElementById('sel-school').style.outline='';
+  document.getElementById('sel-grade').style.outline='';
+  S.school=school;S.grade=grade;
+  document.getElementById('hud-name').textContent=`Kl. ${grade} · ${SCHOOL_LABELS[school]||school}`;
+  document.getElementById('nav-tabs').style.display='flex';
+  buildTopics();
+}
+
+function buildTopics(){
+  const g=S.grade;
+  const prev=(TOPICS[g-1]||TOPICS[1]).map(t=>({...t,tag:'review',gl:`Kl. ${Math.max(1,g-1)}`}));
+  const curr=TOPICS[g].map(t=>({...t,tag:'new',gl:`Kl. ${g}`}));
+  document.getElementById('s-topics').innerHTML=`
+    <div style="padding:10px 0 6px;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;">
+      70% Wiederholung · 30% Neues — Lehrplan 21 · Was Simão dir schuldet 😇
     </div>
-    <div class="footer-meta">
-      Ein Projekt von <span>Red Hippo</span> · Basel-Stadt<br>
-      Lehrplan 21 · Gemeindeschulen Bettingen und Riehen<br>
-      Kostenlos · Für alle · Immer
-    </div>
-    <div class="footer-meta" style="text-align:right">
-      🦛 Made with love<br>
-      for Red Hippo Kids<br>
-      <span>redhippo.ch</span>
-    </div>
-  </div>
-</footer>
+    <div class="topic-grid">${[...prev,...curr].map(t=>`
+      <div class="topic-card" onclick="startTopic('${t.id}','${t.gl}','${t.icon}')">
+        <span class="tc-icon">${t.icon}</span>
+        <div class="tc-name">${t.name}${S.topicsDone[t.id+t.gl]?' ✅':''}</div>
+        <div class="tc-sub">${t.desc} · ${t.gl}</div>
+        <div class="tc-badge ${t.tag==='new'?'new':''}">${t.tag==='review'?'Wiederholung':'Neu'}</div>
+      </div>`).join('')}</div>`;
+  show('s-topics');
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('on',i===0));
+}
+
+/* ================================================================
+   EXERCISE
+================================================================ */
+const CORRECT_MSGS=[
+  ['🎉','BOOM! Richtig!','Dein Hirn arbeitet. Simão wäre überrascht.'],
+  ['🔥','Feuer!','Das sitzt. Jetzt für immer.'],
+  ['🦛','Hippo jubelt!','Weiter so, Superstar!'],
+  ['⭐','Korrekt!','Einfacher als Simãos Erklärungen, oder?'],
+  ['🚀','Abgehooben!','NASA ruft gleich an.'],
+  ['🥊','KO!','Die Aufgabe hat verloren.'],
+];
+const WRONG_MSGS=[
+  ['🤔','Fast! Antwort: ','Auch Simão macht Fehler. Manchmal.'],
+  ['🦛','Hmm! Antwort: ','Nochmal — du packst das!'],
+  ['😅','Knapp! Antwort: ','Das 1×1 gilt auch hier 😄'],
+  ['😬','Oops! Antwort: ','Jeder macht Fehler. Sogar Simão.'],
+];
+
+function startTopic(id,gl,icon){
+  S.curTopic={id,gl,icon};S.qs=Array(5).fill(0).map((_,i)=>makeQ(id,i<3));S.qi=0;S.correct=0;
+  document.getElementById('tip-text').textContent=TIPS[id]||'';
+  renderQ();show('s-ex');
+}
+
+function renderQ(){
+  const q=S.qs[S.qi],tot=S.qs.length;
+  document.getElementById('pips').innerHTML=Array(tot).fill(0).map((_,i)=>`<div class="pip ${i<S.qi?'done':i===S.qi?'now':''}"></div>`).join('');
+  document.getElementById('ex-count').textContent=`${S.qi+1}/${tot}`;
+  document.getElementById('q-label').textContent=q.diff==='easy'?'🟢 Wiederholung':'🟡 Neuer Stoff';
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-hint').textContent=q.hint||'';
+  document.getElementById('q-visual').innerHTML=q.vis||'';
+  const aEl=document.getElementById('q-ans');
+  if(q.mc){
+    aEl.innerHTML=`<div class="ans-grid">${q.opts.map(o=>`<button class="ans-btn" onclick="checkA(this,'${o}','${q.ans}')">${o}</button>`).join('')}</div>`;
+  } else {
+    aEl.innerHTML=`<div class="ans-row"><input class="ans-inp" id="ans-in" type="number" placeholder="?" onkeydown="if(event.key==='Enter')checkI('${q.ans}')"><button class="btn-check" onclick="checkI('${q.ans}')">✓</button></div>`;
+    setTimeout(()=>{const el=document.getElementById('ans-in');if(el)el.focus();},80);
+  }
+  document.getElementById('fb').className='fb';
+  document.getElementById('btn-next').className='btn-next';
+}
+
+function checkA(btn,chosen,correct){
+  btn.closest('.ans-grid').querySelectorAll('.ans-btn').forEach(b=>{b.disabled=true;if(b.textContent===String(correct))b.classList.add('correct');});
+  if(String(chosen)!==String(correct))btn.classList.add('wrong');
+  respond(String(chosen)===String(correct),correct);
+}
+function checkI(correct){
+  const el=document.getElementById('ans-in');if(!el||el.disabled)return;
+  el.disabled=true;const ok=el.value.trim()===String(correct);
+  el.style.borderColor=ok?'#3ECFB2':'#E8192C';respond(ok,correct);
+}
+function respond(ok,correct){
+  const q=S.qs[S.qi];
+  let emoji,msg,sub;
+  if(ok){const p=CORRECT_MSGS[Math.floor(Math.random()*CORRECT_MSGS.length)];[emoji,msg,sub]=p;}
+  else{const p=WRONG_MSGS[Math.floor(Math.random()*WRONG_MSGS.length)];emoji=p[0];msg=p[1]+correct;sub=p[2];}
+  document.getElementById('fb-emoji').textContent=emoji;
+  document.getElementById('fb-msg').textContent=msg;
+  document.getElementById('fb-exp').textContent=sub;
+  document.getElementById('fb').className='fb show '+(ok?'ok':'no');
+  if(ok){S.correct++;S.streak++;S.xp+=q.diff==='easy'?5:12;spawnReact(true);if(S.streak%5===0)confetti(24);else confetti(6);}
+  else{S.streak=0;spawnReact(false);}
+  document.getElementById('hud-xp').textContent=S.xp;
+  document.getElementById('hud-streak').textContent=S.streak>=3?`🔥 ${S.streak}`:'';
+  document.getElementById('btn-next').className='btn-next show';
+}
+function nextQ(){S.qi++;if(S.qi>=S.qs.length)showResult();else renderQ();}
+function backToTopics(){buildTopics();}
+
+function showResult(){
+  const pct=Math.round(S.correct/S.qs.length*100);
+  S.topicsDone[S.curTopic.id+S.curTopic.gl]=true;
+  const msgs={100:['PERFEKT! 🏆','🏆','Alle richtig! Simão würde sich schämen. Du bist besser als der Lehrplan.'],80:['Sehr gut!','🌟','Fast alles! Du lernst mehr hier als in einem ganzen Schuljahr. Statistisch.'],60:['Gut!','💪','Solide! Nochmal — beim zweiten Mal sitzt du das.'],0:['Nochmal!','🦛','Kein Stress. Auch Simão brauchte mehrere Anläufe.']};
+  const k=pct===100?100:pct>=80?80:pct>=60?60:0;
+  const[title,emo,msg]=msgs[k];
+  document.getElementById('res-title').textContent=title;
+  document.getElementById('res-emo').textContent=emo;
+  document.getElementById('res-score').textContent=`${S.correct} / ${S.qs.length}`;
+  document.getElementById('res-stars').textContent=pct>=80?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
+  document.getElementById('res-msg').textContent=msg;
+  const joke=SIMAO_JOKES[Math.floor(Math.random()*SIMAO_JOKES.length)];
+  document.getElementById('res-simao').innerHTML=`<strong>${joke[0]} ${joke[1]}</strong>${joke[2]}`;
+  if(pct>=80)confetti(32);
+  show('s-res');
+}
+function retry(){startTopic(S.curTopic.id,S.curTopic.gl,S.curTopic.icon);}
+
+/* ================================================================
+   1×1 TRAINER — nur 1×1, kein Farbsystem, einfach tippen
+================================================================ */
+const TT={table:1,a:0,b:0,correct:0,total:0,streak:0};
+
+function initTimes(){
+  const p=document.getElementById('tt-picker');
+  p.innerHTML=Array.from({length:10},(_,i)=>`<button class="tt-btn${TT.table===i+1?' on':''}" onclick="setTable(${i+1})">${i+1}</button>`).join('');
+  document.getElementById('tt-card').style.display='block';
+  nextTimesQ();
+}
+
+function setTable(n){
+  TT.table=n;TT.streak=0;
+  document.querySelectorAll('.tt-btn').forEach((b,i)=>b.classList.toggle('on',i===n-1));
+  nextTimesQ();
+}
+
+function nextTimesQ(){
+  TT.b=rnd(1,10);TT.a=TT.table;
+  // occasionally swap so it doesn't feel mechanical
+  if(Math.random()<.3){const tmp=TT.a;TT.a=TT.b;TT.b=tmp;}
+  document.getElementById('tt-q').textContent=`${TT.a} × ${TT.b} = ?`;
+  const inp=document.getElementById('tt-inp');
+  inp.value='';inp.style.borderColor='#0A0A0A';
+  document.getElementById('tt-fb').textContent='';
+  document.getElementById('tt-fb').className='times-fb';
+  setTimeout(()=>inp.focus(),60);
+}
+
+function checkTimes(){
+  const inp=document.getElementById('tt-inp');
+  const val=parseInt(inp.value);
+  const ans=TT.a*TT.b;
+  const ok=val===ans;
+  TT.total++;
+  if(ok){
+    TT.correct++;TT.streak++;
+    inp.style.borderColor='#3ECFB2';
+    const fbs=['Richtig! 🎉','Boom! 🔥','Ja! ✅','Exakt! 🦛','Korrekt! ⭐','Sitzt! 💪'];
+    const streakMsg=TT.streak>=5?` · ${TT.streak}er Streak! 🔥`:'';
+    document.getElementById('tt-fb').textContent=fbs[Math.floor(Math.random()*fbs.length)]+streakMsg;
+    document.getElementById('tt-fb').className='times-fb ok';
+    confetti(8);
+    setTimeout(nextTimesQ,700);
+  } else {
+    TT.streak=0;
+    inp.style.borderColor='#E8192C';
+    const wrongMsgs=[
+      `Nein! ${TT.a}×${TT.b} = ${ans}. Simão hätte das erklärt. Hätte.`,
+      `Fast! Aber ${TT.a}×${TT.b} = ${ans}. Nochmal!`,
+      `${ans}! Nicht ${val||'?'}. Merken! 🧠`,
+      `${TT.a}×${TT.b} = ${ans}. Kein Schuldiger außer Simão. 😄`,
+    ];
+    document.getElementById('tt-fb').textContent=wrongMsgs[Math.floor(Math.random()*wrongMsgs.length)];
+    document.getElementById('tt-fb').className='times-fb no';
+    setTimeout(()=>{inp.value='';inp.style.borderColor='#0A0A0A';inp.focus();},1400);
+  }
+  document.getElementById('tt-score').textContent=`${TT.correct} / ${TT.total} richtig · Reihe ${TT.table}`;
+}
+
+/* ================================================================
+   GAME — nur 1×1, 3 fallende Zahlen, einfach
+================================================================ */
+const G={on:false,score:0,best:0,lives:3,ival:null,fallers:[],q:null,hipX:50};
+
+function startGame(){
+  G.on=true;G.score=0;G.lives=3;G.fallers=[];
+  document.getElementById('g-over').style.display='none';
+  document.querySelectorAll('.faller').forEach(e=>e.remove());
+  updateGHUD();nextGameQ();
+  G.ival=setInterval(()=>{
+    G.fallers.forEach(el=>{
+      if(!el.dataset.hit){
+        const r=el.getBoundingClientRect();
+        const ar=document.getElementById('game-arena').getBoundingClientRect();
+        if(r.top>ar.bottom+5&&!el.dataset.missed){
+          if(el.dataset.correct==='1'){
+            el.dataset.missed='1';loseLife();
+          }
+        }
+      }
+    });
+  },100);
+  const arena=document.getElementById('game-arena');
+  arena.onmousemove=e=>{const r=arena.getBoundingClientRect();G.hipX=Math.max(8,Math.min(92,((e.clientX-r.left)/r.width)*100));document.getElementById('g-hippo').style.left=G.hipX+'%';};
+  arena.ontouchmove=e=>{e.preventDefault();const r=arena.getBoundingClientRect();G.hipX=Math.max(8,Math.min(92,((e.touches[0].clientX-r.left)/r.width)*100));document.getElementById('g-hippo').style.left=G.hipX+'%';};
+}
+
+function nextGameQ(){
+  if(!G.on)return;
+  // only 1×1
+  const a=rnd(1,10),b=rnd(1,10);
+  G.q={a,b,ans:a*b};
+  document.getElementById('g-question').textContent=`${a} × ${b} = ?`;
+  document.querySelectorAll('.faller').forEach(e=>e.remove());
+  G.fallers=[];
+  // 3 options: correct + 2 wrong
+  const correct=a*b;
+  let wrongs=[];
+  while(wrongs.length<2){const w=correct+rnd(-8,8);if(w!==correct&&w>0&&!wrongs.includes(w))wrongs.push(w);}
+  const opts=[correct,...wrongs].sort(()=>Math.random()-.5);
+  const speed=Math.max(3500-G.score*120,1400);
+  const arena=document.getElementById('game-arena');
+  opts.forEach((v,i)=>{
+    const el=document.createElement('div');
+    el.className='faller';
+    el.textContent=v;
+    el.style.left=(12+i*30+rnd(-6,6))+'%';
+    el.style.animationDuration=speed+'ms';
+    el.dataset.correct=v===correct?'1':'0';
+    el.onclick=()=>hitFaller(el,v,correct);
+    el.ontouchstart=e=>{e.preventDefault();hitFaller(el,v,correct);};
+    arena.appendChild(el);
+    G.fallers.push(el);
+  });
+}
+
+function hitFaller(el,val,correct){
+  if(!G.on||el.dataset.hit)return;
+  el.dataset.hit='1';
+  if(val===correct){
+    G.score++;if(G.score>G.best)G.best=G.score;
+    el.style.background='#3ECFB2';el.style.transform='scale(1.3)';
+    confetti(10);spawnReact(true);
+    updateGHUD();
+    document.querySelectorAll('.faller').forEach(e=>{if(!e.dataset.hit)e.dataset.hit='skip';});
+    setTimeout(nextGameQ,350);
+  } else {
+    el.style.background='#555';loseLife();
+  }
+}
+
+function loseLife(){
+  G.lives--;updateGHUD();
+  if(G.lives<=0)gameOver();
+  else{document.querySelectorAll('.faller').forEach(e=>e.remove());G.fallers=[];setTimeout(nextGameQ,300);}
+}
+
+function updateGHUD(){
+  document.getElementById('g-score').textContent=G.score;
+  document.getElementById('g-best').textContent=G.best;
+  document.getElementById('g-lives').textContent='❤️'.repeat(Math.max(0,G.lives))+'🖤'.repeat(3-Math.max(0,G.lives));
+}
+
+function gameOver(){
+  G.on=false;clearInterval(G.ival);document.querySelectorAll('.faller').forEach(e=>e.remove());G.fallers=[];
+  const msgs=[
+    `Score: ${G.score}. Auch Simão hätte jetzt aufgehört.`,
+    `${G.score} Punkte! Mehr als Simão je erklärt hat.`,
+    `Score ${G.score}. Game Over — genau wie Simãos Unterricht. 😂`,
+    `${G.score} Punkte. Gut. Besser als eine durchschnittliche Simão-Stunde.`,
+  ];
+  document.getElementById('g-over-msg').textContent=msgs[Math.floor(Math.random()*msgs.length)];
+  document.getElementById('g-over').style.display='flex';
+  document.getElementById('g-question').textContent='▶ START drücken';
+}
+
+/* ================================================================
+   FX
+================================================================ */
+const HR=['🦛 Bravo!','🦛 Mega!','🦛 YES!','🦛 Feuer!','🦛 Top!','🦛 Boom!'];
+const HW=['🦛 Fast!','🦛 Nochmal!','🦛 Du schaffst das!'];
+function spawnReact(ok){
+  const r=document.createElement('div');r.className='react';
+  const b=document.createElement('div');b.className='bubble';
+  r.textContent=ok?['🎉','🦛','⭐','🔥','💥','🏆'][Math.floor(Math.random()*6)]:'🤔';
+  b.textContent=ok?HR[Math.floor(Math.random()*HR.length)]:HW[Math.floor(Math.random()*HW.length)];
+  document.body.appendChild(r);document.body.appendChild(b);
+  setTimeout(()=>{r.remove();b.remove();},2400);
+}
+function confetti(n){
+  const cols=['#E8192C','#FFD23F','#3ECFB2','#4AB3F4','#9B5DE5','#fff'];
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div');el.className='conf';
+    el.style.cssText=`left:${Math.random()*100}vw;top:0;position:fixed;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'2px'};pointer-events:none;z-index:9999`;
+    el.style['--d']=(1+Math.random())+'s';el.style['--del']=(Math.random()*.3)+'s';
+    document.body.appendChild(el);setTimeout(()=>el.remove(),2400);
+  }
+}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+</script>
 
 </body>
 </html>
