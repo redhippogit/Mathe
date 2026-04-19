@@ -1,415 +1,1170 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1280">
-<title>Red Hippo Kids – GitHub Banner</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,900;1,900&family=Barlow:wght@700;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Hippo Kids — Mathe</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,900&family=Barlow:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ================================================================
+   BASE
+================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–red:   #E8192C;
+–red2:  #C0101F;
+–black: #0A0A0A;
+–white: #FFFFFF;
+–grey:  #F2F2F2;
+–muted: #888;
+}
+
+html { scroll-behavior: smooth; }
 
 body {
-width: 1280px;
-height: 640px;
-overflow: hidden;
-background: #E8192C;
-font-family: ‘Barlow Condensed’, sans-serif;
+font-family: ‘Barlow’, sans-serif;
+background: var(–white);
+color: var(–black);
+overflow-x: hidden;
+cursor: default;
 }
 
-.canvas {
-width: 1280px;
-height: 640px;
-position: relative;
-background: #E8192C;
-overflow: hidden;
-}
-
-/* –– TEXTURE GRAIN –– */
-.canvas::before {
-content: ‘’;
-position: absolute;
-inset: 0;
-background-image:
-repeating-linear-gradient(
-0deg,
-transparent,
-transparent 3px,
-rgba(0,0,0,0.03) 3px,
-rgba(0,0,0,0.03) 4px
-);
-z-index: 1;
-pointer-events: none;
-}
-
-/* –– TOP BAR –– */
+/* ================================================================
+TOPBAR
+================================================================ */
 .topbar {
-position: absolute;
+position: fixed;
 top: 0; left: 0; right: 0;
-height: 52px;
-background: #fff;
+height: 56px;
+background: var(–white);
+border-bottom: 4px solid var(–black);
 display: flex;
 align-items: center;
 justify-content: space-between;
-padding: 0 48px;
-z-index: 10;
-border-bottom: 5px solid #000;
+padding: 0 40px;
+z-index: 100;
 }
-.topbar-left {
+
+.topbar-logo {
 display: flex;
 align-items: center;
-gap: 14px;
+gap: 12px;
+text-decoration: none;
 }
-.cross {
+.logo-cross {
 width: 32px; height: 32px;
-background: #E8192C;
-border-radius: 4px;
+background: var(–red);
 display: flex; align-items: center; justify-content: center;
-font-size: 20px;
+border-radius: 4px;
+font-size: 1.1rem;
 color: white;
 font-weight: 900;
 flex-shrink: 0;
 }
-.brand-name {
+.logo-name {
 font-family: ‘Barlow Condensed’, sans-serif;
 font-weight: 900;
-font-size: 1.15rem;
+font-size: 1.1rem;
 letter-spacing: 3px;
 text-transform: uppercase;
-color: #000;
+color: var(–black);
 }
-.topbar-right {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .75rem;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: #666;
+
+.topbar-nav {
 display: flex;
 align-items: center;
-gap: 8px;
-}
-.topbar-right span { color: #E8192C; font-weight: 900; }
-
-/* –– BIG LEFT TEXT –– */
-.headline {
-position: absolute;
-top: 92px;
-left: 48px;
-z-index: 10;
-}
-.headline-main {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-style: italic;
-font-size: 11.5rem;
-line-height: .88;
-color: #fff;
-text-transform: uppercase;
-letter-spacing: -2px;
-text-shadow: 6px 6px 0 rgba(0,0,0,0.18);
-}
-.headline-main .outline {
--webkit-text-stroke: 3px rgba(255,255,255,0.5);
-color: transparent;
-}
-.subline {
-margin-top: 18px;
-font-family: ‘Barlow’, sans-serif;
-font-weight: 700;
-font-size: 1.05rem;
-letter-spacing: 1.5px;
-color: rgba(255,255,255,0.75);
-text-transform: uppercase;
-max-width: 420px;
-line-height: 1.5;
-}
-
-/* –– CTA BUTTON –– */
-.cta {
-position: absolute;
-bottom: 52px;
-left: 48px;
-background: white;
-color: #E8192C;
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 1.2rem;
-letter-spacing: 2px;
-text-transform: uppercase;
-padding: 14px 28px;
-border: 4px solid #000;
-box-shadow: 5px 5px 0 #000;
-z-index: 10;
-display: flex;
-align-items: center;
-gap: 10px;
-}
-.cta-arrow {
-font-style: normal;
-font-size: 1.4rem;
-}
-
-/* –– STATS GRID (right side) –– */
-.stats {
-position: absolute;
-right: 48px;
-top: 90px;
-width: 460px;
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 10px;
-z-index: 10;
-}
-.stat-box {
-background: rgba(0,0,0,0.18);
-border: 2px solid rgba(255,255,255,0.18);
-padding: 20px 22px;
-position: relative;
-}
-.stat-box.white {
-background: #fff;
-border-color: #fff;
-}
-.stat-box.black {
-background: #000;
-border-color: #000;
-}
-.stat-num {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: 2.6rem;
-line-height: 1;
-color: #fff;
-letter-spacing: -1px;
-}
-.stat-box.white .stat-num { color: #E8192C; }
-.stat-box.black .stat-num { color: #fff; }
-.stat-label {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700;
-font-size: .72rem;
-letter-spacing: 1.5px;
-text-transform: uppercase;
-color: rgba(255,255,255,0.55);
-margin-top: 5px;
-line-height: 1.4;
-}
-.stat-box.white .stat-label { color: rgba(0,0,0,0.45); }
-.stat-box.black .stat-label { color: rgba(255,255,255,0.55); }
-
-/* Emoji big in top-right of box */
-.stat-emoji {
-position: absolute;
-top: 12px; right: 14px;
-font-size: 1.6rem;
-opacity: .35;
-}
-
-/* –– MASCOT –– */
-.hippo-big {
-position: absolute;
-bottom: -10px;
-right: 240px;
-font-size: 9rem;
-line-height: 1;
-z-index: 8;
-filter: drop-shadow(-8px 8px 0 rgba(0,0,0,0.25));
-transform: scaleX(-1);
-}
-
-/* –– BOTTOM STRIP –– */
-.bottom-strip {
-position: absolute;
-bottom: 0; left: 0; right: 0;
-height: 44px;
-background: #000;
-display: flex;
-align-items: center;
-padding: 0 48px;
 gap: 0;
-z-index: 10;
-overflow: hidden;
 }
-.ticker-text {
+.topbar-nav a {
 font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 900;
-font-size: .85rem;
-letter-spacing: 3px;
+font-weight: 700;
+font-size: .78rem;
+letter-spacing: 2.5px;
 text-transform: uppercase;
-color: #fff;
-white-space: nowrap;
+color: var(–black);
+text-decoration: none;
+padding: 0 20px;
+height: 56px;
+display: flex;
+align-items: center;
+border-left: 2px solid #eee;
+transition: background .15s, color .15s;
 }
-.ticker-sep {
-color: #E8192C;
-margin: 0 16px;
-font-size: 1.2rem;
+.topbar-nav a:hover { background: var(–black); color: var(–white); }
+.topbar-nav a.cta-nav {
+background: var(–red);
+color: var(–white);
+border-left: 2px solid var(–black);
 }
+.topbar-nav a.cta-nav:hover { background: var(–red2); }
 
-/* –– DIAGONAL ACCENT –– */
-.diagonal {
-position: absolute;
-top: 52px;
-left: 500px;
-width: 5px;
-height: 590px;
-background: rgba(0,0,0,0.12);
-transform: rotate(12deg) translateX(-50%);
-z-index: 2;
-}
-.diagonal2 {
-position: absolute;
-top: 52px;
-left: 520px;
-width: 2px;
-height: 590px;
-background: rgba(255,255,255,0.08);
-transform: rotate(12deg) translateX(-50%);
-z-index: 2;
-}
-
-/* –– CORNER TAG –– */
-.corner-tag {
-position: absolute;
-top: 68px;
-right: 48px;
+.topbar-right {
 font-family: ‘Barlow Condensed’, sans-serif;
 font-weight: 700;
 font-size: .7rem;
 letter-spacing: 2px;
-color: rgba(255,255,255,0.4);
 text-transform: uppercase;
-text-align: right;
-z-index: 10;
-line-height: 1.8;
+color: var(–muted);
+}
+.topbar-right strong { color: var(–red); }
+
+/* ================================================================
+HERO
+================================================================ */
+.hero {
+min-height: 100vh;
+background: var(–red);
+padding-top: 56px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+position: relative;
+overflow: hidden;
 }
 
-/* –– BADGE –– */
-.badge-lp21 {
+/* scanlines texture */
+.hero::before {
+content: ‘’;
 position: absolute;
-top: 68px;
-left: 48px;
-background: #000;
-color: #fff;
+inset: 0;
+background-image: repeating-linear-gradient(
+0deg,
+transparent, transparent 3px,
+rgba(0,0,0,0.025) 3px, rgba(0,0,0,0.025) 4px
+);
+pointer-events: none;
+z-index: 1;
+}
+
+.hero-left {
+padding: 80px 48px 80px 48px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+position: relative;
+z-index: 2;
+}
+
+.hero-eyebrow {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .72rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: rgba(255,255,255,.55);
+margin-bottom: 20px;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.hero-eyebrow::before {
+content: ‘’;
+width: 32px; height: 2px;
+background: rgba(255,255,255,.4);
+display: block;
+}
+
+.hero-h1 {
 font-family: ‘Barlow Condensed’, sans-serif;
 font-weight: 900;
+font-style: italic;
+font-size: clamp(5rem, 10vw, 9rem);
+line-height: .88;
+color: var(–white);
+text-transform: uppercase;
+letter-spacing: -2px;
+text-shadow: 6px 6px 0 rgba(0,0,0,.15);
+}
+.hero-h1 .outline {
+-webkit-text-stroke: 3px rgba(255,255,255,.45);
+color: transparent;
+}
+
+.hero-sub {
+margin-top: 28px;
+font-family: ‘Barlow’, sans-serif;
+font-weight: 400;
+font-size: 1rem;
+line-height: 1.65;
+color: rgba(255,255,255,.7);
+max-width: 380px;
+}
+.hero-sub strong { color: var(–white); font-weight: 700; }
+
+.hero-cta-row {
+margin-top: 40px;
+display: flex;
+gap: 14px;
+flex-wrap: wrap;
+}
+.btn-primary {
+background: var(–white);
+color: var(–red);
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 16px 32px;
+border: 4px solid var(–black);
+box-shadow: 5px 5px 0 var(–black);
+cursor: pointer;
+text-decoration: none;
+display: inline-flex;
+align-items: center;
+gap: 10px;
+transition: transform .1s, box-shadow .1s;
+}
+.btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(–black); }
+.btn-primary:active { transform: translate(3px,3px); box-shadow: 2px 2px 0 var(–black); }
+
+.btn-secondary {
+background: transparent;
+color: var(–white);
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 16px 32px;
+border: 3px solid rgba(255,255,255,.4);
+cursor: pointer;
+text-decoration: none;
+display: inline-flex;
+align-items: center;
+gap: 10px;
+transition: border-color .15s, background .15s;
+}
+.btn-secondary:hover { border-color: white; background: rgba(255,255,255,.1); }
+
+/* hero right — stat boxes */
+.hero-right {
+display: flex;
+align-items: center;
+justify-content: flex-end;
+padding: 80px 48px 80px 24px;
+position: relative;
+z-index: 2;
+}
+
+.stat-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+width: 420px;
+}
+
+.stat-box {
+padding: 28px 24px;
+background: rgba(0,0,0,.16);
+border: 2px solid rgba(255,255,255,.14);
+position: relative;
+}
+.stat-box.white { background: var(–white); border-color: var(–white); }
+.stat-box.black { background: var(–black); border-color: var(–black); }
+
+.stat-num {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 3rem;
+line-height: 1;
+color: var(–white);
+letter-spacing: -1px;
+}
+.stat-box.white .stat-num { color: var(–red); }
+
+.stat-label {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .68rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: rgba(255,255,255,.5);
+margin-top: 7px;
+line-height: 1.5;
+}
+.stat-box.white .stat-label { color: rgba(0,0,0,.4); }
+
+.stat-emoji {
+position: absolute;
+top: 14px; right: 14px;
+font-size: 1.4rem;
+opacity: .25;
+}
+
+/* mascot */
+.hero-mascot {
+position: absolute;
+bottom: 0;
+right: 48px;
+font-size: clamp(6rem, 12vw, 11rem);
+line-height: 1;
+z-index: 3;
+filter: drop-shadow(-6px 4px 0 rgba(0,0,0,.2));
+transform: scaleX(-1);
+pointer-events: none;
+}
+
+/* diagonal */
+.hero-diagonal {
+position: absolute;
+top: 0; bottom: 0;
+left: 50%;
+width: 4px;
+background: rgba(0,0,0,.1);
+transform: rotate(8deg) translateX(-50%);
+z-index: 1;
+}
+
+/* ================================================================
+TICKER
+================================================================ */
+.ticker {
+background: var(–black);
+height: 46px;
+display: flex;
+align-items: center;
+overflow: hidden;
+position: relative;
+border-top: 4px solid var(–black);
+border-bottom: 4px solid var(–black);
+}
+
+.ticker-track {
+display: flex;
+gap: 0;
+animation: tickerMove 28s linear infinite;
+white-space: nowrap;
+}
+
+@keyframes tickerMove {
+from { transform: translateX(0); }
+to { transform: translateX(-50%); }
+}
+
+.ticker-item {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: .82rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–white);
+padding: 0 0;
+}
+.ticker-sep {
+color: var(–red);
+margin: 0 20px;
+font-size: 1rem;
+font-weight: 900;
+}
+
+/* ================================================================
+SECTION — WIE ES FUNKTIONIERT
+================================================================ */
+.section {
+padding: 100px 48px;
+max-width: 1280px;
+margin: 0 auto;
+}
+
+.section-tag {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
 font-size: .72rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–red);
+margin-bottom: 16px;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.section-tag::before {
+content: ‘’;
+width: 28px; height: 3px;
+background: var(–red);
+display: block;
+}
+
+.section-h2 {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-style: italic;
+font-size: clamp(3rem, 6vw, 5.5rem);
+line-height: .9;
+text-transform: uppercase;
+color: var(–black);
+letter-spacing: -1px;
+max-width: 700px;
+}
+.section-h2 em { color: var(–red); font-style: italic; }
+
+.section-lead {
+margin-top: 24px;
+font-size: 1.05rem;
+line-height: 1.7;
+color: #444;
+max-width: 520px;
+}
+
+/* HOW IT WORKS — 3 steps */
+.steps {
+margin-top: 64px;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 0;
+border: 4px solid var(–black);
+}
+
+.step {
+padding: 40px 36px;
+border-right: 4px solid var(–black);
+position: relative;
+}
+.step:last-child { border-right: none; }
+
+.step-num {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 5rem;
+line-height: 1;
+color: var(–red);
+opacity: .15;
+position: absolute;
+top: 20px; right: 20px;
+letter-spacing: -3px;
+}
+.step-icon { font-size: 2.4rem; margin-bottom: 18px; }
+.step-title {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1.5rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 10px;
+}
+.step-text { font-size: .92rem; line-height: 1.65; color: #555; }
+.step-tag {
+margin-top: 20px;
+display: inline-block;
+background: var(–black);
+color: var(–white);
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .68rem;
 letter-spacing: 2px;
 text-transform: uppercase;
 padding: 5px 12px;
-z-index: 10;
+}
+
+/* ================================================================
+RED SECTION — 70/30
+================================================================ */
+.red-section {
+background: var(–red);
+padding: 100px 48px;
+position: relative;
+overflow: hidden;
+}
+.red-section::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background-image: repeating-linear-gradient(
+0deg, transparent, transparent 3px,
+rgba(0,0,0,.025) 3px, rgba(0,0,0,.025) 4px
+);
+pointer-events: none;
+}
+
+.red-inner {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+align-items: center;
+position: relative;
+z-index: 1;
+}
+
+.red-left .section-tag { color: rgba(255,255,255,.6); }
+.red-left .section-tag::before { background: rgba(255,255,255,.6); }
+.red-left .section-h2 { color: var(–white); }
+.red-left .section-h2 em { color: var(–black); }
+.red-left .section-lead { color: rgba(255,255,255,.75); }
+
+.ratio-visual {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+.ratio-bar-wrap {
+display: flex;
+align-items: center;
+gap: 16px;
+}
+.ratio-label {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1rem;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(–white);
+width: 55px;
+flex-shrink: 0;
+}
+.ratio-bar-outer {
+flex: 1;
+height: 48px;
+background: rgba(0,0,0,.2);
+border: 3px solid rgba(255,255,255,.2);
+position: relative;
+}
+.ratio-bar-inner {
+height: 100%;
+display: flex;
+align-items: center;
+padding-left: 14px;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1.1rem;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(–black);
+}
+.ratio-bar-inner.r70 {
+width: 70%;
+background: var(–white);
+}
+.ratio-bar-inner.r30 {
+width: 30%;
+background: var(–black);
+color: var(–white);
+}
+
+.ratio-note {
+margin-top: 28px;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .78rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: rgba(255,255,255,.5);
+line-height: 1.7;
+border-left: 3px solid rgba(255,255,255,.25);
+padding-left: 16px;
+}
+
+/* ================================================================
+SCHULEN SECTION
+================================================================ */
+.schulen-section {
+background: var(–black);
+padding: 100px 48px;
+}
+.schulen-inner {
+max-width: 1280px;
+margin: 0 auto;
+}
+.schulen-inner .section-tag { color: var(–red); }
+.schulen-inner .section-tag::before { background: var(–red); }
+.schulen-inner .section-h2 { color: var(–white); }
+.schulen-inner .section-h2 em { color: var(–red); }
+
+.schulen-grid {
+margin-top: 56px;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 0;
+border: 3px solid #222;
+}
+
+.schule-card {
+padding: 32px 28px;
+border-right: 3px solid #222;
+border-bottom: 3px solid #222;
+transition: background .15s;
+cursor: default;
+}
+.schule-card:hover { background: #111; }
+.schule-card:nth-child(3n) { border-right: none; }
+.schule-card:nth-child(n+7) { border-bottom: none; }
+
+.schule-emoji { font-size: 2rem; margin-bottom: 12px; }
+.schule-name {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1.1rem;
+text-transform: uppercase;
+letter-spacing: .5px;
+color: var(–white);
+margin-bottom: 4px;
+}
+.schule-addr {
+font-size: .8rem;
+color: #555;
+margin-bottom: 10px;
+line-height: 1.4;
+}
+.schule-fact {
+font-size: .78rem;
+color: #666;
+line-height: 1.5;
+font-style: italic;
+}
+.schule-tag {
+margin-top: 12px;
+display: inline-block;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .62rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+padding: 3px 9px;
+background: var(–red);
+color: var(–white);
+}
+.schule-tag.sek { background: #333; }
+
+/* ================================================================
+THEMEN SECTION
+================================================================ */
+.themen-section {
+padding: 100px 48px;
+background: var(–grey);
+}
+.themen-inner {
+max-width: 1280px;
+margin: 0 auto;
+}
+
+.themen-grid {
+margin-top: 56px;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 0;
+border: 4px solid var(–black);
+}
+
+.thema-tile {
+padding: 36px 28px;
+border-right: 4px solid var(–black);
+border-bottom: 4px solid var(–black);
+background: var(–white);
+transition: background .15s, color .15s;
+cursor: default;
+position: relative;
+overflow: hidden;
+}
+.thema-tile:nth-child(4n) { border-right: none; }
+.thema-tile:nth-last-child(-n+4) { border-bottom: none; }
+.thema-tile:hover { background: var(–red); }
+.thema-tile:hover .thema-name,
+.thema-tile:hover .thema-stufe { color: var(–white); }
+.thema-tile:hover .thema-icon-bg { opacity: .08; }
+
+.thema-icon-bg {
+position: absolute;
+bottom: -10px; right: -10px;
+font-size: 5rem;
+opacity: .04;
+pointer-events: none;
+transition: opacity .15s;
+}
+.thema-icon { font-size: 1.8rem; margin-bottom: 14px; }
+.thema-name {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1.2rem;
+text-transform: uppercase;
+letter-spacing: .5px;
+color: var(–black);
+margin-bottom: 4px;
+transition: color .15s;
+}
+.thema-stufe {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .7rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: var(–muted);
+transition: color .15s;
+}
+
+/* ================================================================
+CTA FULL-WIDTH SECTION
+================================================================ */
+.cta-section {
+background: var(–white);
+border-top: 4px solid var(–black);
+border-bottom: 4px solid var(–black);
+padding: 100px 48px;
+text-align: center;
+}
+.cta-section .section-tag { justify-content: center; }
+.cta-section .section-tag::before { display: none; }
+.cta-h2 {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-style: italic;
+font-size: clamp(3.5rem, 7vw, 7rem);
+line-height: .88;
+text-transform: uppercase;
+color: var(–black);
+letter-spacing: -2px;
+margin: 20px 0 40px;
+}
+.cta-h2 em { color: var(–red); }
+.cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ================================================================
+FOOTER
+================================================================ */
+footer {
+background: var(–black);
+padding: 48px;
+border-top: 4px solid #222;
+}
+.footer-inner {
+max-width: 1280px;
+margin: 0 auto;
+display: flex;
+align-items: center;
+justify-content: space-between;
+flex-wrap: wrap;
+gap: 20px;
+}
+.footer-logo {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.footer-name {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–white);
+}
+.footer-meta {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .7rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #444;
+line-height: 1.8;
+}
+.footer-meta span { color: var(–red); }
+
+/* ================================================================
+RESPONSIVE
+================================================================ */
+@media (max-width: 900px) {
+.hero { grid-template-columns: 1fr; }
+.hero-right { display: none; }
+.steps { grid-template-columns: 1fr; }
+.step { border-right: none; border-bottom: 4px solid var(–black); }
+.step:last-child { border-bottom: none; }
+.red-inner { grid-template-columns: 1fr; gap: 48px; }
+.schulen-grid { grid-template-columns: 1fr 1fr; }
+.schule-card:nth-child(2n) { border-right: none; }
+.themen-grid { grid-template-columns: 1fr 1fr; }
+.thema-tile:nth-child(2n) { border-right: none; }
+.topbar-nav { display: none; }
+.section { padding: 64px 24px; }
 }
 </style>
 
 </head>
 <body>
-<div class="canvas">
 
-  <!-- Diagonal accents -->
+<!-- ============================================================
+     TOPBAR
+============================================================ -->
 
-  <div class="diagonal"></div>
-  <div class="diagonal2"></div>
+<nav class="topbar">
+  <a class="topbar-logo" href="#">
+    <div class="logo-cross">+</div>
+    <div class="logo-name">Red Hippo Kids</div>
+  </a>
+  <nav class="topbar-nav">
+    <a href="#wie">Wie es funktioniert</a>
+    <a href="#schulen">Schulen</a>
+    <a href="#themen">Themen</a>
+    <a href="redhippo-mathe-v3.html" class="cta-nav">→ Jetzt lernen</a>
+  </nav>
+  <div class="topbar-right">Ein Projekt von <strong>🦛 Red Hippo</strong> · Basel-Stadt</div>
+</nav>
 
-  <!-- TOP BAR -->
+<!-- ============================================================
+     HERO
+============================================================ -->
 
-  <div class="topbar">
-    <div class="topbar-left">
-      <div class="cross">+</div>
-      <div class="brand-name">Red Hippo Kids</div>
-    </div>
-    <div class="topbar-right">
-      Ein Projekt von <span>🦛 Red Hippo</span> &nbsp;·&nbsp; Basel-Stadt &nbsp;·&nbsp; Lehrplan 21
-    </div>
-  </div>
+<section class="hero">
+  <div class="hero-diagonal"></div>
 
-  <!-- LP21 badge -->
-
-  <div class="badge-lp21">Lehrplan 21 · Open Source</div>
-
-  <!-- BIG HEADLINE -->
-
-  <div class="headline">
-    <div class="headline-main">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Basel-Stadt · Lehrplan 21 · Klasse 1–9</div>
+    <h1 class="hero-h1">
       MATHE<br>
       <span class="outline">MACHT</span><br>
       SPASS.
-    </div>
-    <div class="subline">
-      70% Wiederholung · 30% Neues<br>
-      Klasse 1–9 · Basel-Stadt · Kostenlos
-    </div>
-  </div>
-
-  <!-- CTA -->
-
-  <div class="cta">
-    <span class="cta-arrow">→</span>
-    Jetzt lernen · redhippo.ch
-  </div>
-
-  <!-- HIPPO MASCOT -->
-
-  <div class="hippo-big">🦛</div>
-
-  <!-- STATS GRID -->
-
-  <div class="stats">
-    <div class="stat-box white">
-      <div class="stat-emoji">📚</div>
-      <div class="stat-num">9</div>
-      <div class="stat-label">Schuljahre<br>abgedeckt</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-emoji">🏫</div>
-      <div class="stat-num">6+</div>
-      <div class="stat-label">Schulen<br>Riehen & Basel</div>
-    </div>
-    <div class="stat-box black">
-      <div class="stat-emoji">🔥</div>
-      <div class="stat-num">70/30</div>
-      <div class="stat-label">Erfolgs-Formel<br>Lehrplan 21</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-emoji">🦛</div>
-      <div class="stat-num">∞</div>
-      <div class="stat-label">Aufgaben<br>generiert</div>
+    </h1>
+    <p class="hero-sub">
+      Wohin. Wieviel. Was du rechnen sollst.<br>
+      <strong>Zahlen. Keine Ausreden.</strong><br><br>
+      Personalisiert auf deine Schule, deine Klasse —<br>
+      und gebaut damit du wirklich weiterkommst.
+    </p>
+    <div class="hero-cta-row">
+      <a href="redhippo-mathe-v3.html" class="btn-primary">→ Schaden berechnen</a>
+      <a href="#wie" class="btn-secondary">↓ Wie es funktioniert</a>
     </div>
   </div>
 
-  <!-- corner tag -->
-
-  <div class="corner-tag">
-    github.com/<br>
-    redhippo/mathe
+  <div class="hero-right">
+    <div class="stat-grid">
+      <div class="stat-box white">
+        <div class="stat-emoji">📚</div>
+        <div class="stat-num">9</div>
+        <div class="stat-label">Schuljahre<br>abgedeckt</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-emoji">🏫</div>
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Schulen Riehen<br>&amp; Basel</div>
+      </div>
+      <div class="stat-box black">
+        <div class="stat-emoji">🔥</div>
+        <div class="stat-num">70/30</div>
+        <div class="stat-label">Erfolgs-Formel<br>Lehrplan 21</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-emoji">🦛</div>
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Aufgaben<br>generiert</div>
+      </div>
+    </div>
   </div>
 
-  <!-- BOTTOM STRIP -->
+  <div class="hero-mascot">🦛</div>
+</section>
 
-  <div class="bottom-strip">
-    <span class="ticker-text">Zahlen &amp; Operationen</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Zahlenstrang</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Multiplizieren</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Brüche</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Prozent</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Gleichungen</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Lehrplan 21</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Red Hippo Kids</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Basel-Stadt</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Open Source</span>
-    <span class="ticker-sep">✦</span>
-    <span class="ticker-text">Kostenlos</span>
-    <span class="ticker-sep">✦</span>
+<!-- ============================================================
+     TICKER
+============================================================ -->
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Zahlen &amp; Operationen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Zahlenstrang</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Kleines 1×1</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Brüche</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Prozent</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Gleichungen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Negative Zahlen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Dezimalzahlen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Lehrplan 21</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Red Hippo Kids</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Basel-Stadt</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Kostenlos</span><span class="ticker-sep">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Zahlen &amp; Operationen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Zahlenstrang</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Kleines 1×1</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Brüche</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Prozent</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Gleichungen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Negative Zahlen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Dezimalzahlen</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Lehrplan 21</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Red Hippo Kids</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Basel-Stadt</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Kostenlos</span><span class="ticker-sep">✦</span>
   </div>
-
 </div>
+
+<!-- ============================================================
+     WIE ES FUNKTIONIERT
+============================================================ -->
+
+<section id="wie">
+  <div class="section">
+    <div class="section-tag">Wie es funktioniert</div>
+    <h2 class="section-h2">DREI<br><em>SCHRITTE.</em><br>FERTIG.</h2>
+    <p class="section-lead">Kein Login. Keine App. Kein Abo. Einfach Schule wählen, loslegen — und besser werden.</p>
+
+```
+<div class="steps">
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-icon">🏫</div>
+    <div class="step-title">Schule wählen</div>
+    <p class="step-text">Wähle deine Schule in Riehen oder Basel-Stadt. Das Programm kennt alle 6 Primarstufenstandorte und passt sich an.</p>
+    <div class="step-tag">Personalisiert</div>
+  </div>
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-icon">📐</div>
+    <div class="step-title">Klasse angeben</div>
+    <p class="step-text">Klasse 1 bis 9. Primarschule oder Sek. Das System wählt automatisch 70% Wiederholungsstoff und 30% Neues — nach Lehrplan 21.</p>
+    <div class="step-tag">Lehrplan 21</div>
+  </div>
+  <div class="step">
+    <div class="step-num">03</div>
+    <div class="step-icon">🚀</div>
+    <div class="step-title">Rechnen &amp; gewinnen</div>
+    <p class="step-text">XP sammeln, Streaks aufbauen, Abzeichen holen. Red Hippo erklärt jeden Fehler sofort — kein Frust, nur Fortschritt.</p>
+    <div class="step-tag">Gamified</div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ============================================================
+     70/30 RED SECTION
+============================================================ -->
+
+<div class="red-section">
+  <div class="red-inner">
+    <div class="red-left">
+      <div class="section-tag">Die Formel</div>
+      <h2 class="section-h2">ERFOLG<br><em>FIRST.</em></h2>
+      <p class="section-lead">Internationale Lernforschung zeigt: Wer immer am Limit kämpft, gibt auf. Wer immer nur Altbekanntes macht, stagniert. 70/30 ist der Sweet Spot.</p>
+      <div class="ratio-note">
+        Nach Lehrplan 21 · Kanton Basel-Stadt<br>
+        Primarstufe Bettingen und Riehen · Gemeindeschulen
+      </div>
+    </div>
+    <div class="red-right">
+      <div class="ratio-visual">
+        <div class="ratio-bar-wrap">
+          <div class="ratio-label">70%</div>
+          <div class="ratio-bar-outer">
+            <div class="ratio-bar-inner r70">Wiederholung · Klasse darunter</div>
+          </div>
+        </div>
+        <div class="ratio-bar-wrap">
+          <div class="ratio-label">30%</div>
+          <div class="ratio-bar-outer">
+            <div class="ratio-bar-inner r30">Neusstoff · Aktuelle Klasse</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCHULEN
+============================================================ -->
+
+<div class="schulen-section" id="schulen">
+  <div class="schulen-inner">
+    <div class="section-tag">Basel-Stadt · Riehen · Bettingen</div>
+    <h2 class="section-h2">DEINE<br><em>SCHULE.</em></h2>
+
+```
+<div class="schulen-grid">
+  <div class="schule-card">
+    <div class="schule-emoji">🏫</div>
+    <div class="schule-name">Primarstufe Burgstrasse</div>
+    <div class="schule-addr">Burgstrasse 51 · 4125 Riehen</div>
+    <div class="schule-fact">Gebaut 1911 — hatte früher eine Badeanstalt im Keller. Wirklich. 🛁</div>
+    <div class="schule-tag">Primar</div>
+  </div>
+  <div class="schule-card">
+    <div class="schule-emoji">📜</div>
+    <div class="schule-name">Primarstufe Erlensträsschen</div>
+    <div class="schule-addr">Erlensträsschen 8 · 4125 Riehen</div>
+    <div class="schule-fact">Älteste Riehener Schule — an dieser Stelle seit 1623. Über 400 Jahre Mathe.</div>
+    <div class="schule-tag">Primar</div>
+  </div>
+  <div class="schule-card">
+    <div class="schule-emoji">🌿</div>
+    <div class="schule-name">Primarstufe Hinter Gärten</div>
+    <div class="schule-addr">Steingrubenweg 30 · 4125 Riehen</div>
+    <div class="schule-fact">Jüngste Schule Riehens — erst 2005 eröffnet. Neuestes Schulhaus, frischste Energie. ✨</div>
+    <div class="schule-tag">Primar</div>
+  </div>
+  <div class="schule-card">
+    <div class="schule-emoji">🌳</div>
+    <div class="schule-name">Primarstufe Niederholz</div>
+    <div class="schule-addr">Langenlängeweg 14 · 4125 Riehen</div>
+    <div class="schule-fact">Seit 1948 im Einsatz — über 75 Jahre jung und immer noch voll da. 🎂</div>
+    <div class="schule-tag">Primar</div>
+  </div>
+  <div class="schule-card">
+    <div class="schule-emoji">💧</div>
+    <div class="schule-name">Primarstufe Wasserstelzen</div>
+    <div class="schule-addr">Wasserstelzenweg 15 · 4125 Riehen</div>
+    <div class="schule-fact">Alle nennen es liebevoll das «Wassi». Turnhalle am Sonntag für alle offen! ❤️</div>
+    <div class="schule-tag">Primar</div>
+  </div>
+  <div class="schule-card">
+    <div class="schule-emoji">🌺</div>
+    <div class="schule-name">Primarstufe Bettingen</div>
+    <div class="schule-addr">Hauptstrasse 107 · 4126 Bettingen</div>
+    <div class="schule-fact">Bettingen ist Basels kleinste und grünste Gemeinde — nur 1 km² gross. 🏘️</div>
+    <div class="schule-tag">Primar</div>
+  </div>
+  <div class="schule-card">
+    <div class="schule-emoji">📖</div>
+    <div class="schule-name">Sekundarschule Hebel Riehen</div>
+    <div class="schule-addr">Hebelstrasse 41 · 4125 Riehen</div>
+    <div class="schule-fact">Trägt den Namen des Dichters Johann Peter Hebel. A-, E- und P-Zug. Seit 1953. ✍️</div>
+    <div class="schule-tag sek">Sekundar</div>
+  </div>
+  <div class="schule-card">
+    <div class="schule-emoji">🔷</div>
+    <div class="schule-name">PRISMA Schulen Riehen</div>
+    <div class="schule-addr">Rauracherstrasse 3 · 4125 Riehen</div>
+    <div class="schule-fact">Staatlich anerkannte Privatschule seit 2009. Lehrplan 21. Offen für alle. ~100 Kinder.</div>
+    <div class="schule-tag">Primar</div>
+  </div>
+  <div class="schule-card" style="border-right:none">
+    <div class="schule-emoji">➕</div>
+    <div class="schule-name">+ Weitere Basel-Stadt</div>
+    <div class="schule-addr">25 Primarschulen in der Stadt Basel</div>
+    <div class="schule-fact">Ackermätteli, Kleinhüningen, Theodors und viele mehr — alle im Programm dabei.</div>
+    <div class="schule-tag">Primar + Sek</div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ============================================================
+     THEMEN
+============================================================ -->
+
+<section class="themen-section" id="themen">
+  <div class="themen-inner">
+    <div class="section-tag">Zahlen &amp; Operationen · Lehrplan 21</div>
+    <h2 class="section-h2">ALLE<br><em>THEMEN.</em></h2>
+
+```
+<div class="themen-grid">
+  <div class="thema-tile">
+    <div class="thema-icon-bg">🔢</div>
+    <div class="thema-icon">🔢</div>
+    <div class="thema-name">Zählen &amp; Mengen</div>
+    <div class="thema-stufe">Klasse 1–2</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">➕</div>
+    <div class="thema-icon">➕</div>
+    <div class="thema-name">Addieren</div>
+    <div class="thema-stufe">Klasse 1–4</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">➖</div>
+    <div class="thema-icon">➖</div>
+    <div class="thema-name">Subtrahieren</div>
+    <div class="thema-stufe">Klasse 1–4</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">📏</div>
+    <div class="thema-icon">📏</div>
+    <div class="thema-name">Zahlenstrang</div>
+    <div class="thema-stufe">Klasse 2–6</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">✖️</div>
+    <div class="thema-icon">✖️</div>
+    <div class="thema-name">Kleines 1×1</div>
+    <div class="thema-stufe">Klasse 3–4</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">➗</div>
+    <div class="thema-icon">➗</div>
+    <div class="thema-name">Dividieren</div>
+    <div class="thema-stufe">Klasse 4–5</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">🍕</div>
+    <div class="thema-icon">🍕</div>
+    <div class="thema-name">Brüche</div>
+    <div class="thema-stufe">Klasse 5–6</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">💯</div>
+    <div class="thema-icon">💯</div>
+    <div class="thema-name">Dezimalzahlen</div>
+    <div class="thema-stufe">Klasse 6</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">🌡️</div>
+    <div class="thema-icon">🌡️</div>
+    <div class="thema-name">Negative Zahlen</div>
+    <div class="thema-stufe">Klasse 7–8</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">%</div>
+    <div class="thema-icon" style="font-size:1.8rem;font-weight:900;font-family:'Barlow Condensed',sans-serif">%</div>
+    <div class="thema-name">Prozent</div>
+    <div class="thema-stufe">Klasse 7–9</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">🔡</div>
+    <div class="thema-icon">🔡</div>
+    <div class="thema-name">Terme &amp; Gleichungen</div>
+    <div class="thema-stufe">Klasse 7–9</div>
+  </div>
+  <div class="thema-tile">
+    <div class="thema-icon-bg">²</div>
+    <div class="thema-icon" style="font-size:2rem;font-weight:900;font-family:'Barlow Condensed',sans-serif">x²</div>
+    <div class="thema-name">Potenzen &amp; Wurzeln</div>
+    <div class="thema-stufe">Klasse 9</div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA
+============================================================ -->
+
+<section class="cta-section">
+  <div class="section-tag">Bereit?</div>
+  <h2 class="cta-h2">DEIN<br>KOPF.<br><em>LOS.</em></h2>
+  <div class="cta-row">
+    <a href="redhippo-mathe-v3.html" class="btn-primary" style="font-size:1.2rem;padding:20px 44px;">→ Jetzt rechnen</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="logo-cross">+</div>
+      <div class="footer-name">Red Hippo Kids</div>
+    </div>
+    <div class="footer-meta">
+      Ein Projekt von <span>Red Hippo</span> · Basel-Stadt<br>
+      Lehrplan 21 · Gemeindeschulen Bettingen und Riehen<br>
+      Kostenlos · Für alle · Immer
+    </div>
+    <div class="footer-meta" style="text-align:right">
+      🦛 Made with love<br>
+      for Red Hippo Kids<br>
+      <span>redhippo.ch</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
