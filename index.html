@@ -440,6 +440,67 @@ animation:confFall var(–d,1.5s) ease-in var(–del,0s) forwards;
 }
 
 /* ============================================================
+SCHOOL PICKER
+============================================================ */
+.school-search-wrap{position:relative;margin-bottom:10px;}
+.school-search{
+width:100%;background:#F5F3FF;border:2px solid #E8E4FF;border-radius:14px;
+padding:12px 44px 12px 16px;font-family:‘Quicksand’,sans-serif;font-size:1rem;font-weight:600;
+color:var(–dark);outline:none;transition:border-color .2s;
+}
+.school-search:focus{border-color:var(–hippo);}
+.school-search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.2rem;pointer-events:none;}
+
+.school-filter-tabs{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
+.sft{
+background:#F0EEF8;border:2px solid #E0DCF5;border-radius:20px;
+padding:5px 14px;font-family:‘Quicksand’,sans-serif;font-size:.82rem;font-weight:700;
+cursor:pointer;color:var(–muted);transition:all .15s;
+}
+.sft.active,.sft:hover{background:var(–dark);color:white;border-color:var(–dark);}
+
+.school-list{
+max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:7px;
+padding-right:4px;
+}
+.school-list::-webkit-scrollbar{width:4px;}
+.school-list::-webkit-scrollbar-thumb{background:#D0CCF0;border-radius:4px;}
+
+.school-item{
+background:#F8F6FF;border:2px solid #E8E4FF;border-radius:14px;
+padding:12px 14px;cursor:pointer;transition:all .15s;
+display:flex;align-items:center;gap:12px;
+}
+.school-item:hover{border-color:var(–hippo);background:#FFF0F2;}
+.school-item.selected{border-color:var(–mint);background:#DFFAED;}
+.school-item-icon{font-size:1.4rem;flex-shrink:0;}
+.school-item-info{flex:1;min-width:0;}
+.school-item-name{font-weight:700;font-size:.95rem;color:var(–dark);}
+.school-item-addr{font-size:.75rem;color:var(–muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.school-tag{
+font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+padding:2px 8px;border-radius:10px;flex-shrink:0;
+}
+.school-tag.prim{background:#D0F5ED;color:#006B56;}
+.school-tag.sek{background:#EEE0FF;color:#5500AA;}
+.school-check{font-size:1.2rem;flex-shrink:0;}
+
+.selected-school-chip{
+margin-top:10px;background:linear-gradient(135deg,#DFFAED,#D0F0FF);
+border:2px solid var(–mint);border-radius:14px;padding:12px 16px;
+display:flex;align-items:center;gap:10px;
+}
+.chip-school-name{font-weight:700;font-size:.95rem;color:var(–dark);}
+.chip-fun{font-size:.8rem;color:var(–muted);margin-top:2px;font-style:italic;}
+.chip-x{margin-left:auto;cursor:pointer;font-size:1.1rem;opacity:.5;}
+.chip-x:hover{opacity:1;}
+
+.ratio-note{
+background:#F8F6FF;border-left:4px solid var(–purple);border-radius:0 12px 12px 0;
+padding:10px 14px;margin:14px 0 0;font-size:.85rem;line-height:1.5;
+}
+
+/* ============================================================
 FOOTER CREDIT
 ============================================================ */
 .footer-credit{
@@ -486,15 +547,34 @@ text-align:center;padding:16px 0 0;font-size:.78rem;color:var(–muted);
 
 ```
 <div class="setup-card">
+  <!-- NAME -->
   <div class="setup-row full">
     <div>
       <div class="f-label">👤 Dein Name</div>
       <input class="f-input" id="inp-name" type="text" placeholder="z.B. Lena, Max, Alex …" maxlength="30">
     </div>
   </div>
-  <div class="setup-row" style="margin-top:14px;">
+
+  <!-- SCHOOL PICKER -->
+  <div style="margin-top:18px;">
+    <div class="f-label">🏫 Schule wählen</div>
+    <div class="school-search-wrap">
+      <input class="school-search" id="school-search" type="text" placeholder="Schulname suchen…" oninput="filterSchools(this.value)" autocomplete="off">
+      <span class="school-search-icon">🔍</span>
+    </div>
+    <div class="school-filter-tabs">
+      <button class="sft active" onclick="setSchoolFilter('all',this)">Alle</button>
+      <button class="sft" onclick="setSchoolFilter('prim',this)">Primarschulen</button>
+      <button class="sft" onclick="setSchoolFilter('sek',this)">Sekundarschulen</button>
+    </div>
+    <div class="school-list" id="school-list"></div>
+    <div class="selected-school-chip" id="selected-school-chip" style="display:none"></div>
+  </div>
+
+  <!-- GRADE + TRACK (conditional) -->
+  <div class="setup-row" style="margin-top:16px;" id="grade-track-row">
     <div>
-      <div class="f-label">🏫 Schulstufe</div>
+      <div class="f-label">📚 Schulstufe</div>
       <select class="f-select" id="inp-grade">
         <option value="">– Klasse wählen –</option>
         <option value="1">1. Klasse</option>
@@ -508,21 +588,24 @@ text-align:center;padding:16px 0 0;font-size:.78rem;color:var(–muted);
         <option value="9">9. Klasse</option>
       </select>
     </div>
-    <div>
-      <div class="f-label">🎯 Schultyp</div>
-      <select class="f-select" id="inp-school">
-        <option value="prim">Primarschule</option>
-        <option value="e">Sek E (Erweitert)</option>
-        <option value="p">Sek P (Progymnasial)</option>
-        <option value="a">Sek A (Allgemein)</option>
+    <div id="track-col">
+      <div class="f-label">🎯 Leistungszug</div>
+      <select class="f-select" id="inp-track">
+        <option value="prim">Alle / Primarschule</option>
+        <option value="e">E-Zug (Erweitert)</option>
+        <option value="p">P-Zug (Progymnasial)</option>
+        <option value="a">A-Zug (Allgemein)</option>
       </select>
     </div>
   </div>
-  <button class="btn-go" onclick="go()">🦛  Los, lass uns rechnen!</button>
-</div>
 
-<div style="text-align:center;margin-top:24px;font-size:.85rem;color:var(--muted);">
-  <strong>70 % Übung · 30 % Neues</strong> — nach Lehrplan 21 Zahlenstrahl-Prinzip
+  <!-- 70/30 note -->
+  <div class="ratio-note" id="ratio-note">
+    <span style="color:var(--mint)">▲ <strong>70% Wiederholung</strong></span> (Klasse darunter) +
+    <span style="color:var(--purple)"><strong>30% Neusstoff</strong></span> (deine Klasse) — nach Lehrplan 21
+  </div>
+
+  <button class="btn-go" onclick="go()">🦛  Los, lass uns rechnen!</button>
 </div>
 
 <div class="footer-credit" style="margin-top:32px;">Developed with ❤️ by <strong>Red Hippo</strong> for Red Hippo Kids · Basel-Stadt</div>
@@ -826,10 +909,124 @@ function generateQs(id,grade){
 }
 
 /* ================================================================
+   SCHOOL DATABASE — Basel-Stadt (Riehen, Bettingen + Stadt)
+   ================================================================ */
+const SCHOOLS = [
+  // ---- RIEHEN PRIMARSCHULEN (6 Standorte) ----
+  { id:'burg',   type:'prim', name:'Primarstufe Burgstrasse',    addr:'Burgstrasse 51, 4125 Riehen',         web:'schule-burgstrasse.ch',      kids:'~360 Kinder, 12 Primarklassen. Gebaut 1911 — hat früher eine Badeanstalt im Keller gehabt! 🛁', emoji:'🏫' },
+  { id:'erlen',  type:'prim', name:'Primarstufe Erlensträsschen',addr:'Erlensträsschen 8, 4125 Riehen',      web:'schule-erlenstraesschen.ch', kids:'~130 Kinder, 7 Primarklassen. Die erste Riehener Schule — seit 1623 an dieser Stelle! 📜', emoji:'🏡' },
+  { id:'higa',   type:'prim', name:'Primarstufe Hinter Gärten',  addr:'Steingrubenweg 30, 4125 Riehen',      web:'schule-hintergaerten.ch',    kids:'~385 Kinder, 14 Primarklassen. Jüngste Schule Riehens — erst 2005 eröffnet! ✨', emoji:'🌿' },
+  { id:'nieder', type:'prim', name:'Primarstufe Niederholz',     addr:'Langenlängeweg 14, 4125 Riehen',      web:'schule-niederholz.ch',       kids:'Prim-Standort seit 1948 — schon über 75 Jahre jung! 🎂', emoji:'🌳' },
+  { id:'wasser', type:'prim', name:'Primarstufe Wasserstelzen',  addr:'Wasserstelzenweg 15, 4125 Riehen',    web:'schule-wasserstelzen.ch',    kids:'Bekannt als das «Wassi» ❤️ — Schulhaus seit 1964. Turnhalle am Sonntag für alle offen!', emoji:'💧' },
+  { id:'betti',  type:'prim', name:'Primarstufe Bettingen',      addr:'Hauptstrasse 107, 4126 Bettingen',    web:'schule-bettingen.ch',        kids:'2 KG-Klassen, 7 Primarklassen. Bettingen ist Basels kleinste Gemeinde! 🏘️', emoji:'🌺' },
+  // ---- PRIVATSCHULE RIEHEN ----
+  { id:'prisma', type:'prim', name:'PRISMA Schulen Riehen',      addr:'Rauracherstrasse 3, 4125 Riehen',     web:'prismaschulen.ch',           kids:'Staatlich anerkannte Privatschule, seit 2009. Lehrplan 21, ~100 Kinder. ✝️ christlich-offen', emoji:'🔷' },
+  // ---- SEKUNDARSCHULE RIEHEN ----
+  { id:'hebel',  type:'sek',  name:'Sekundarschule Hebel Riehen',addr:'Hebelstrasse 41, 4125 Riehen',        web:'sekundarschule.riehen.ch',   kids:'A, E & P-Zug. Seit 1953 als Hebelschulhaus. Trägt den Namen des Dichters Johann Peter Hebel! ✍️', emoji:'📖' },
+  // ---- STADT BASEL — Auswahl Prim ----
+  { id:'acker',  type:'prim', name:'Primarschule Ackermätteli',  addr:'Rastatterstrasse 32, 4075 Basel',     web:'schulen.edubs.ch/ps/ackermaetteli', kids:'Im Quartier Ackermätteli — einer der grünsten Ecken Basels 🌱', emoji:'🌾' },
+  { id:'klhu',   type:'prim', name:'Primarschule Kleinhüningen', addr:'Dorfstrasse 51, 4057 Basel',          web:'schulen.edubs.ch/ps/kleinhueningen', kids:'Im ältesten Dorf Basels — Kleinhüningen wurde schon im 7. Jh. erwähnt! ⚓', emoji:'⚓' },
+  { id:'theodor',type:'prim', name:'Primarschule Theodors',      addr:'Theodorskirchplatz 3, 4058 Basel',    web:'schulen.edubs.ch/ps/theodor', kids:'Direkt neben der Theodorskirche — eine der ältesten Kirchen Basels 🕍', emoji:'🕌' },
+  // ---- STADT BASEL — Sekundarschulen ----
+  { id:'dr3',    type:'sek',  name:'Sekundarschule Dreirosen',   addr:'Breisacherstrasse 134, 4057 Basel',   web:'os.edubs.ch/dreirosen',      kids:'A, E & P-Zug. Im Nordquartier Basels. Name kommt vom Dreirosensteg über den Rhein! 🌹', emoji:'🌹' },
+  { id:'min',    type:'prim', name:'Minerva Volksschule',        addr:'St. Alban-Vorstadt 32, 4051 Basel',   web:'minervaschulen.ch',          kids:'Privatschule, Kindergarten bis 9. Klasse. Benannt nach der römischen Göttin der Weisheit! 🦉', emoji:'🦉' },
+];
+
+let selectedSchool = null;
+let schoolFilter = 'all';
+
+function initSchoolPicker(){
+  renderSchoolList('');
+  // Grade change → show/hide track
+  document.getElementById('inp-grade').addEventListener('change', updateTrackVisibility);
+}
+
+function updateTrackVisibility(){
+  const g = parseInt(document.getElementById('inp-grade').value)||0;
+  const trackCol = document.getElementById('track-col');
+  const isPrim = !selectedSchool || selectedSchool.type==='prim';
+  const isPrimGrade = g<=6;
+  // Primarstufe = no Leistungszug, show it greyed for sek
+  if(isPrim || isPrimGrade){
+    trackCol.style.opacity='0.4';
+    trackCol.style.pointerEvents='none';
+    document.getElementById('inp-track').value='prim';
+  } else {
+    trackCol.style.opacity='1';
+    trackCol.style.pointerEvents='auto';
+  }
+}
+
+function setSchoolFilter(f, btn){
+  schoolFilter=f;
+  document.querySelectorAll('.sft').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSchoolList(document.getElementById('school-search').value);
+}
+
+function filterSchools(q){ renderSchoolList(q); }
+
+function renderSchoolList(q){
+  const list=document.getElementById('school-list');
+  const qL=q.toLowerCase();
+  const filtered=SCHOOLS.filter(s=>{
+    const matchType = schoolFilter==='all'||(schoolFilter==='prim'&&s.type==='prim')||(schoolFilter==='sek'&&s.type==='sek');
+    const matchQ = !qL||s.name.toLowerCase().includes(qL)||s.addr.toLowerCase().includes(qL);
+    return matchType&&matchQ;
+  });
+  if(!filtered.length){list.innerHTML='<div style="text-align:center;color:var(--muted);padding:16px;font-size:.9rem;">Keine Schule gefunden 🤷</div>';return;}
+  list.innerHTML=filtered.map(s=>`
+    <div class="school-item${selectedSchool&&selectedSchool.id===s.id?' selected':''}" onclick="selectSchool('${s.id}')">
+      <div class="school-item-icon">${s.emoji}</div>
+      <div class="school-item-info">
+        <div class="school-item-name">${s.name}</div>
+        <div class="school-item-addr">${s.addr}</div>
+      </div>
+      <div class="school-tag ${s.type}">${s.type==='prim'?'PRIMAR':'SEK'}</div>
+      ${selectedSchool&&selectedSchool.id===s.id?'<div class="school-check">✅</div>':''}
+    </div>`).join('');
+}
+
+function selectSchool(id){
+  selectedSchool=SCHOOLS.find(s=>s.id===id)||null;
+  renderSchoolList(document.getElementById('school-search').value);
+  const chip=document.getElementById('selected-school-chip');
+  const list=document.getElementById('school-list');
+  if(selectedSchool){
+    chip.style.display='flex';
+    chip.innerHTML=`
+      <div style="font-size:1.6rem">${selectedSchool.emoji}</div>
+      <div>
+        <div class="chip-school-name">${selectedSchool.name}</div>
+        <div class="chip-fun">${selectedSchool.kids}</div>
+      </div>
+      <div class="chip-x" onclick="clearSchool()">✕</div>`;
+    list.style.display='none';
+    document.getElementById('school-search').style.display='none';
+    document.querySelector('.school-filter-tabs').style.display='none';
+  }
+  updateTrackVisibility();
+}
+
+function clearSchool(){
+  selectedSchool=null;
+  const chip=document.getElementById('selected-school-chip');
+  chip.style.display='none';
+  document.getElementById('school-list').style.display='flex';
+  document.getElementById('school-search').style.display='block';
+  document.querySelector('.school-filter-tabs').style.display='flex';
+  renderSchoolList('');
+  updateTrackVisibility();
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', initSchoolPicker);
+
+/* ================================================================
    STATE
    ================================================================ */
 const S={
-  name:'',grade:1,school:'prim',
+  name:'',grade:1,schoolId:'',schoolName:'',track:'prim',
   xp:0,streak:0,level:1,hippoClicks:0,
   badges:[],topicsDone:{},
   curTopic:null,curGradeLabel:'',
@@ -849,13 +1046,22 @@ function showS(id){
 function go(){
   const grade=parseInt(document.getElementById('inp-grade').value);
   if(!grade){document.getElementById('inp-grade').style.borderColor='var(--hippo)';return;}
+  if(!selectedSchool){
+    document.getElementById('school-list').style.border='2px solid var(--hippo)';
+    document.getElementById('school-search').style.borderColor='var(--hippo)';
+    return;
+  }
   S.name=document.getElementById('inp-name').value.trim()||'Mathe-Hippo';
   S.grade=grade;
-  S.school=document.getElementById('inp-school').value;
+  S.schoolId=selectedSchool.id;
+  S.schoolName=selectedSchool.name;
+  const isPrimLevel=selectedSchool.type==='prim'||grade<=6;
+  S.track=isPrimLevel?'prim':document.getElementById('inp-track').value;
+
   document.getElementById('hud-name').textContent=S.name;
   document.getElementById('hud-av').textContent=AVEMOJI[Math.floor(Math.random()*AVEMOJI.length)];
-  const sl={prim:'Primarschule',e:'Sek E',p:'Sek P',a:'Sek A'}[S.school]||'';
-  document.getElementById('hud-meta').textContent=`Klasse ${grade} · ${sl} · Basel-Stadt`;
+  const trackLabel={prim:'Primarschule',e:'E-Zug',p:'P-Zug',a:'A-Zug'}[S.track]||'';
+  document.getElementById('hud-meta').textContent=`Klasse ${grade} · ${selectedSchool.name.replace('Primarstufe ','').replace('Primarschule ','')} · ${trackLabel}`;
   buildTopics();
   updateHUD();
   showS('learn');
