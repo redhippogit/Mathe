@@ -1,1291 +1,415 @@
 <!DOCTYPE html>
 
-<html lang="de">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Red Hippo Kids – Mathe</title>
-<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=1280">
+<title>Red Hippo Kids – GitHub Banner</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,900;1,900&family=Barlow:wght@700;900&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   TOKENS & RESET
-   ============================================================ */
-:root {
-  --hippo:   #E8314A;
-  --hippo2:  #C0182E;
-  --sun:     #FFD23F;
-  --mint:    #3ECFB2;
-  --sky:     #4AB3F4;
-  --purple:  #9B5DE5;
-  --bg:      #FFF8F0;
-  --card:    #FFFFFF;
-  --dark:    #1E1B2E;
-  --text:    #2D2A45;
-  --muted:   #8884A8;
-  --rad:     20px;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:'Quicksand',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-  cursor:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='26' font-size='26'>🦛</text></svg>") 4 4, auto;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+width: 1280px;
+height: 640px;
+overflow: hidden;
+background: #E8192C;
+font-family: ‘Barlow Condensed’, sans-serif;
 }
 
-/* ============================================================
-WOBBLY BACKGROUND
-============================================================ */
-.bg-blobs{
-position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
-}
-.blob{
-position:absolute;border-radius:60% 40% 55% 45% / 50% 60% 40% 50%;
-opacity:.12;animation:blobFloat 12s ease-in-out infinite alternate;
-}
-.blob1{width:600px;height:500px;background:var(–hippo);top:-100px;left:-150px;animation-delay:0s;}
-.blob2{width:400px;height:400px;background:var(–sky);top:30%;right:-100px;animation-delay:-4s;}
-.blob3{width:350px;height:300px;background:var(–mint);bottom:-80px;left:30%;animation-delay:-8s;}
-@keyframes blobFloat{
-0%{border-radius:60% 40% 55% 45% / 50% 60% 40% 50%; transform:rotate(0deg) scale(1);}
-100%{border-radius:40% 60% 45% 55% / 60% 40% 60% 40%; transform:rotate(6deg) scale(1.05);}
+.canvas {
+width: 1280px;
+height: 640px;
+position: relative;
+background: #E8192C;
+overflow: hidden;
 }
 
-/* Floating math symbols */
-.math-floats{position:fixed;inset:0;pointer-events:none;z-index:0;}
-.mf{
-position:absolute;font-size:1.4rem;opacity:.07;
-animation:mfFloat var(–dur,10s) ease-in-out infinite alternate;
-}
-@keyframes mfFloat{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(-40px) rotate(20deg);}}
-
-/* ============================================================
-APP WRAPPER
-============================================================ */
-.app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 16px 80px;}
-.screen{display:none;}
-.screen.active{display:block;animation:screenIn .35s cubic-bezier(.34,1.56,.64,1);}
-@keyframes screenIn{from{opacity:0;transform:scale(.94) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
-
-/* ============================================================
-HEADER / MASCOT
-============================================================ */
-.top-bar{
-display:flex;align-items:center;justify-content:space-between;
-padding:18px 0 0;
-}
-.brand{display:flex;align-items:center;gap:10px;}
-.brand-logo{
-font-family:‘Boogaloo’,cursive;font-size:2rem;
-background:linear-gradient(135deg,var(–hippo),var(–hippo2));
--webkit-background-clip:text;-webkit-text-fill-color:transparent;
-letter-spacing:1px;
-}
-.brand-badge{
-background:var(–dark);color:var(–sun);
-font-family:‘Boogaloo’,cursive;font-size:.8rem;
-padding:3px 10px;border-radius:20px;letter-spacing:.5px;
-}
-.nav-pills{display:flex;gap:8px;}
-.nav-pill{
-background:white;border:2px solid #eee;border-radius:20px;
-padding:6px 14px;font-size:.82rem;font-weight:700;
-cursor:pointer;transition:all .15s;color:var(–muted);
-}
-.nav-pill:hover,.nav-pill.active{background:var(–dark);color:white;border-color:var(–dark);}
-
-/* ============================================================
-HERO — SETUP
-============================================================ */
-.hero{
-text-align:center;padding:32px 0 24px;
-}
-.hippo-mascot{
-font-size:7rem;display:inline-block;
-animation:hippoWiggle 2.5s ease-in-out infinite;
-filter:drop-shadow(0 10px 24px rgba(232,49,74,.3));
-cursor:pointer;
-}
-@keyframes hippoWiggle{
-0%,100%{transform:rotate(-4deg) scale(1);}
-50%{transform:rotate(4deg) scale(1.06);}
-}
-.hippo-mascot:active{animation:hippoJump .4s ease;transform:scale(1.3);}
-@keyframes hippoJump{0%{transform:scale(1);}50%{transform:scale(1.4) rotate(10deg);}100%{transform:scale(1) rotate(0deg);}}
-
-.hero-title{
-font-family:‘Boogaloo’,cursive;
-font-size:clamp(2rem,8vw,3.4rem);
-line-height:1.1;color:var(–dark);margin-top:12px;
-}
-.hero-title span{color:var(–hippo);}
-.hero-sub{color:var(–muted);font-size:1rem;margin-top:8px;}
-
-/* Setup card */
-.setup-card{
-background:white;border-radius:28px;padding:28px 24px;
-box-shadow:0 8px 40px rgba(30,27,46,.1);margin-top:24px;
-border:3px solid transparent;
-background-clip:padding-box;
-position:relative;
-}
-.setup-card::before{
-content:’’;position:absolute;inset:-3px;z-index:-1;border-radius:30px;
-background:linear-gradient(135deg,var(–hippo),var(–sun),var(–mint));
-}
-.setup-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px;}
-@media(max-width:480px){.setup-row{grid-template-columns:1fr;}}
-.setup-row.full{grid-template-columns:1fr;}
-.f-label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(–muted);margin-bottom:5px;}
-.f-input,.f-select{
-width:100%;background:#F5F3FF;border:2px solid #E8E4FF;
-border-radius:14px;padding:12px 16px;
-font-family:‘Quicksand’,sans-serif;font-size:1rem;font-weight:600;
-color:var(–dark);outline:none;transition:border-color .2s;appearance:none;
-}
-.f-input:focus,.f-select:focus{border-color:var(–hippo);}
-.btn-go{
-width:100%;margin-top:20px;
-background:linear-gradient(135deg,var(–hippo),#FF6B6B);
-color:white;border:none;border-radius:18px;
-padding:18px;font-family:‘Boogaloo’,cursive;font-size:1.5rem;
-cursor:pointer;transition:transform .15s,box-shadow .15s;
-box-shadow:0 6px 0 var(–hippo2),0 10px 30px rgba(232,49,74,.3);
-letter-spacing:.5px;
-}
-.btn-go:hover{transform:translateY(-2px);box-shadow:0 8px 0 var(–hippo2),0 14px 36px rgba(232,49,74,.35);}
-.btn-go:active{transform:translateY(3px);box-shadow:0 3px 0 var(–hippo2);}
-
-/* ============================================================
-LEARN SCREEN
-============================================================ */
-.user-hud{
-display:flex;align-items:center;gap:14px;
-background:white;border-radius:20px;padding:14px 20px;
-margin-top:20px;box-shadow:0 4px 20px rgba(30,27,46,.08);
-}
-.hud-avatar{
-width:52px;height:52px;border-radius:50%;
-background:linear-gradient(135deg,var(–hippo),var(–purple));
-display:flex;align-items:center;justify-content:center;font-size:1.6rem;
-flex-shrink:0;box-shadow:0 4px 12px rgba(232,49,74,.3);
-}
-.hud-info{flex:1;}
-.hud-name{font-family:‘Boogaloo’,cursive;font-size:1.2rem;color:var(–dark);}
-.hud-meta{font-size:.78rem;color:var(–muted);}
-.hud-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
-.xp-chip{
-background:var(–sun);color:var(–dark);
-border-radius:20px;padding:3px 12px;
-font-family:‘Boogaloo’,cursive;font-size:1rem;
-}
-.xp-bar-wrap{width:100px;height:8px;background:#EEE;border-radius:8px;overflow:hidden;}
-.xp-bar{height:100%;background:linear-gradient(90deg,var(–mint),var(–sky));border-radius:8px;transition:width .5s ease;}
-
-/* Streak ribbon */
-.streak-ribbon{
-background:linear-gradient(135deg,var(–dark),#2D2A45);
-color:white;border-radius:14px;padding:10px 18px;
-margin:12px 0 18px;display:flex;align-items:center;gap:12px;
-font-size:.9rem;
-}
-.streak-fire{font-size:1.5rem;animation:firePulse 1s ease-in-out infinite alternate;}
-@keyframes firePulse{0%{transform:scale(1);}100%{transform:scale(1.2);}}
-
-/* Section heading */
-.sec-head{
-font-family:‘Boogaloo’,cursive;font-size:1.6rem;
-color:var(–dark);margin:24px 0 14px;display:flex;align-items:center;gap:8px;
+/* –– TEXTURE GRAIN –– */
+.canvas::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background-image:
+repeating-linear-gradient(
+0deg,
+transparent,
+transparent 3px,
+rgba(0,0,0,0.03) 3px,
+rgba(0,0,0,0.03) 4px
+);
+z-index: 1;
+pointer-events: none;
 }
 
-/* Topic cards */
-.topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
-.topic-card{
-background:white;border-radius:22px;padding:22px 18px;
-cursor:pointer;transition:transform .2s,box-shadow .2s;
-box-shadow:0 4px 0 #E0DCF5,0 6px 20px rgba(30,27,46,.06);
-border:2px solid #F0EEF8;position:relative;overflow:hidden;
+/* –– TOP BAR –– */
+.topbar {
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 52px;
+background: #fff;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 48px;
+z-index: 10;
+border-bottom: 5px solid #000;
 }
-.topic-card::after{
-content:’’;position:absolute;inset:0;
-background:linear-gradient(135deg,var(–c1,var(–hippo)),var(–c2,var(–sun)));
-opacity:0;transition:opacity .2s;border-radius:20px;
+.topbar-left {
+display: flex;
+align-items: center;
+gap: 14px;
 }
-.topic-card:hover{transform:translateY(-5px) rotate(-1deg);box-shadow:0 10px 0 #D0CCE8,0 14px 30px rgba(30,27,46,.12);}
-.topic-card:hover::after{opacity:.08;}
-.tc-icon{font-size:2.4rem;margin-bottom:10px;display:block;}
-.tc-name{font-family:‘Boogaloo’,cursive;font-size:1.15rem;color:var(–dark);}
-.tc-sub{font-size:.78rem;color:var(–muted);margin-top:2px;}
-.tc-tag{
-position:absolute;top:12px;right:12px;
-border-radius:10px;padding:3px 9px;font-size:.65rem;font-weight:700;
-text-transform:uppercase;letter-spacing:.5px;
+.cross {
+width: 32px; height: 32px;
+background: #E8192C;
+border-radius: 4px;
+display: flex; align-items: center; justify-content: center;
+font-size: 20px;
+color: white;
+font-weight: 900;
+flex-shrink: 0;
 }
-.tc-tag.review{background:#FFF0D0;color:#CC8800;}
-.tc-tag.new{background:#D0F5ED;color:#006B56;}
-.tc-done-icon{position:absolute;top:10px;left:12px;font-size:1.1rem;}
+.brand-name {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1.15rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: #000;
+}
+.topbar-right {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .75rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #666;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.topbar-right span { color: #E8192C; font-weight: 900; }
 
-/* Badges row */
-.badges-row{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 4px;}
-.badge-chip{
-background:white;border:2px solid #EEE;border-radius:20px;
-padding:5px 12px;font-size:.82rem;color:var(–muted);font-weight:700;
-display:flex;align-items:center;gap:5px;transition:all .2s;
+/* –– BIG LEFT TEXT –– */
+.headline {
+position: absolute;
+top: 92px;
+left: 48px;
+z-index: 10;
 }
-.badge-chip.lit{border-color:var(–sun);background:#FFFADF;color:#886600;}
-
-/* ============================================================
-EXERCISE SCREEN
-============================================================ */
-.ex-top{
-display:flex;align-items:center;gap:12px;margin-top:20px;margin-bottom:18px;
+.headline-main {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-style: italic;
+font-size: 11.5rem;
+line-height: .88;
+color: #fff;
+text-transform: uppercase;
+letter-spacing: -2px;
+text-shadow: 6px 6px 0 rgba(0,0,0,0.18);
 }
-.btn-back{
-background:white;border:2px solid #EEE;border-radius:12px;
-padding:9px 16px;font-family:‘Quicksand’,sans-serif;
-font-weight:700;font-size:.9rem;cursor:pointer;transition:all .15s;color:var(–dark);
+.headline-main .outline {
+-webkit-text-stroke: 3px rgba(255,255,255,0.5);
+color: transparent;
 }
-.btn-back:hover{background:var(–dark);color:white;border-color:var(–dark);}
-.ex-pips{display:flex;gap:5px;flex:1;}
-.pip{
-flex:1;height:7px;border-radius:7px;background:#EEE;
-transition:background .3s,transform .2s;
-}
-.pip.done{background:var(–mint);}
-.pip.now{background:var(–hippo);transform:scaleY(1.4);}
-.ex-num{font-size:.85rem;color:var(–muted);font-weight:700;white-space:nowrap;}
-
-/* Explain card */
-.tip-card{
-background:linear-gradient(135deg,#EEF4FF,#F0FBF8);
-border:2px solid var(–sky);border-radius:22px;
-padding:20px 22px;margin-bottom:18px;position:relative;overflow:hidden;
-}
-.tip-card::before{
-content:‘💡’;position:absolute;right:16px;top:12px;font-size:2.5rem;opacity:.15;
-}
-.tip-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(–sky);margin-bottom:6px;}
-.tip-text{font-size:.95rem;line-height:1.65;color:var(–text);}
-.tip-steps{list-style:none;margin-top:10px;}
-.tip-steps li{
-padding:5px 0 5px 30px;position:relative;font-size:.9rem;color:var(–text);
-}
-.tip-steps li::before{
-content:attr(data-n);
-position:absolute;left:0;top:5px;
-background:var(–sky);color:white;
-width:20px;height:20px;border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-font-size:.68rem;font-weight:900;
-}
-
-/* Question card */
-.q-card{
-background:white;border-radius:28px;
-padding:28px 26px;margin-bottom:16px;
-box-shadow:0 6px 0 #E0DCF5,0 10px 30px rgba(30,27,46,.08);
-border:2px solid #F5F2FF;
-}
-.q-diff{
-font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
-margin-bottom:12px;display:flex;align-items:center;gap:6px;
-}
-.q-diff.easy{color:var(–mint);}
-.q-diff.medium{color:var(–sun);}
-.q-diff-dot{width:9px;height:9px;border-radius:50%;background:currentColor;display:inline-block;}
-
-.q-text{
-font-family:‘Boogaloo’,cursive;
-font-size:clamp(1.6rem,5vw,2.4rem);
-color:var(–dark);margin-bottom:6px;line-height:1.2;
-}
-.q-hint{font-size:.9rem;color:var(–muted);margin-bottom:20px;line-height:1.5;}
-
-/* Visual dots */
-.dots-visual{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;}
-.vdot{
-width:30px;height:30px;border-radius:50%;
-background:var(–sky);
-box-shadow:0 3px 8px rgba(74,179,244,.4);
-transition:transform .1s;
-}
-.vdot:hover{transform:scale(1.3);}
-.vdot.g2{background:var(–hippo);box-shadow:0 3px 8px rgba(232,49,74,.4);}
-
-/* Answer grid MC */
-.ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-@media(max-width:380px){.ans-grid{grid-template-columns:1fr;}}
-.ans-btn{
-background:#F8F6FF;border:3px solid #E8E4FF;border-radius:16px;
-color:var(–dark);padding:18px 12px;
-font-family:‘Boogaloo’,cursive;font-size:1.5rem;
-cursor:pointer;transition:all .15s;text-align:center;
-box-shadow:0 4px 0 #D8D4F0;
-}
-.ans-btn:hover:not(:disabled){
-border-color:var(–hippo);background:#FFF0F2;
-transform:translateY(-3px);box-shadow:0 7px 0 #C0B8E8;
-}
-.ans-btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 #D8D4F0;}
-.ans-btn.correct{background:#DFFAED;border-color:var(–mint);box-shadow:0 4px 0 #A0DFC0;color:#006644;}
-.ans-btn.wrong{background:#FFE8EC;border-color:var(–hippo);box-shadow:0 4px 0 #D09090;color:var(–hippo2);}
-
-/* Input */
-.ans-input-row{display:flex;gap:10px;}
-.ans-num{
-flex:1;background:#F8F6FF;border:3px solid #E8E4FF;border-radius:16px;
-padding:14px 18px;
-font-family:‘Boogaloo’,cursive;font-size:2rem;text-align:center;
-color:var(–dark);outline:none;box-shadow:inset 0 3px 8px rgba(0,0,0,.05);
-}
-.ans-num:focus{border-color:var(–hippo);}
-.btn-check{
-background:linear-gradient(135deg,var(–mint),var(–sky));
-color:white;border:none;border-radius:16px;
-padding:14px 22px;font-family:‘Boogaloo’,cursive;font-size:1.2rem;
-cursor:pointer;transition:transform .15s;
-box-shadow:0 4px 0 #28A090;
-}
-.btn-check:hover{transform:translateY(-2px);}
-.btn-check:active{transform:translateY(2px);box-shadow:0 2px 0 #28A090;}
-
-/* Feedback */
-.feedback{
-border-radius:18px;padding:16px 20px;margin-top:14px;
-display:none;animation:fbIn .3s cubic-bezier(.34,1.56,.64,1);
-}
-.feedback.show{display:block;}
-@keyframes fbIn{from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);}}
-.feedback.ok{background:#DFFAED;border:2px solid var(–mint);}
-.feedback.no{background:#FFE8EC;border:2px solid var(–hippo);}
-.fb-emo{font-size:2rem;}
-.fb-msg{font-family:‘Boogaloo’,cursive;font-size:1.2rem;margin-top:4px;}
-.fb-exp{font-size:.88rem;color:var(–muted);margin-top:5px;line-height:1.5;}
-
-/* Next btn */
-.btn-next{
-display:none;width:100%;margin-top:14px;
-background:linear-gradient(135deg,var(–mint),#28D0A0);
-color:white;border:none;border-radius:18px;
-padding:16px;font-family:‘Boogaloo’,cursive;font-size:1.3rem;
-cursor:pointer;box-shadow:0 5px 0 #1A9070;
-transition:transform .15s;
-}
-.btn-next.show{display:block;}
-.btn-next:hover{transform:translateY(-2px);}
-.btn-next:active{transform:translateY(3px);box-shadow:0 2px 0 #1A9070;}
-
-/* Hippo reactions (absolute overlay) */
-.hippo-react{
-position:fixed;bottom:20px;right:20px;font-size:3.5rem;
-pointer-events:none;z-index:999;
-animation:hippoReact 2s ease forwards;opacity:0;
-}
-@keyframes hippoReact{
-0%{opacity:0;transform:scale(.5) translateY(20px);}
-15%{opacity:1;transform:scale(1.2) translateY(-10px);}
-80%{opacity:1;transform:scale(1) translateY(0);}
-100%{opacity:0;transform:scale(.9) translateY(10px);}
+.subline {
+margin-top: 18px;
+font-family: ‘Barlow’, sans-serif;
+font-weight: 700;
+font-size: 1.05rem;
+letter-spacing: 1.5px;
+color: rgba(255,255,255,0.75);
+text-transform: uppercase;
+max-width: 420px;
+line-height: 1.5;
 }
 
-/* Hippo speech bubble */
-.bubble-wrap{
-position:fixed;bottom:80px;right:20px;
-background:white;border:3px solid var(–hippo);border-radius:18px 18px 4px 18px;
-padding:12px 16px;max-width:180px;font-size:.85rem;font-weight:700;
-color:var(–dark);z-index:999;
-animation:hippoReact 3s ease forwards;opacity:0;
-box-shadow:0 6px 20px rgba(232,49,74,.2);
+/* –– CTA BUTTON –– */
+.cta {
+position: absolute;
+bottom: 52px;
+left: 48px;
+background: white;
+color: #E8192C;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1.2rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 14px 28px;
+border: 4px solid #000;
+box-shadow: 5px 5px 0 #000;
+z-index: 10;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.cta-arrow {
+font-style: normal;
+font-size: 1.4rem;
 }
 
-/* ============================================================
-RESULT SCREEN
-============================================================ */
-.result-wrap{text-align:center;margin-top:24px;}
-.res-hippo{font-size:8rem;display:inline-block;animation:hippoWiggle 2s ease-in-out infinite;}
-.res-title{font-family:‘Boogaloo’,cursive;font-size:2.4rem;color:var(–dark);margin-top:10px;}
-.res-score{
-font-family:‘Boogaloo’,cursive;font-size:4rem;color:var(–hippo);
-line-height:1;margin:8px 0;
+/* –– STATS GRID (right side) –– */
+.stats {
+position: absolute;
+right: 48px;
+top: 90px;
+width: 460px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+z-index: 10;
 }
-.res-stars{font-size:2.8rem;letter-spacing:6px;margin:12px 0;}
-.res-card{
-background:white;border-radius:24px;padding:24px;margin:16px 0;
-box-shadow:0 6px 0 #E0DCF5;font-size:.95rem;line-height:1.65;
+.stat-box {
+background: rgba(0,0,0,0.18);
+border: 2px solid rgba(255,255,255,0.18);
+padding: 20px 22px;
+position: relative;
 }
-.res-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:4px;}
-.btn-res{
-background:white;border:3px solid var(–dark);color:var(–dark);
-border-radius:16px;padding:12px 28px;
-font-family:‘Boogaloo’,cursive;font-size:1.1rem;
-cursor:pointer;transition:all .15s;
-box-shadow:0 4px 0 var(–dark);
+.stat-box.white {
+background: #fff;
+border-color: #fff;
 }
-.btn-res:hover{background:var(–dark);color:white;transform:translateY(-2px);}
-.btn-res:active{transform:translateY(2px);box-shadow:0 2px 0 var(–dark);}
+.stat-box.black {
+background: #000;
+border-color: #000;
+}
+.stat-num {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 2.6rem;
+line-height: 1;
+color: #fff;
+letter-spacing: -1px;
+}
+.stat-box.white .stat-num { color: #E8192C; }
+.stat-box.black .stat-num { color: #fff; }
+.stat-label {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .72rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: rgba(255,255,255,0.55);
+margin-top: 5px;
+line-height: 1.4;
+}
+.stat-box.white .stat-label { color: rgba(0,0,0,0.45); }
+.stat-box.black .stat-label { color: rgba(255,255,255,0.55); }
 
-/* ============================================================
-CONFETTI
-============================================================ */
-.conf{
-position:fixed;pointer-events:none;z-index:9999;
-width:10px;height:10px;border-radius:3px;
-animation:confFall var(–d,1.5s) ease-in var(–del,0s) forwards;
-}
-@keyframes confFall{
-0%{opacity:1;transform:translateY(-10px) rotate(0deg) scale(1);}
-100%{opacity:0;transform:translateY(110vh) rotate(600deg) scale(.5);}
-}
-
-/* ============================================================
-SCHOOL PICKER
-============================================================ */
-.school-search-wrap{position:relative;margin-bottom:10px;}
-.school-search{
-width:100%;background:#F5F3FF;border:2px solid #E8E4FF;border-radius:14px;
-padding:12px 44px 12px 16px;font-family:‘Quicksand’,sans-serif;font-size:1rem;font-weight:600;
-color:var(–dark);outline:none;transition:border-color .2s;
-}
-.school-search:focus{border-color:var(–hippo);}
-.school-search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.2rem;pointer-events:none;}
-
-.school-filter-tabs{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
-.sft{
-background:#F0EEF8;border:2px solid #E0DCF5;border-radius:20px;
-padding:5px 14px;font-family:‘Quicksand’,sans-serif;font-size:.82rem;font-weight:700;
-cursor:pointer;color:var(–muted);transition:all .15s;
-}
-.sft.active,.sft:hover{background:var(–dark);color:white;border-color:var(–dark);}
-
-.school-list{
-max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:7px;
-padding-right:4px;
-}
-.school-list::-webkit-scrollbar{width:4px;}
-.school-list::-webkit-scrollbar-thumb{background:#D0CCF0;border-radius:4px;}
-
-.school-item{
-background:#F8F6FF;border:2px solid #E8E4FF;border-radius:14px;
-padding:12px 14px;cursor:pointer;transition:all .15s;
-display:flex;align-items:center;gap:12px;
-}
-.school-item:hover{border-color:var(–hippo);background:#FFF0F2;}
-.school-item.selected{border-color:var(–mint);background:#DFFAED;}
-.school-item-icon{font-size:1.4rem;flex-shrink:0;}
-.school-item-info{flex:1;min-width:0;}
-.school-item-name{font-weight:700;font-size:.95rem;color:var(–dark);}
-.school-item-addr{font-size:.75rem;color:var(–muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.school-tag{
-font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
-padding:2px 8px;border-radius:10px;flex-shrink:0;
-}
-.school-tag.prim{background:#D0F5ED;color:#006B56;}
-.school-tag.sek{background:#EEE0FF;color:#5500AA;}
-.school-check{font-size:1.2rem;flex-shrink:0;}
-
-.selected-school-chip{
-margin-top:10px;background:linear-gradient(135deg,#DFFAED,#D0F0FF);
-border:2px solid var(–mint);border-radius:14px;padding:12px 16px;
-display:flex;align-items:center;gap:10px;
-}
-.chip-school-name{font-weight:700;font-size:.95rem;color:var(–dark);}
-.chip-fun{font-size:.8rem;color:var(–muted);margin-top:2px;font-style:italic;}
-.chip-x{margin-left:auto;cursor:pointer;font-size:1.1rem;opacity:.5;}
-.chip-x:hover{opacity:1;}
-
-.ratio-note{
-background:#F8F6FF;border-left:4px solid var(–purple);border-radius:0 12px 12px 0;
-padding:10px 14px;margin:14px 0 0;font-size:.85rem;line-height:1.5;
+/* Emoji big in top-right of box */
+.stat-emoji {
+position: absolute;
+top: 12px; right: 14px;
+font-size: 1.6rem;
+opacity: .35;
 }
 
-/* ============================================================
-FOOTER CREDIT
-============================================================ */
-.footer-credit{
-text-align:center;padding:16px 0 0;font-size:.78rem;color:var(–muted);
+/* –– MASCOT –– */
+.hippo-big {
+position: absolute;
+bottom: -10px;
+right: 240px;
+font-size: 9rem;
+line-height: 1;
+z-index: 8;
+filter: drop-shadow(-8px 8px 0 rgba(0,0,0,0.25));
+transform: scaleX(-1);
 }
-.footer-credit strong{color:var(–hippo);}
+
+/* –– BOTTOM STRIP –– */
+.bottom-strip {
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 44px;
+background: #000;
+display: flex;
+align-items: center;
+padding: 0 48px;
+gap: 0;
+z-index: 10;
+overflow: hidden;
+}
+.ticker-text {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: .85rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: #fff;
+white-space: nowrap;
+}
+.ticker-sep {
+color: #E8192C;
+margin: 0 16px;
+font-size: 1.2rem;
+}
+
+/* –– DIAGONAL ACCENT –– */
+.diagonal {
+position: absolute;
+top: 52px;
+left: 500px;
+width: 5px;
+height: 590px;
+background: rgba(0,0,0,0.12);
+transform: rotate(12deg) translateX(-50%);
+z-index: 2;
+}
+.diagonal2 {
+position: absolute;
+top: 52px;
+left: 520px;
+width: 2px;
+height: 590px;
+background: rgba(255,255,255,0.08);
+transform: rotate(12deg) translateX(-50%);
+z-index: 2;
+}
+
+/* –– CORNER TAG –– */
+.corner-tag {
+position: absolute;
+top: 68px;
+right: 48px;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: .7rem;
+letter-spacing: 2px;
+color: rgba(255,255,255,0.4);
+text-transform: uppercase;
+text-align: right;
+z-index: 10;
+line-height: 1.8;
+}
+
+/* –– BADGE –– */
+.badge-lp21 {
+position: absolute;
+top: 68px;
+left: 48px;
+background: #000;
+color: #fff;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: .72rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 5px 12px;
+z-index: 10;
+}
 </style>
 
 </head>
 <body>
+<div class="canvas">
 
-<!-- background decorations -->
+  <!-- Diagonal accents -->
 
-<div class="bg-blobs">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div class="blob blob3"></div>
-</div>
-<div class="math-floats" id="mathFloats"></div>
+  <div class="diagonal"></div>
+  <div class="diagonal2"></div>
 
-<div class="app">
+  <!-- TOP BAR -->
 
-  <!-- TOP BAR (global) -->
-
-  <div class="top-bar">
-    <div class="brand">
-      <div class="brand-logo">Red Hippo</div>
-      <div class="brand-badge">KIDS</div>
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="cross">+</div>
+      <div class="brand-name">Red Hippo Kids</div>
     </div>
-    <div class="nav-pills">
-      <div class="nav-pill active">Mathe</div>
-      <div class="nav-pill" style="opacity:.4">Bald mehr…</div>
+    <div class="topbar-right">
+      Ein Projekt von <span>🦛 Red Hippo</span> &nbsp;·&nbsp; Basel-Stadt &nbsp;·&nbsp; Lehrplan 21
     </div>
   </div>
 
-  <!-- ======================== SETUP ======================== -->
+  <!-- LP21 badge -->
 
-  <div id="s-setup" class="screen active">
-    <div class="hero">
-      <div class="hippo-mascot" onclick="hippoClick(this)" title="Klick mich!">🦛</div>
-      <div class="hero-title">Mathe mit<br><span>Red Hippo!</span></div>
-      <div class="hero-sub">Lehrplan 21 · Basel-Stadt · Spass garantiert 🎉</div>
-    </div>
+  <div class="badge-lp21">Lehrplan 21 · Open Source</div>
 
-```
-<div class="setup-card">
-  <!-- NAME -->
-  <div class="setup-row full">
-    <div>
-      <div class="f-label">👤 Dein Name</div>
-      <input class="f-input" id="inp-name" type="text" placeholder="z.B. Lena, Max, Alex …" maxlength="30">
-    </div>
-  </div>
+  <!-- BIG HEADLINE -->
 
-  <!-- SCHOOL PICKER -->
-  <div style="margin-top:18px;">
-    <div class="f-label">🏫 Schule wählen</div>
-    <div class="school-search-wrap">
-      <input class="school-search" id="school-search" type="text" placeholder="Schulname suchen…" oninput="filterSchools(this.value)" autocomplete="off">
-      <span class="school-search-icon">🔍</span>
+  <div class="headline">
+    <div class="headline-main">
+      MATHE<br>
+      <span class="outline">MACHT</span><br>
+      SPASS.
     </div>
-    <div class="school-filter-tabs">
-      <button class="sft active" onclick="setSchoolFilter('all',this)">Alle</button>
-      <button class="sft" onclick="setSchoolFilter('prim',this)">Primarschulen</button>
-      <button class="sft" onclick="setSchoolFilter('sek',this)">Sekundarschulen</button>
-    </div>
-    <div class="school-list" id="school-list"></div>
-    <div class="selected-school-chip" id="selected-school-chip" style="display:none"></div>
-  </div>
-
-  <!-- GRADE + TRACK (conditional) -->
-  <div class="setup-row" style="margin-top:16px;" id="grade-track-row">
-    <div>
-      <div class="f-label">📚 Schulstufe</div>
-      <select class="f-select" id="inp-grade">
-        <option value="">– Klasse wählen –</option>
-        <option value="1">1. Klasse</option>
-        <option value="2">2. Klasse</option>
-        <option value="3">3. Klasse</option>
-        <option value="4">4. Klasse</option>
-        <option value="5">5. Klasse</option>
-        <option value="6">6. Klasse</option>
-        <option value="7">7. Klasse</option>
-        <option value="8">8. Klasse</option>
-        <option value="9">9. Klasse</option>
-      </select>
-    </div>
-    <div id="track-col">
-      <div class="f-label">🎯 Leistungszug</div>
-      <select class="f-select" id="inp-track">
-        <option value="prim">Alle / Primarschule</option>
-        <option value="e">E-Zug (Erweitert)</option>
-        <option value="p">P-Zug (Progymnasial)</option>
-        <option value="a">A-Zug (Allgemein)</option>
-      </select>
+    <div class="subline">
+      70% Wiederholung · 30% Neues<br>
+      Klasse 1–9 · Basel-Stadt · Kostenlos
     </div>
   </div>
 
-  <!-- 70/30 note -->
-  <div class="ratio-note" id="ratio-note">
-    <span style="color:var(--mint)">▲ <strong>70% Wiederholung</strong></span> (Klasse darunter) +
-    <span style="color:var(--purple)"><strong>30% Neusstoff</strong></span> (deine Klasse) — nach Lehrplan 21
+  <!-- CTA -->
+
+  <div class="cta">
+    <span class="cta-arrow">→</span>
+    Jetzt lernen · redhippo.ch
   </div>
 
-  <button class="btn-go" onclick="go()">🦛  Los, lass uns rechnen!</button>
-</div>
+  <!-- HIPPO MASCOT -->
 
-<div class="footer-credit" style="margin-top:32px;">Developed with ❤️ by <strong>Red Hippo</strong> for Red Hippo Kids · Basel-Stadt</div>
-```
+  <div class="hippo-big">🦛</div>
 
-  </div>
+  <!-- STATS GRID -->
 
-  <!-- ======================== LEARN ======================== -->
-
-  <div id="s-learn" class="screen">
-
-```
-<div class="user-hud">
-  <div class="hud-avatar" id="hud-av">🦛</div>
-  <div class="hud-info">
-    <div class="hud-name" id="hud-name">–</div>
-    <div class="hud-meta" id="hud-meta">–</div>
-  </div>
-  <div class="hud-right">
-    <div class="xp-chip">⭐ <span id="hud-xp">0</span> XP</div>
-    <div class="xp-bar-wrap"><div class="xp-bar" id="xp-bar" style="width:0%"></div></div>
-    <div style="font-size:.75rem;color:var(--muted)">Level <span id="hud-lv">1</span></div>
-  </div>
-</div>
-
-<div class="streak-ribbon">
-  <span class="streak-fire">🔥</span>
-  <span>Streak: <strong id="hud-streak">0</strong> richtig am Stück</span>
-  <span style="margin-left:auto;font-size:.85rem;opacity:.6">Red Hippo Mode: <strong id="hud-mode">Normal</strong></span>
-</div>
-
-<div class="sec-head">📚 Wähle ein Thema</div>
-
-<div class="topics-grid" id="topics-grid"></div>
-
-<div class="badges-row" id="badges-row">
-  <div class="badge-chip" data-b="first">🥇 Erster Stern</div>
-  <div class="badge-chip" data-b="streak5">🔥 Feuer-Serie</div>
-  <div class="badge-chip" data-b="level2">⚡ Level 2</div>
-  <div class="badge-chip" data-b="perfect">🏆 Perfekter Lauf</div>
-  <div class="badge-chip" data-b="hippo10">🦛 10× geklickt</div>
-</div>
-
-<div class="footer-credit">Developed with ❤️ by <strong>Red Hippo</strong> for Red Hippo Kids</div>
-```
-
-  </div>
-
-  <!-- ======================== EXERCISE ======================== -->
-
-  <div id="s-ex" class="screen">
-    <div class="ex-top">
-      <button class="btn-back" onclick="showLearn()">← Zurück</button>
-      <div class="ex-pips" id="ex-pips"></div>
-      <div class="ex-num" id="ex-num">1/5</div>
+  <div class="stats">
+    <div class="stat-box white">
+      <div class="stat-emoji">📚</div>
+      <div class="stat-num">9</div>
+      <div class="stat-label">Schuljahre<br>abgedeckt</div>
     </div>
-
-```
-<div class="tip-card">
-  <div class="tip-label">🦛 Hippo erklärt</div>
-  <div class="tip-text" id="tip-text">–</div>
-  <ul class="tip-steps" id="tip-steps"></ul>
-</div>
-
-<div class="q-card" id="q-card">
-  <div class="q-diff" id="q-diff"></div>
-  <div class="q-text" id="q-text">–</div>
-  <div class="q-hint" id="q-hint"></div>
-  <div id="q-visual"></div>
-  <div id="q-ans"></div>
-  <div class="feedback" id="feedback">
-    <div class="fb-emo" id="fb-emo"></div>
-    <div class="fb-msg" id="fb-msg"></div>
-    <div class="fb-exp" id="fb-exp"></div>
-  </div>
-  <button class="btn-next" id="btn-next" onclick="nextQ()">Weiter →</button>
-</div>
-```
-
-  </div>
-
-  <!-- ======================== RESULT ======================== -->
-
-  <div id="s-res" class="screen">
-    <div class="result-wrap">
-      <div class="res-hippo" id="res-hippo">🦛</div>
-      <div class="res-title" id="res-title">Super!</div>
-      <div class="res-score" id="res-score">–/–</div>
-      <div class="res-stars" id="res-stars">⭐⭐⭐</div>
-      <div class="res-card" id="res-msg">–</div>
-      <div class="res-btns">
-        <button class="btn-res" onclick="retryTopic()">🔄 Nochmal</button>
-        <button class="btn-res" onclick="showLearn()">📚 Anderes Thema</button>
-      </div>
+    <div class="stat-box">
+      <div class="stat-emoji">🏫</div>
+      <div class="stat-num">6+</div>
+      <div class="stat-label">Schulen<br>Riehen & Basel</div>
     </div>
-    <div class="footer-credit" style="margin-top:32px;">Developed with ❤️ by <strong>Red Hippo</strong> for Red Hippo Kids</div>
+    <div class="stat-box black">
+      <div class="stat-emoji">🔥</div>
+      <div class="stat-num">70/30</div>
+      <div class="stat-label">Erfolgs-Formel<br>Lehrplan 21</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-emoji">🦛</div>
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Aufgaben<br>generiert</div>
+    </div>
+  </div>
+
+  <!-- corner tag -->
+
+  <div class="corner-tag">
+    github.com/<br>
+    redhippo/mathe
+  </div>
+
+  <!-- BOTTOM STRIP -->
+
+  <div class="bottom-strip">
+    <span class="ticker-text">Zahlen &amp; Operationen</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Zahlenstrang</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Multiplizieren</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Brüche</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Prozent</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Gleichungen</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Lehrplan 21</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Red Hippo Kids</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Basel-Stadt</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Open Source</span>
+    <span class="ticker-sep">✦</span>
+    <span class="ticker-text">Kostenlos</span>
+    <span class="ticker-sep">✦</span>
   </div>
 
 </div>
-
-<!-- Floating math symbols (injected) -->
-
-<script>
-(function(){
-  const syms=['➕','➖','✖️','➗','=','7','3','%','½','²','∑','π','∞'];
-  const c=document.getElementById('mathFloats');
-  for(let i=0;i<18;i++){
-    const d=document.createElement('div');
-    d.className='mf';
-    d.textContent=syms[Math.floor(Math.random()*syms.length)];
-    d.style.left=Math.random()*98+'%';
-    d.style.top=Math.random()*95+'%';
-    d.style['--dur']=(7+Math.random()*10).toFixed(1)+'s';
-    d.style.animationDelay=-(Math.random()*10).toFixed(1)+'s';
-    c.appendChild(d);
-  }
-})();
-</script>
-
-<script>
-/* ================================================================
-   CURRICULUM DATA (Lehrplan 21 – Zahlen & Operationen)
-   ================================================================ */
-const TOPICS = {
-  1:[
-    {id:'count',  icon:'🔢', name:'Zählen & Mengen',  desc:'bis 20',      c1:'#4AB3F4',c2:'#3ECFB2'},
-    {id:'add10',  icon:'➕', name:'Addieren',          desc:'bis 20',      c1:'#3ECFB2',c2:'#9B5DE5'},
-    {id:'sub10',  icon:'➖', name:'Subtrahieren',      desc:'bis 20',      c1:'#E8314A',c2:'#FFD23F'},
-  ],
-  2:[
-    {id:'add100', icon:'➕', name:'Addieren',          desc:'bis 100',     c1:'#3ECFB2',c2:'#4AB3F4'},
-    {id:'sub100', icon:'➖', name:'Subtrahieren',      desc:'bis 100',     c1:'#E8314A',c2:'#9B5DE5'},
-    {id:'nline',  icon:'📏', name:'Zahlenstrang',      desc:'bis 100',     c1:'#FFD23F',c2:'#4AB3F4'},
-  ],
-  3:[
-    {id:'add1000',icon:'➕', name:'Addieren',          desc:'bis 1000',    c1:'#3ECFB2',c2:'#9B5DE5'},
-    {id:'times1', icon:'✖️', name:'Kleines 1×1',       desc:'Tabellen 1–10',c1:'#FFD23F',c2:'#E8314A'},
-    {id:'nline',  icon:'📏', name:'Zahlenstrang',      desc:'bis 1000',    c1:'#4AB3F4',c2:'#3ECFB2'},
-  ],
-  4:[
-    {id:'times2', icon:'✖️', name:'Multiplizieren',    desc:'bis 100',     c1:'#FFD23F',c2:'#E8314A'},
-    {id:'div',    icon:'➗', name:'Dividieren',         desc:'Grundlagen',  c1:'#9B5DE5',c2:'#4AB3F4'},
-    {id:'nline',  icon:'📏', name:'Zahlenstrang',      desc:'bis 10 000',  c1:'#3ECFB2',c2:'#FFD23F'},
-  ],
-  5:[
-    {id:'frac',   icon:'🍕', name:'Brüche',            desc:'½ ¼ ¾',       c1:'#E8314A',c2:'#FFD23F'},
-    {id:'times2', icon:'✖️', name:'Mult. schriftlich', desc:'2-stellig',   c1:'#FFD23F',c2:'#9B5DE5'},
-    {id:'nline',  icon:'📏', name:'Zahlenstrang',      desc:'bis 100 000', c1:'#4AB3F4',c2:'#3ECFB2'},
-  ],
-  6:[
-    {id:'frac',   icon:'🍕', name:'Brüche rechnen',   desc:'addieren/sub', c1:'#E8314A',c2:'#9B5DE5'},
-    {id:'dec',    icon:'💯', name:'Dezimalzahlen',     desc:'Grundlagen',  c1:'#4AB3F4',c2:'#3ECFB2'},
-    {id:'nline',  icon:'📏', name:'Zahlenstrang',      desc:'bis 1 Mio.',  c1:'#9B5DE5',c2:'#FFD23F'},
-  ],
-  7:[
-    {id:'neg',    icon:'🌡️', name:'Negative Zahlen',   desc:'Zahlenstrahl',c1:'#9B5DE5',c2:'#4AB3F4'},
-    {id:'pct',    icon:'%',  name:'Prozent',           desc:'Grundlagen',  c1:'#3ECFB2',c2:'#FFD23F'},
-    {id:'alg1',   icon:'🔡', name:'Terme & Variablen', desc:'Einstieg',    c1:'#E8314A',c2:'#9B5DE5'},
-  ],
-  8:[
-    {id:'alg2',   icon:'🔡', name:'Gleichungen',       desc:'1. Grades',   c1:'#E8314A',c2:'#FFD23F'},
-    {id:'pct',    icon:'%',  name:'Prozentrechnung',   desc:'Anwendungen', c1:'#3ECFB2',c2:'#4AB3F4'},
-    {id:'neg',    icon:'🌡️', name:'Rationale Zahlen',  desc:'Rechnen',     c1:'#9B5DE5',c2:'#3ECFB2'},
-  ],
-  9:[
-    {id:'alg2',   icon:'🔡', name:'Lineare Funktionen',desc:'Graphen',     c1:'#E8314A',c2:'#9B5DE5'},
-    {id:'pow',    icon:'²',  name:'Potenzen & Wurzeln',desc:'Grundlagen',  c1:'#4AB3F4',c2:'#3ECFB2'},
-    {id:'pct',    icon:'%',  name:'Zins & Promille',   desc:'Anwendungen', c1:'#FFD23F',c2:'#E8314A'},
-  ],
-};
-
-const EXPLAINS = {
-  count:{t:'Beim Zählen ordnen wir Dinge der Reihe nach. Jede Zahl ist genau 1 mehr als die vorherige!',s:['Zeige jeden Gegenstand mit einem Finger','Zähle laut: 1, 2, 3 …','Die letzte Zahl = die Anzahl!']},
-  add10:{t:'Addieren = zusammenzählen. 3 + 4 heißt: zuerst 3, dann noch 4 weiter zählen.',s:['Größere Zahl merken (z.B. 6)','Kleinere Zahl draufzählen (+3)','Ergebnis: 9']},
-  sub10:{t:'Subtrahieren = wegnehmen. 9 – 4 = von 9 vier Schritte zurückgehen.',s:['Bei der großen Zahl starten','So viele Schritte zurückgehen','Wo du landest = Ergebnis']},
-  add100:{t:'Bis 100 addieren: Erst Zehner, dann Einer. Oder rechne mit dem Zahlenstrahl!',s:['Zahlen in Zehner + Einer zerlegen','Zehner addieren (30+40=70)','Einer addieren (3+4=7) → 77']},
-  sub100:{t:'Subtrahieren bis 100: Am Zahlenstrahl nach links gehen oder in Schritten rechnen.',s:['Größere Zahl nehmen','Erst Zehner wegnehmen','Dann Einer wegnehmen']},
-  add1000:{t:'Dreistellig addieren: Hunderter + Hunderter, Zehner + Zehner, Einer + Einer. Übertrag nicht vergessen!',s:['Einer addieren (Übertrag?)','Zehner addieren','Hunderter addieren']},
-  times1:{t:'Multiplizieren = mehrmals das Gleiche addieren. 3 × 4 = 3+3+3+3 = 12. Oder: 4+4+4.',s:['Denke an Gruppen (4 Teller à 3 Äpfel)','1×1-Tabelle auswendig üben','Probe: 4×3 = 3×4 (immer!)']},
-  times2:{t:'Größere Multiplikation: Aufteilen hilft! 14×6 = (10×6)+(4×6) = 60+24 = 84.',s:['Zahl aufteilen','Beide Teile × rechnen','Ergebnisse addieren']},
-  div:{t:'Dividieren = aufteilen. 12÷3 = 12 Dinge auf 3 Gruppen = 4 pro Gruppe.',s:['Frage: Wie oft passt 3 in 12?','3→6→9→12 = 4 Mal!','Probe: 4×3=12 ✓']},
-  nline:{t:'Der Zahlenstrahl zeigt alle Zahlen in Reihe. Links = kleiner, rechts = größer. Schrittweite beachten!',s:['Schrittweite bestimmen (z.B. 10er)','Nächste Zahl = aktuelle + Schrittweite','Lücke = Nachbarzahl bestimmen']},
-  frac:{t:'Brüche zeigen Teile eines Ganzen. ½ = Hälfte. Zähler ÷ Nenner = Anteil.',s:['Nenner = wie viele gleiche Teile?','Zähler = wie viele davon nehmen?','¾ von 12 = 12÷4×3 = 9']},
-  dec:{t:'Dezimalzahlen haben Zehntels (0.1) und Hunderstels (0.01). Komma immer untereinander!',s:['Links vom Komma = Einer, Zehner…','Rechts = Zehntel (1/10)','Bei Addition: Komma untereinander stellen']},
-  neg:{t:'Negative Zahlen sind kleiner als 0. Auf dem Zahlenstrahl links der Null: –1, –2 …',s:['Vorstellen: Kältegrade unter 0','–2+5: 5 Schritte nach rechts = 3','–3–2: 2 Schritte nach links = –5']},
-  pct:{t:'Prozent = von Hundert. 50% = Hälfte, 25% = Viertel, 10% = Zehntel.',s:['10% = Zahl ÷ 10','20% = 2 × 10%','50% = Zahl ÷ 2']},
-  alg1:{t:'Variablen (x, y) sind unbekannte Zahlen. x+3=7 → x muss 4 sein!',s:['Gleichung lesen','Umformen: x allein lassen','Probe einsetzen!']},
-  alg2:{t:'Gleichungen lösen: immer dasselbe auf beiden Seiten tun, bis x allein steht.',s:['2x+4=10 → beide Seiten –4','2x=6 → beide Seiten ÷2','x=3 → Probe: 2×3+4=10 ✓']},
-  pow:{t:'Potenz = wiederholtes Multiplizieren. 3² = 3×3 = 9. Wurzel ist die Umkehrung.',s:['Basis^Exponent schreiben','4² = 4×4 = 16','√25 = 5 (weil 5×5=25)']},
-};
-
-/* ================================================================
-   QUESTION GENERATOR
-   ================================================================ */
-function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-function shuffle4(correct,others){
-  let arr=[...new Set([String(correct),...others.map(String)])].slice(0,4);
-  while(arr.length<4)arr.push(String(Number(arr[0])+(arr.length*3)));
-  return arr.sort(()=>Math.random()-.5);
-}
-function dots(n,g2=0){
-  return Array(n).fill(0).map((_,i)=>`<div class="vdot${i>=n-g2?' g2':''}"></div>`).join('');
-}
-
-function makeQ(id,easy,idx){
-  let a,b,c,ans,q,hint,vis='',opts,exp,diff=easy?'easy':'medium';
-  const tp=easy?'mc':(Math.random()<.55?'mc':'input');
-  switch(id){
-    case'count':{c=easy?rnd(1,10):rnd(11,20);ans=c;q='Wie viele Punkte siehst du?';
-      vis=`<div class="dots-visual">${dots(c)}</div>`;hint='Zähle jeden Punkt!';
-      exp=`Es sind ${c} Punkte.`;opts=shuffle4(ans,[rnd(1,20),rnd(1,20),rnd(1,20)]);
-      return{tp:'mc',q,hint,vis,ans,opts,exp,diff};}
-    case'add10':{a=easy?rnd(1,8):rnd(5,12);b=easy?rnd(1,9-a):rnd(2,10);
-      if(a+b>20)b=rnd(1,3);ans=a+b;q=`${a} + ${b} = ?`;
-      vis=easy?`<div class="dots-visual">${dots(a+b,b)}</div>`:'';
-      hint=`Starte bei ${a}, zähle ${b} weiter.`;exp=`${a}+${b}=${ans}`;
-      opts=shuffle4(ans,[ans+1,ans-1,ans+2,ans+3].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'sub10':{a=easy?rnd(5,14):rnd(10,20);b=rnd(1,Math.min(a-1,9));ans=a-b;
-      q=`${a} – ${b} = ?`;vis=easy?`<div class="dots-visual">${dots(a)}</div>`:'';
-      hint=`Von ${a} gehe ${b} zurück.`;exp=`${a}–${b}=${ans}`;
-      opts=shuffle4(ans,[ans+1,ans-1,ans+2].filter(x=>x>=0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'add100':{a=easy?rnd(10,50):rnd(20,70);b=easy?rnd(5,30):rnd(10,40);
-      if(a+b>100)a=rnd(5,20);ans=a+b;q=`${a} + ${b} = ?`;
-      hint='Zehner, dann Einer!';exp=`${a}+${b}=${ans}`;
-      opts=shuffle4(ans,[ans+10,ans-10,ans+1].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'sub100':{a=easy?rnd(20,70):rnd(40,100);b=rnd(5,a-5);ans=a-b;
-      q=`${a} – ${b} = ?`;hint='Erst Zehner, dann Einer.';exp=`${a}–${b}=${ans}`;
-      opts=shuffle4(ans,[ans+10,ans-10,ans+1].filter(x=>x>=0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'add1000':{a=easy?rnd(100,500):rnd(200,700);b=easy?rnd(50,200):rnd(100,350);
-      if(a+b>1000)a=100;ans=a+b;q=`${a} + ${b} = ?`;
-      hint='Hunderter, Zehner, Einer!';exp=`${a}+${b}=${ans}`;
-      opts=shuffle4(ans,[ans+100,ans-100,ans+10].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'times1':{a=easy?rnd(2,5):rnd(6,10);b=easy?rnd(2,5):rnd(6,10);ans=a*b;
-      q=`${a} × ${b} = ?`;hint=`Wie oft ist ${a} in ${a*b}?`;exp=`${a}×${b}=${ans}`;
-      opts=shuffle4(ans,[ans+a,ans-a,ans+b,a*(b+1)].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'times2':{a=easy?rnd(11,19):rnd(12,25);b=easy?rnd(2,6):rnd(3,9);ans=a*b;
-      const t10=Math.floor(a/10)*10,t1=a%10;
-      q=`${a} × ${b} = ?`;hint=`Tipp: (${t10}×${b}) + (${t1}×${b})`;exp=`${a}×${b}=${ans}`;
-      opts=shuffle4(ans,[ans+b,ans-b,ans+10].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'div':{b=easy?rnd(2,5):rnd(2,9);c=easy?rnd(2,6):rnd(2,10);a=b*c;ans=c;
-      q=`${a} ÷ ${b} = ?`;hint=`Wie oft passt ${b} in ${a}?`;exp=`${a}÷${b}=${ans} (weil ${ans}×${b}=${a})`;
-      opts=shuffle4(ans,[ans+1,ans-1,ans+2].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'nline':{const step=easy?5:10;const st=rnd(0,8)*step;const pos=rnd(1,4);ans=st+pos*step;
-      q=`Zahlenstrahl (Schrittweite ${step}):\n${st} → ? (${pos} Schritt${pos>1?'e':''})`;
-      hint=`${st} + ${pos}×${step} = ?`;exp=`${st} + ${pos*step} = ${ans}`;
-      opts=shuffle4(ans,[ans+step,ans-step,ans+2*step].filter(x=>x>=0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'frac':{const pairs=[[1,2],[1,4],[3,4],[1,3],[2,3]];
-      const[n,d]=pairs[rnd(0,pairs.length-1)];
-      const whole=(easy?rnd(2,6):rnd(4,12))*d;ans=whole*n/d;
-      q=`${n}/${d} von ${whole} = ?`;hint=`÷${d} dann ×${n}`;exp=`${whole}÷${d}=${whole/d} × ${n}=${ans}`;
-      opts=shuffle4(ans,[ans+(whole/d),ans-(whole/d),ans+2*(whole/d)].map(Math.round).filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'dec':{const ai=(easy?rnd(1,5)*10+rnd(1,9):rnd(10,40)*10+rnd(1,9));
-      const bi=(easy?rnd(1,4)*10+rnd(1,9):rnd(5,25)*10+rnd(1,9));
-      const aa=(ai/10).toFixed(1),bb=(bi/10).toFixed(1);
-      const ansr=((ai+bi)/10).toFixed(1);
-      q=`${aa} + ${bb} = ?`;hint='Komma unter Komma!';exp=`${aa}+${bb}=${ansr}`;
-      const anv=Number(ansr);
-      opts=shuffle4(ansr,[(anv+1).toFixed(1),(anv-.1).toFixed(1),(anv+.1).toFixed(1)]);
-      return{tp:'mc',q,hint,vis,ans:ansr,opts,exp,diff};}
-    case'neg':{a=easy?rnd(-5,-1):rnd(-12,-1);b=easy?rnd(1,8):rnd(1,15);ans=a+b;
-      q=`${a} + ${b} = ?`;hint=`Starte bei ${a}, ${b} Schritte nach rechts.`;exp=`${a}+${b}=${ans}`;
-      opts=shuffle4(ans,[ans+1,ans-1,ans+2]);
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'pct':{const bases=easy?[100,200,50]:[80,120,160];
-      const pcts=easy?[10,25,50]:[20,30,40,75];
-      const base=bases[rnd(0,bases.length-1)],pct=pcts[rnd(0,pcts.length-1)];
-      ans=base*pct/100;q=`${pct}% von ${base} = ?`;
-      hint=`10% = ${base/10}`;exp=`${base}×${pct}÷100=${ans}`;
-      opts=shuffle4(ans,[ans+base/10,ans-base/10,ans*2].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'alg1':{b=easy?rnd(1,5):rnd(2,9);a=easy?rnd(b+2,12):rnd(b+3,20);ans=a-b;
-      q=`x + ${b} = ${a}  →  x = ?`;hint=`x = ${a} – ${b}`;exp=`x=${a}–${b}=${ans}`;
-      opts=shuffle4(ans,[ans+1,ans-1,ans+2].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'alg2':{const m=easy?rnd(2,3):rnd(2,5);c2=easy?rnd(1,4):rnd(2,8);ans=easy?rnd(2,6):rnd(2,9);
-      const sum=m*ans+c2;
-      q=`${m}x + ${c2} = ${sum}  →  x = ?`;hint=`Erst –${c2}, dann ÷${m}`;exp=`${m}x=${sum-c2} → x=${ans}`;
-      opts=shuffle4(ans,[ans+1,ans-1,ans+2].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    case'pow':{a=easy?rnd(2,4):rnd(2,6);b=easy?2:rnd(2,3);ans=Math.pow(a,b);
-      q=`${a}${b===2?'²':'³'} = ?`;hint=`${Array(b).fill(a).join(' × ')}`;exp=`${a}^${b}=${ans}`;
-      opts=shuffle4(ans,[ans+a,ans-a,ans*a].filter(x=>x>0));
-      return{tp,q,hint,vis,ans,opts,exp,diff};}
-    default:{a=rnd(1,9);b=rnd(1,9);ans=a+b;q=`${a}+${b}=?`;hint='';exp=`${ans}`;
-      opts=shuffle4(ans,[ans+1,ans-1,ans+2]);return{tp:'mc',q,hint,vis,ans,opts,exp,diff};}
-  }
-}
-
-function generateQs(id,grade){
-  return Array(5).fill(0).map((_,i)=>makeQ(id,i<3,i));
-}
-
-/* ================================================================
-   SCHOOL DATABASE — Basel-Stadt (Riehen, Bettingen + Stadt)
-   ================================================================ */
-const SCHOOLS = [
-  // ---- RIEHEN PRIMARSCHULEN (6 Standorte) ----
-  { id:'burg',   type:'prim', name:'Primarstufe Burgstrasse',    addr:'Burgstrasse 51, 4125 Riehen',         web:'schule-burgstrasse.ch',      kids:'~360 Kinder, 12 Primarklassen. Gebaut 1911 — hat früher eine Badeanstalt im Keller gehabt! 🛁', emoji:'🏫' },
-  { id:'erlen',  type:'prim', name:'Primarstufe Erlensträsschen',addr:'Erlensträsschen 8, 4125 Riehen',      web:'schule-erlenstraesschen.ch', kids:'~130 Kinder, 7 Primarklassen. Die erste Riehener Schule — seit 1623 an dieser Stelle! 📜', emoji:'🏡' },
-  { id:'higa',   type:'prim', name:'Primarstufe Hinter Gärten',  addr:'Steingrubenweg 30, 4125 Riehen',      web:'schule-hintergaerten.ch',    kids:'~385 Kinder, 14 Primarklassen. Jüngste Schule Riehens — erst 2005 eröffnet! ✨', emoji:'🌿' },
-  { id:'nieder', type:'prim', name:'Primarstufe Niederholz',     addr:'Langenlängeweg 14, 4125 Riehen',      web:'schule-niederholz.ch',       kids:'Prim-Standort seit 1948 — schon über 75 Jahre jung! 🎂', emoji:'🌳' },
-  { id:'wasser', type:'prim', name:'Primarstufe Wasserstelzen',  addr:'Wasserstelzenweg 15, 4125 Riehen',    web:'schule-wasserstelzen.ch',    kids:'Bekannt als das «Wassi» ❤️ — Schulhaus seit 1964. Turnhalle am Sonntag für alle offen!', emoji:'💧' },
-  { id:'betti',  type:'prim', name:'Primarstufe Bettingen',      addr:'Hauptstrasse 107, 4126 Bettingen',    web:'schule-bettingen.ch',        kids:'2 KG-Klassen, 7 Primarklassen. Bettingen ist Basels kleinste Gemeinde! 🏘️', emoji:'🌺' },
-  // ---- PRIVATSCHULE RIEHEN ----
-  { id:'prisma', type:'prim', name:'PRISMA Schulen Riehen',      addr:'Rauracherstrasse 3, 4125 Riehen',     web:'prismaschulen.ch',           kids:'Staatlich anerkannte Privatschule, seit 2009. Lehrplan 21, ~100 Kinder. ✝️ christlich-offen', emoji:'🔷' },
-  // ---- SEKUNDARSCHULE RIEHEN ----
-  { id:'hebel',  type:'sek',  name:'Sekundarschule Hebel Riehen',addr:'Hebelstrasse 41, 4125 Riehen',        web:'sekundarschule.riehen.ch',   kids:'A, E & P-Zug. Seit 1953 als Hebelschulhaus. Trägt den Namen des Dichters Johann Peter Hebel! ✍️', emoji:'📖' },
-  // ---- STADT BASEL — Auswahl Prim ----
-  { id:'acker',  type:'prim', name:'Primarschule Ackermätteli',  addr:'Rastatterstrasse 32, 4075 Basel',     web:'schulen.edubs.ch/ps/ackermaetteli', kids:'Im Quartier Ackermätteli — einer der grünsten Ecken Basels 🌱', emoji:'🌾' },
-  { id:'klhu',   type:'prim', name:'Primarschule Kleinhüningen', addr:'Dorfstrasse 51, 4057 Basel',          web:'schulen.edubs.ch/ps/kleinhueningen', kids:'Im ältesten Dorf Basels — Kleinhüningen wurde schon im 7. Jh. erwähnt! ⚓', emoji:'⚓' },
-  { id:'theodor',type:'prim', name:'Primarschule Theodors',      addr:'Theodorskirchplatz 3, 4058 Basel',    web:'schulen.edubs.ch/ps/theodor', kids:'Direkt neben der Theodorskirche — eine der ältesten Kirchen Basels 🕍', emoji:'🕌' },
-  // ---- STADT BASEL — Sekundarschulen ----
-  { id:'dr3',    type:'sek',  name:'Sekundarschule Dreirosen',   addr:'Breisacherstrasse 134, 4057 Basel',   web:'os.edubs.ch/dreirosen',      kids:'A, E & P-Zug. Im Nordquartier Basels. Name kommt vom Dreirosensteg über den Rhein! 🌹', emoji:'🌹' },
-  { id:'min',    type:'prim', name:'Minerva Volksschule',        addr:'St. Alban-Vorstadt 32, 4051 Basel',   web:'minervaschulen.ch',          kids:'Privatschule, Kindergarten bis 9. Klasse. Benannt nach der römischen Göttin der Weisheit! 🦉', emoji:'🦉' },
-];
-
-let selectedSchool = null;
-let schoolFilter = 'all';
-
-function initSchoolPicker(){
-  renderSchoolList('');
-  // Grade change → show/hide track
-  document.getElementById('inp-grade').addEventListener('change', updateTrackVisibility);
-}
-
-function updateTrackVisibility(){
-  const g = parseInt(document.getElementById('inp-grade').value)||0;
-  const trackCol = document.getElementById('track-col');
-  const isPrim = !selectedSchool || selectedSchool.type==='prim';
-  const isPrimGrade = g<=6;
-  // Primarstufe = no Leistungszug, show it greyed for sek
-  if(isPrim || isPrimGrade){
-    trackCol.style.opacity='0.4';
-    trackCol.style.pointerEvents='none';
-    document.getElementById('inp-track').value='prim';
-  } else {
-    trackCol.style.opacity='1';
-    trackCol.style.pointerEvents='auto';
-  }
-}
-
-function setSchoolFilter(f, btn){
-  schoolFilter=f;
-  document.querySelectorAll('.sft').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderSchoolList(document.getElementById('school-search').value);
-}
-
-function filterSchools(q){ renderSchoolList(q); }
-
-function renderSchoolList(q){
-  const list=document.getElementById('school-list');
-  const qL=q.toLowerCase();
-  const filtered=SCHOOLS.filter(s=>{
-    const matchType = schoolFilter==='all'||(schoolFilter==='prim'&&s.type==='prim')||(schoolFilter==='sek'&&s.type==='sek');
-    const matchQ = !qL||s.name.toLowerCase().includes(qL)||s.addr.toLowerCase().includes(qL);
-    return matchType&&matchQ;
-  });
-  if(!filtered.length){list.innerHTML='<div style="text-align:center;color:var(--muted);padding:16px;font-size:.9rem;">Keine Schule gefunden 🤷</div>';return;}
-  list.innerHTML=filtered.map(s=>`
-    <div class="school-item${selectedSchool&&selectedSchool.id===s.id?' selected':''}" onclick="selectSchool('${s.id}')">
-      <div class="school-item-icon">${s.emoji}</div>
-      <div class="school-item-info">
-        <div class="school-item-name">${s.name}</div>
-        <div class="school-item-addr">${s.addr}</div>
-      </div>
-      <div class="school-tag ${s.type}">${s.type==='prim'?'PRIMAR':'SEK'}</div>
-      ${selectedSchool&&selectedSchool.id===s.id?'<div class="school-check">✅</div>':''}
-    </div>`).join('');
-}
-
-function selectSchool(id){
-  selectedSchool=SCHOOLS.find(s=>s.id===id)||null;
-  renderSchoolList(document.getElementById('school-search').value);
-  const chip=document.getElementById('selected-school-chip');
-  const list=document.getElementById('school-list');
-  if(selectedSchool){
-    chip.style.display='flex';
-    chip.innerHTML=`
-      <div style="font-size:1.6rem">${selectedSchool.emoji}</div>
-      <div>
-        <div class="chip-school-name">${selectedSchool.name}</div>
-        <div class="chip-fun">${selectedSchool.kids}</div>
-      </div>
-      <div class="chip-x" onclick="clearSchool()">✕</div>`;
-    list.style.display='none';
-    document.getElementById('school-search').style.display='none';
-    document.querySelector('.school-filter-tabs').style.display='none';
-  }
-  updateTrackVisibility();
-}
-
-function clearSchool(){
-  selectedSchool=null;
-  const chip=document.getElementById('selected-school-chip');
-  chip.style.display='none';
-  document.getElementById('school-list').style.display='flex';
-  document.getElementById('school-search').style.display='block';
-  document.querySelector('.school-filter-tabs').style.display='flex';
-  renderSchoolList('');
-  updateTrackVisibility();
-}
-
-// Init on load
-document.addEventListener('DOMContentLoaded', initSchoolPicker);
-
-/* ================================================================
-   STATE
-   ================================================================ */
-const S={
-  name:'',grade:1,schoolId:'',schoolName:'',track:'prim',
-  xp:0,streak:0,level:1,hippoClicks:0,
-  badges:[],topicsDone:{},
-  curTopic:null,curGradeLabel:'',
-  qs:[],qi:0,correct:0,
-};
-
-const AVEMOJI=['🦸','🧙‍♂️','🚀','🦊','🐉','🌟','🦁','🐬','🦄','🐧'];
-
-/* ================================================================
-   SCREENS
-   ================================================================ */
-function showS(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s-'+id).classList.add('active');
-}
-
-function go(){
-  const grade=parseInt(document.getElementById('inp-grade').value);
-  if(!grade){document.getElementById('inp-grade').style.borderColor='var(--hippo)';return;}
-  if(!selectedSchool){
-    document.getElementById('school-list').style.border='2px solid var(--hippo)';
-    document.getElementById('school-search').style.borderColor='var(--hippo)';
-    return;
-  }
-  S.name=document.getElementById('inp-name').value.trim()||'Mathe-Hippo';
-  S.grade=grade;
-  S.schoolId=selectedSchool.id;
-  S.schoolName=selectedSchool.name;
-  const isPrimLevel=selectedSchool.type==='prim'||grade<=6;
-  S.track=isPrimLevel?'prim':document.getElementById('inp-track').value;
-
-  document.getElementById('hud-name').textContent=S.name;
-  document.getElementById('hud-av').textContent=AVEMOJI[Math.floor(Math.random()*AVEMOJI.length)];
-  const trackLabel={prim:'Primarschule',e:'E-Zug',p:'P-Zug',a:'A-Zug'}[S.track]||'';
-  document.getElementById('hud-meta').textContent=`Klasse ${grade} · ${selectedSchool.name.replace('Primarstufe ','').replace('Primarschule ','')} · ${trackLabel}`;
-  buildTopics();
-  updateHUD();
-  showS('learn');
-}
-
-function buildTopics(){
-  const g=S.grade;
-  const prev=(TOPICS[g-1]||TOPICS[1]).map(t=>({...t,tag:'review',gl:`Klasse ${Math.max(1,g-1)}`}));
-  const curr=TOPICS[g].map(t=>({...t,tag:'new',gl:`Klasse ${g}`}));
-  const all=[...prev,...curr];
-  const grid=document.getElementById('topics-grid');
-  grid.innerHTML=all.map(t=>{
-    const done=S.topicsDone[t.id+t.gl]||false;
-    return`<div class="topic-card" style="--c1:${t.c1};--c2:${t.c2}" onclick="startTopic('${t.id}','${t.gl}','${t.tag}','${t.icon}')">
-      ${done?'<div class="tc-done-icon">✅</div>':''}
-      <span class="tc-icon">${t.icon}</span>
-      <div class="tc-name">${t.name}</div>
-      <div class="tc-sub">${t.desc} · ${t.gl}</div>
-      <div class="tc-tag ${t.tag==='review'?'review':'new'}">${t.tag==='review'?'Wiederholung':'Neu'}</div>
-    </div>`;
-  }).join('');
-}
-
-function showLearn(){
-  buildTopics();updateHUD();showS('learn');
-}
-
-function updateHUD(){
-  document.getElementById('hud-xp').textContent=S.xp;
-  document.getElementById('hud-streak').textContent=S.streak;
-  document.getElementById('hud-lv').textContent=S.level;
-  document.getElementById('xp-bar').style.width=Math.min(100,(S.xp%100))+'%';
-  document.getElementById('hud-mode').textContent=
-    S.streak>=10?'🔥 MEGA':S.streak>=5?'⚡ HOT':'Normal';
-  // badges
-  document.querySelectorAll('.badge-chip').forEach(el=>{
-    const b=el.dataset.b;
-    const lit=(b==='first'&&S.xp>=10)||(b==='streak5'&&S.streak>=5)||
-              (b==='level2'&&S.level>=2)||(b==='perfect'&&S.badges.includes('perfect'))||
-              (b==='hippo10'&&S.hippoClicks>=10);
-    el.classList.toggle('lit',lit);
-  });
-}
-
-/* ================================================================
-   EXERCISE
-   ================================================================ */
-function startTopic(id,gl,tag,icon){
-  S.curTopic={id,gl,tag,icon};
-  S.qs=generateQs(id,S.grade);
-  S.qi=0;S.correct=0;
-  const ex=EXPLAINS[id]||{t:'Konzentriere dich!',s:[]};
-  document.getElementById('tip-text').textContent=ex.t;
-  document.getElementById('tip-steps').innerHTML=ex.s.map((s,i)=>`<li data-n="${i+1}">${s}</li>`).join('');
-  renderQ();
-  showS('ex');
-}
-
-function renderQ(){
-  const q=S.qs[S.qi],tot=S.qs.length;
-  // pips
-  document.getElementById('ex-pips').innerHTML=Array(tot).fill(0).map((_,i)=>
-    `<div class="pip ${i<S.qi?'done':i===S.qi?'now':''}"></div>`).join('');
-  document.getElementById('ex-num').textContent=`${S.qi+1}/${tot}`;
-  // diff
-  const dEl=document.getElementById('q-diff');
-  dEl.className='q-diff '+q.diff;
-  dEl.innerHTML=`<span class="q-diff-dot"></span>${q.diff==='easy'?'🟢 Wiederholung (Klasse darunter)':'🟡 Neu (aktuelle Klasse)'}`;
-  document.getElementById('q-text').textContent=q.q;
-  document.getElementById('q-hint').textContent=q.hint;
-  document.getElementById('q-visual').innerHTML=q.vis||'';
-  // answers
-  const aEl=document.getElementById('q-ans');
-  if(q.tp==='mc'){
-    aEl.innerHTML=`<div class="ans-grid">${q.opts.map(o=>
-      `<button class="ans-btn" onclick="checkA(this,'${o}','${q.ans}')">${o}</button>`).join('')}</div>`;
-  } else {
-    aEl.innerHTML=`<div class="ans-input-row">
-      <input class="ans-num" id="ans-in" type="number" placeholder="?" autocomplete="off"
-        onkeydown="if(event.key==='Enter')checkInput('${q.ans}')">
-      <button class="btn-check" onclick="checkInput('${q.ans}')">✓ OK</button>
-    </div>`;
-    setTimeout(()=>{const el=document.getElementById('ans-in');if(el)el.focus();},100);
-  }
-  // reset
-  document.getElementById('feedback').className='feedback';
-  document.getElementById('btn-next').className='btn-next';
-}
-
-function checkA(btn,chosen,correct){
-  btn.closest('.ans-grid').querySelectorAll('.ans-btn').forEach(b=>{
-    b.disabled=true;
-    if(b.textContent===String(correct))b.classList.add('correct');
-  });
-  const ok=String(chosen)===String(correct);
-  if(!ok)btn.classList.add('wrong');
-  respond(ok,correct);
-}
-
-function checkInput(correct){
-  const el=document.getElementById('ans-in');
-  if(!el||el.disabled)return;
-  el.disabled=true;
-  const ok=el.value.trim()===String(correct);
-  el.style.borderColor=ok?'var(--mint)':'var(--hippo)';
-  respond(ok,correct);
-}
-
-const CORRECT_PHRASES=[
-  ['🎉','Booom! Richtig!','Du bist ein Mathe-Genie!'],
-  ['🦛','Hippo ist stolz!','Perfekt gerechnet!'],
-  ['🔥','Feuer! Richtig!','Genau so geht das!'],
-  ['⭐','Superstar!','Top-Leistung!'],
-  ['🚀','Abgehooben!','So ein Talent!'],
-];
-const WRONG_PHRASES=[
-  ['🤔','Noch nicht ganz…','Schau die Erklärung nochmal an!'],
-  ['🦛','Hippo sagt: Fast!','Beim nächsten Mal klappt\'s!'],
-  ['💪','Weiter üben!','Fehler machen uns schlauer!'],
-];
-
-function respond(ok,correct){
-  const q=S.qs[S.qi];
-  const fb=document.getElementById('feedback');
-  const phrases=ok?CORRECT_PHRASES[Math.floor(Math.random()*CORRECT_PHRASES.length)]:WRONG_PHRASES[Math.floor(Math.random()*WRONG_PHRASES.length)];
-  document.getElementById('fb-emo').textContent=phrases[0];
-  document.getElementById('fb-msg').textContent=phrases[1]+(ok?'':` Die Antwort ist: ${correct}`);
-  document.getElementById('fb-exp').textContent=q.exp||'';
-  fb.className='feedback show '+(ok?'ok':'no');
-  if(ok){
-    S.correct++;S.streak++;
-    S.xp+=q.diff==='easy'?5:12;
-    if(S.xp>=S.level*100)S.level++;
-    if(S.streak>=5&&!S.badges.includes('streak5'))S.badges.push('streak5');
-    spawnHippoReact(true);
-    if(S.streak%5===0)confetti(30);else confetti(8);
-  } else {
-    S.streak=0;
-    spawnHippoReact(false);
-  }
-  document.getElementById('btn-next').className='btn-next show';
-}
-
-function nextQ(){
-  S.qi++;
-  if(S.qi>=S.qs.length)showResult();
-  else renderQ();
-}
-
-/* ================================================================
-   RESULT
-   ================================================================ */
-function showResult(){
-  const pct=Math.round(S.correct/S.qs.length*100);
-  S.topicsDone[S.curTopic.id+S.curTopic.gl]=true;
-  if(pct===100)S.badges.push('perfect');
-  if(S.xp>=10&&!S.badges.includes('first'))S.badges.push('first');
-  if(S.level>=2&&!S.badges.includes('level2'))S.badges.push('level2');
-  document.getElementById('res-score').textContent=`${S.correct} / ${S.qs.length}`;
-  document.getElementById('res-stars').textContent=pct>=80?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
-  let title,msg,hippo;
-  if(pct===100){title='PERFEKT! 🏆';msg='Alle richtig! Du bist ein echter Mathe-Champion. Red Hippo ist mega stolz!';hippo='🏆';}
-  else if(pct>=80){title='Sehr gut! 🌟';msg='Fast alles richtig — du bist auf Kurs. Noch ein bisschen üben und du bist unschlagbar!';hippo='🌟';}
-  else if(pct>=60){title='Guter Start! 💪';msg='Solide Leistung! Probiere es gleich nochmal — jede Übung macht dich stärker.';hippo='💪';}
-  else {title='Nochmal! 🤔';msg='Kein Stress! Schau die Erklärung oben nochmal an und versuchs nochmal. Du packst das!';hippo='🦛';}
-  document.getElementById('res-title').textContent=title;
-  document.getElementById('res-hippo').textContent=hippo;
-  document.getElementById('res-msg').textContent=msg+`  (+${S.xp} XP total · Level ${S.level})`;
-  if(pct>=80)confetti(40);
-  updateHUD();showS('res');
-}
-
-function retryTopic(){startTopic(S.curTopic.id,S.curTopic.gl,S.curTopic.tag,S.curTopic.icon);}
-
-/* ================================================================
-   MASCOT FUN
-   ================================================================ */
-const HIPPO_SAYS=[
-  '🦛 Bravo!','🦛 Mega!','🦛 YES!','🦛 Top!','🦛 Boom!',
-  '🦛 Stark!','🦛 Wow!','🦛 Yessss!','🦛 Feuer!','🦛 Nice!'
-];
-const HIPPO_WRONG=['🦛 Uff…','🦛 Fast!','🦛 Versuch\'s nochmal!','🦛 Komm, du schaffst das!'];
-
-function spawnHippoReact(ok){
-  const r=document.createElement('div');r.className='hippo-react';
-  const b=document.createElement('div');b.className='bubble-wrap';
-  r.textContent=ok?['🎉','🦛','⭐','🔥','💥'][Math.floor(Math.random()*5)]:'🤔';
-  b.textContent=ok?HIPPO_SAYS[Math.floor(Math.random()*HIPPO_SAYS.length)]:HIPPO_WRONG[Math.floor(Math.random()*HIPPO_WRONG.length)];
-  document.body.appendChild(r);document.body.appendChild(b);
-  setTimeout(()=>{r.remove();b.remove();},2500);
-}
-
-function hippoClick(el){
-  S.hippoClicks++;
-  el.style.animation='none';
-  requestAnimationFrame(()=>{el.style.animation='hippoJump .4s ease';});
-  const msgs=['Lass uns rechnen! 🧮','Ich liebe Zahlen! 🔢','Red Hippo rockt! 🎸','Ich hab Hunger… auf Mathe! 😋','Klick mich nochmal! 🦛'];
-  const bub=document.createElement('div');
-  bub.className='bubble-wrap';
-  bub.textContent=msgs[Math.floor(Math.random()*msgs.length)];
-  document.body.appendChild(bub);
-  setTimeout(()=>bub.remove(),2000);
-  if(S.hippoClicks>=10)updateHUD();
-}
-
-/* ================================================================
-   CONFETTI
-   ================================================================ */
-function confetti(n=12){
-  const colors=['#E8314A','#FFD23F','#3ECFB2','#4AB3F4','#9B5DE5','#FF6B6B','#FFF'];
-  for(let i=0;i<n;i++){
-    const el=document.createElement('div');el.className='conf';
-    el.style.left=Math.random()*100+'vw';
-    el.style.background=colors[Math.floor(Math.random()*colors.length)];
-    el.style['--d']=(1+Math.random())+'s';
-    el.style['--del']=(Math.random()*.4)+'s';
-    el.style.width=(6+Math.random()*10)+'px';
-    el.style.height=(6+Math.random()*10)+'px';
-    el.style.borderRadius=Math.random()>.5?'50%':'3px';
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),2500);
-  }
-}
-</script>
-
 </body>
 </html>
